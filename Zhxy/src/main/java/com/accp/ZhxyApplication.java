@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ZhxyApplication {
 
 	public static void main(String[] args) {
-		System.out.println("l");
-		System.out.println("2");
 		SpringApplication.run(ZhxyApplication.class, args);
 	}
 }

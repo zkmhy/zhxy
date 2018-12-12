@@ -19,8 +19,7 @@ public class WebMvcMyConfig extends WebMvcConfigurationSupport {
 	 * 跨域
 	 */
 	@Override
-	protected void addCorsMappings(CorsRegistry registry) {
-		
+	protected void addCorsMappings(CorsRegistry registry) {		
 		registry.addMapping("/**");
 	}
 	/**
