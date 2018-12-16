@@ -2,7 +2,7 @@ package com.accp.domain;
 
 import java.io.Serializable;
 
-public class Grade implements Serializable{
+public class Curriculum implements Serializable{
 
 	/**
 	 * 
@@ -10,7 +10,8 @@ public class Grade implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
-	private int floor;
+	private String ename;
+	private Grade grade;
 	
 	public int getId() {
 		return id;
@@ -24,10 +25,20 @@ public class Grade implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getFloor() {
-		return floor;
+	public String getEname() {
+		return ename;
 	}
-	public void setFloor(int floor) {
-		this.floor = floor;
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public Grade getGrade() {
+		return grade;
+	}
+	public void setGrade(Grade grade) {
+		this.grade = grade;
+	}
+	
+	public Curriculum() {
+		this.name="";
 	}
 }

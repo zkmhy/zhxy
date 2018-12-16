@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title>数据</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{css/bootstrap.min.css}">
+<style type="text/css">
+.sheet {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 20px;
+}
+
+td {
+	text-align: center;
+	border: 1px solid black;
+	padding: 5px 0;
+}
+</style>
+</head>
+<body>
+	<table class="sheet">
+		<tr>
+			<td rowspan="2">日期</td>
+			<td rowspan="2"></td>
+			<td>教室</td>
+			<td colspan="3">上午 8:30-10:20</td>
+			<td colspan="3">下午 13:30-16:20</td>
+		</tr>
+		<tr>
+			<td>机房</td>
+			<td>内容</td>
+			<td>教员</td>
+			<td>班级</td>
+			<td>内容</td>
+			<td>教员</td>
+			<td>班级</td>
+		</tr>
+		<tbody v-for="item in list">
+			<tr>
+				<td th:rowspan="${roomNum+1}">{{item.str}}</td>
+				<td th:rowspan="${roomNum+1}">{{item.week}}</td>
+			</tr>
+			<tr v-for="room in item.lists">
+				<td>{{room.name}}</td>
+				<td>{{room.am.clazz.curr.name}}</td>
+				<td>{{room.am.clazz.teacher.name}}</td>
+				<td>{{room.am.clazz.name}}</td>
+				<td>{{room.pm.clazz.curr.name}}</td>
+				<td>{{room.pm.clazz.teacher.name}}</td>
+				<td>{{room.pm.clazz.name}}</td>				
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript" th:src="@{js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{js/vue.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+	var v=new Vue({
+		el:".sheet",
+		data:{
+			list:[[${plans}]]
+		}
+	});
+	
+	console.log(JSON.stringify(v.list));
+</script>
+</body>
+</html>

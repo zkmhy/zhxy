@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accp.mapper.CurriculumMapper">
+	<cache></cache>
+	<resultMap type="com.accp.domain.Curriculum" id="curr">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="ename" column="ename" />
+	</resultMap>
+	<resultMap type="com.accp.domain.Curriculum" id="curr2" extends="curr">
+		<association property="grade" javaType="com.accp.domain.Grade" select="com.accp.mapper.GradeMapper.queryById" column="gradeId"></association>
+	</resultMap>
+	<select id="queryById" resultMap="curr">
+		select *
+		from curriculum
+		where id=#{id}
+	</select>
+</mapper>

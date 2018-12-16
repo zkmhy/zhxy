@@ -1,7 +1,13 @@
 package com.accp.domain;
 
-public class People {
+import java.io.Serializable;
 
+public class People implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private int rid;
@@ -30,5 +36,9 @@ public class People {
 	}
 	public void setRid(int rid) {
 		this.rid = rid;
+	}
+	
+	public People() {
+		this.name="";
 	}
 }

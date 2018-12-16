@@ -1,13 +1,11 @@
 package com.accp.mapper;
 
-
 import org.apache.ibatis.annotations.Mapper;
 
-import com.accp.domain.Plan;
+import com.accp.domain.Grade;
 
 @Mapper
-public interface PlanMapper {
+public interface GradeMapper {
 
-	Plan queryById(int id);
-	
+	Grade queryById(int id);
 }

@@ -2,5 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.accp.mapper.ClazzMapper">
 	<cache></cache>
-	<resultMap type="" id=""></resultMap>
+	<resultMap type="com.accp.domain.Clazz" id="clazz">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+	<resultMap type="com.accp.domain.Clazz" id="clazz2" extends="clazz">
+		<association property="grade" column="gradeId" select="com.accp.mapper.GradeMapper.queryById" javaType="com.accp.domain.Grade"></association>
+		<association property="teacher" javaType="com.accp.domain.People" column="teacherId" select="com.accp.mapper.PeopleMapper.queryById"></association>
+		<association property="curr" javaType="com.accp.domain.Curriculum" column="currId" select="com.accp.mapper.CurriculumMapper.queryById"></association>
+	</resultMap>
+	<select id="queryById" resultMap="clazz2">
+		select *
+		from clazz
+		where id=#{id}
+	</select>
 </mapper>

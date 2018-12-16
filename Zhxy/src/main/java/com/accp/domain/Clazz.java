@@ -1,11 +1,18 @@
 package com.accp.domain;
 
-public class Clazz {
+import java.io.Serializable;
 
+public class Clazz implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private Grade grade;
 	private People teacher;
+	private Curriculum curr;
 	
 	public int getId() {
 		return id;
@@ -30,5 +37,17 @@ public class Clazz {
 	}
 	public void setTeacher(People teacher) {
 		this.teacher = teacher;
+	}
+	public Curriculum getCurr() {
+		return curr;
+	}
+	public void setCurr(Curriculum curr) {
+		this.curr = curr;
+	}
+	
+	public Clazz() {
+		this.name="";
+		this.curr=new Curriculum();
+		this.teacher=new People();
 	}
 }
