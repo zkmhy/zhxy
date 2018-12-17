@@ -15,7 +15,6 @@
 		select *
 		from plan
 		where Date(`date`)=Date(#{date}) and roomid = #{id}
-		order by ap
 	</select>
 	<select id="queryById" resultMap="plan">
 		select *

@@ -11,7 +11,6 @@ public class Plan implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private boolean ap;
-	private String apStr;
 	private Clazz clazz;
 	private boolean active;
 	private boolean study;
@@ -29,7 +28,6 @@ public class Plan implements Serializable{
 	}
 	public void setAp(boolean ap) {
 		this.ap = ap;
-		this.apStr=ap?"下午":"上午";
 	}
 	public Clazz getClazz() {
 		return clazz;
@@ -42,6 +40,9 @@ public class Plan implements Serializable{
 	}
 	public void setActive(boolean active) {
 		this.active = active;
+		if(active) {
+			this.clazz.getCurr().setName("班级活动");
+		}
 	}
 	public Room getRoom() {
 		return room;
@@ -60,12 +61,6 @@ public class Plan implements Serializable{
 	}
 	public void setStudy(boolean study) {
 		this.study = study;
-	}
-	public String getApStr() {
-		return apStr;
-	}
-	public void setApStr(String apStr) {
-		this.apStr = apStr;
 	}
 	
 	public Plan() {

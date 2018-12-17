@@ -46,12 +46,16 @@ td {
 			</tr>
 			<tr v-for="room in item.lists">
 				<td>{{room.name}}</td>
-				<td>{{room.am.clazz.curr.name}}</td>
-				<td>{{room.am.clazz.teacher.name}}</td>
+				<td v-if="room.am.study">{{room.am.clazz.curr.name}}</td>
+				<td v-if="room.am.study">{{room.am.clazz.teacher.name}}</td>
+				<td v-if="!room.am.study">{{room.am.clazz.name}}</td>
+				<td v-if="!room.am.study">{{room.am.clazz.name}}</td>
 				<td>{{room.am.clazz.name}}</td>
-				<td>{{room.pm.clazz.curr.name}}</td>
-				<td>{{room.pm.clazz.teacher.name}}</td>
-				<td>{{room.pm.clazz.name}}</td>				
+				<td v-if="room.pm.study">{{room.pm.clazz.curr.name}}</td>
+				<td v-if="room.pm.study">{{room.pm.clazz.teacher.name}}</td>
+				<td v-if="!room.pm.study">{{room.pm.clazz.name}}</td>
+				<td v-if="!room.pm.study">{{room.pm.clazz.name}}</td>
+				<td>{{room.pm.clazz.name}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -65,7 +69,7 @@ td {
 		}
 	});
 	
-	console.log(JSON.stringify(v.list));
+	console.log(v.list);
 </script>
 </body>
 </html>

@@ -108,6 +108,7 @@ public class MyUtils {
 	}
 	
 	/**
+	 * 根据传入的日期判断是星期几
 	 */
 	public static String weekDay(Date date) {
 		String[] strs=new String[]{"天","一","二","三","四","五","六"};
