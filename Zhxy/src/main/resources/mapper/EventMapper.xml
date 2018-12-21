@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accp.mapper.EventMapper">
+	<resultMap type="com.accp.domain.Event" id="event">
+		<result property="id" column="id" />
+		<result property="content" column="content" />
+		<result property="great" column="great" />
+	</resultMap>
+	<resultMap type="com.accp.domain.Event" extends="event"
+		id="detailEvent">
+		<result property="note" column="note" />
+		<result property="date" column="date" />
+		<result property="ap" column="ap" />
+		<result property="study" column="study" />
+		<association property="room" javaType="com.accp.domain.Room" column="rid" select="com.accp.mapper.RoomMapper.queryById"></association>
+	</resultMap>
+	<select id="dateEvent" resultMap="detailEvent">
+		select *
+		from class_calendar
+		where
+		`date`=date(#{date}) and cid=#{clazz.id}
+	</select>
+</mapper>

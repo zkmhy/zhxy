@@ -1,24 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.accp.mapper.PlanMapper">
-	<cache></cache>
+	<!-- <cache></cache> -->
 	<resultMap type="com.accp.domain.Plan" id="plan">
 		<result property="id" column="id" />
 		<result property="ap" column="ap" />
 		<result property="active" column="active" />
-		<result property="date" column="date"/>
-		<result property="study" column="study"/>
-		<association property="clazz" javaType="com.accp.domain.Clazz" select="com.accp.mapper.ClazzMapper.queryById" column="cid"></association>
-		<association property="room" column="roomid" javaType="com.accp.domain.Room" select="com.accp.mapper.RoomMapper.queryById"></association>
+		<result property="date" column="date" />
+		<result property="study" column="study" />
+		<association property="clazz"
+			javaType="com.accp.domain.Clazz"
+			select="com.accp.mapper.ClazzMapper.queryById" column="cid"></association>
 	</resultMap>
-	<select id="datePlan" resultMap="plan">
+	<resultMap type="com.accp.domain.DatePlan" id="dateplan">
+		<result property="date" column="date" />
+		<association property="lists"
+			column="{date=date,type=class}" javaType="list"
+			select="com.accp.mapper.RoomMapper.datePlan"></association>
+		<association property="studys"
+			column="{date=date,type=study}" javaType="list"
+			select="com.accp.mapper.RoomMapper.datePlan"></association>
+	</resultMap>
+	<!-- 某个教室在某天的课程安排 -->
+	<select id="roomDatePlan" resultMap="plan">
 		select *
 		from plan
-		where Date(`date`)=Date(#{date}) and roomid = #{id}
+		where
+		Date(`date`)=Date(#{date}) and roomid = #{id}
 	</select>
 	<select id="queryById" resultMap="plan">
 		select *
 		from plan
 		where id=#{id}
+	</select>
+	<select id="datePlan" resultMap="dateplan">
+		select #{date} `date`,1 class,2
+		study
+	</select>
+	<insert id="addPlan">
+		insert plan(cid,roomid,ap,study,active,date)
+		value
+		(#{cid},#{rid},#{ap},#{study},#{active},#{date})
+	</insert>
+	<select id="existPlan" resultMap="plan">
+		select *
+		from plan
+		where
+		roomid=#{room.id} and `date`=date(#{date}) and ap=#{ap}
+	</select>
+	<select id="timePlan" resultMap="plan">
+		select *
+		from plan
+		where roomid=#{room.id} and `date` between date(#{begin}) and date(#{end})
 	</select>
 </mapper>

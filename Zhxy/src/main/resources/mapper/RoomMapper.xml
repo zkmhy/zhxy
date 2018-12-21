@@ -1,29 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.accp.mapper.RoomMapper">
-	<cache></cache>
+	<!-- <cache></cache> -->
 	<resultMap type="com.accp.domain.Room" id="room">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="floor" column="floor" />		
 	</resultMap>
 	<resultMap type="com.accp.domain.Room" id="planRoom" extends="room">
-		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.accp.mapper.PlanMapper.datePlan"></association>
+		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.accp.mapper.PlanMapper.roomDatePlan"></association>
 	</resultMap>
 	<select id="queryById" resultMap="room">
 		select *
 		from classroom
 		where id=#{id}
 	</select>
-	<select id="roomNum" resultType="int">
+	<select id="roomNumByFun" resultType="int">
 		select count(0)
 		from classroom
-		where floor=#{floor}
+		<where>
+			<if test="type==1">
+				and inclass=true
+			</if>
+			<if test="type==2">
+				and forstudy=true
+			</if>
+			<if test="type==3">
+				and fortest=true
+			</if>
+		</where>
 	</select>
-	<select id="roomFloor" resultMap="planRoom">
+	<select id="datePlan" resultMap="planRoom">
 		select *,#{date} date
 		from classroom
-		where floor=#{floor}
-		order by name
+		<where>
+			<if test="type==1">
+				and inclass=true
+			</if>		
+			<if test="type==2">
+				and inclass=false and forstudy=true
+			</if>
+		</where>
+		order by fortest,`name`,`floor`
+	</select>
+	<select id="allRoom" resultMap="room">
+		select *
+		from classroom
+		<where>
+			floor=#{floor}
+			<if test="type==1">
+				and inclass=true
+			</if>
+			<if test="type=2">
+				and forstudy=true
+			</if>
+		</where>
+	</select>
+	<select id="floors" resultType="int">
+		select floor
+		from grade_floor
+		where gid=(select gradeId from clazz where id=#{id})
+	</select>
+	<select id="remainingRoom" resultMap="room">
+		select *
+		from classroom
+		<where>
+			floor = (select floor from grade_floor where gid=(select
+			gradeId from clazz where id=#{clazz.id}))
+			and id not in (select roomid
+			from plan where `date`=date(#{date} and ap=#{ap}))
+			<if test="type==1">
+				and inclass=true
+			</if>
+			<if test="type==2">
+				and forstudy=true
+			</if>
+		</where>
 	</select>
 </mapper>

@@ -15,9 +15,15 @@ public class RoomServiceImpl implements RoomService{
 	RoomMapper roomMapper;
 	
 	@Override
-	public int roonum(int floor) {
+	public int roomnum(int type) {
 		// TODO Auto-generated method stub
-		return roomMapper.roomNum(floor);
+		return roomMapper.roomNumByType(type);
+	}
+
+	@Override
+	public int roomnumByFun(int type) {
+		// TODO Auto-generated method stub
+		return roomMapper.roomNumByFun(type);
 	}
 
 }

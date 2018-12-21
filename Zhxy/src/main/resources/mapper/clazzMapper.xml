@@ -16,4 +16,8 @@
 		from clazz
 		where id=#{id}
 	</select>
+	<select id="allClazz" resultMap="clazz">
+		select *
+		from clazz		
+	</select>
 </mapper>

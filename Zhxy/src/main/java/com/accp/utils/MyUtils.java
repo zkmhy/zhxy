@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import com.accp.domain.Room;
 
 /**
  * 帮助类
@@ -116,6 +119,19 @@ public class MyUtils {
 		calendar.setTime(date);
 		String suffix=strs[calendar.get(Calendar.DAY_OF_WEEK)-1];
 		return "星期"+suffix;
+	}
+	
+	public static List<Room> fillList(List<Room> lists,int size) {
+		List<Room> list=new ArrayList<>();
+		for (Room room : lists) {
+			list.add(room);
+		}
+		if(size>list.size()) {
+			for (int i = 0; i < size-list.size(); i++) {
+				list.add(new Room());
+			}
+		}
+		return list;
 	}
 	
 }

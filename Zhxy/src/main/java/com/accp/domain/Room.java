@@ -3,12 +3,31 @@ package com.accp.domain;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 教室类，并提供所需的相应数据
+ */
 public class Room implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	public static int CLASSROOM=0;//教室
+	public static int STUDYROOM=1;//自习室
+	public static int MACHINEROOM=2;//机房
+	public static int ALLROOM=-1;//所有
+	
+	/**
+	 * 表示教室能够上课
+	 */
+	public static int INCLASS=1;
+	/**
+	 * 表示教室能够自习
+	 */
+	public static int FORSTUDY=2;
+
+	/**
+	 * 表示教室能够考试
+	 */
+	public static int FORTEST=3;
+	
 	private int id;
 	private String name;
 	private int floor;

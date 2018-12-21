@@ -12,6 +12,7 @@
 	width: 80%;
 	margin-left: 10%;
 	margin-top: 20px;
+	margin-bottom: 20px
 }
 
 td {
@@ -19,9 +20,22 @@ td {
 	border: 1px solid black;
 	padding: 5px 0;
 }
+
+.bold {
+	border-top: 2px solid black
+}
+
+.btn-success {
+	font-size: 18px;
+}
+
+body {
+	padding: 1% 10%;
+}
 </style>
 </head>
 <body>
+	<button class="btn-success">自动排课</button>
 	<table class="sheet">
 		<tr>
 			<td rowspan="2">日期</td>
@@ -29,6 +43,9 @@ td {
 			<td>教室</td>
 			<td colspan="3">上午 8:30-10:20</td>
 			<td colspan="3">下午 13:30-16:20</td>
+			<td rowspan="2">上午</td>
+			<td rowspan="2">下午</td>
+			<td>教室</td>
 		</tr>
 		<tr>
 			<td>机房</td>
@@ -38,24 +55,35 @@ td {
 			<td>内容</td>
 			<td>教员</td>
 			<td>班级</td>
+			<td>机房</td>
 		</tr>
 		<tbody v-for="item in list">
 			<tr>
-				<td th:rowspan="${roomNum+1}">{{item.str}}</td>
-				<td th:rowspan="${roomNum+1}">{{item.week}}</td>
+				<td v-bind:rowspan="item.lists.length+1">{{item.str}}</td>
+				<td v-bind:rowspan="item.lists.length+1">{{item.week}}</td>
 			</tr>
-			<tr v-for="room in item.lists">
+			<tr v-for="room,index in item.lists">
 				<td>{{room.name}}</td>
-				<td v-if="room.am.study">{{room.am.clazz.curr.name}}</td>
-				<td v-if="room.am.study">{{room.am.clazz.teacher.name}}</td>
-				<td v-if="!room.am.study">{{room.am.clazz.name}}</td>
-				<td v-if="!room.am.study">{{room.am.clazz.name}}</td>
+				<td><span v-if="room.am.study">{{room.am.clazz.curr.name}}</span>
+					<span v-else>{{room.am.clazz.name}}</span></td>
+				<td><span v-if="room.am.study">{{room.am.clazz.teacher.name}}</span>
+					<span v-else>{{room.am.clazz.name}}</span></td>
 				<td>{{room.am.clazz.name}}</td>
-				<td v-if="room.pm.study">{{room.pm.clazz.curr.name}}</td>
-				<td v-if="room.pm.study">{{room.pm.clazz.teacher.name}}</td>
-				<td v-if="!room.pm.study">{{room.pm.clazz.name}}</td>
-				<td v-if="!room.pm.study">{{room.pm.clazz.name}}</td>
+				<td><span v-if="room.pm.study">{{room.pm.clazz.curr.name}}</span>
+					<span v-else>{{room.pm.clazz.name}}</span></td>
+				<td><span v-if="room.pm.study">{{room.pm.clazz.teacher.name}}</span>
+					<span v-else>{{room.pm.clazz.name}}</span></td>
 				<td>{{room.pm.clazz.name}}</td>
+				<td><span v-if="item.studys[index]">{{item.studys[index].am.clazz.name}}</span>
+				</td>
+				<td><span v-if="item.studys[index]">{{item.studys[index].pm.clazz.name}}</span>
+				</td>
+				<td><span v-if="item.studys[index]">{{item.studys[index].name}}</span>
+				</td>
+			</tr>
+			<tr>
+				<td>备注</td>
+				<td colspan="12"></td>
 			</tr>
 		</tbody>
 	</table>
@@ -66,6 +94,9 @@ td {
 		el:".sheet",
 		data:{
 			list:[[${plans}]]
+		},
+		methods:{
+			
 		}
 	});
 	

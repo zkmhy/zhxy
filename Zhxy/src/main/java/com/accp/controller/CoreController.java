@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.accp.domain.Room;
 import com.accp.service.PlanService;
 import com.accp.service.RoomService;
 
@@ -20,8 +21,9 @@ public class CoreController {
 	
 	@RequestMapping("/core")
 	public String core(Model model) {
-		model.addAttribute("plans", planService.weekPlan(new Date(),2));
-		model.addAttribute("roomNum", roomService.roonum(2));
+		model.addAttribute("plans", planService.weekPlan(new Date()));
+		model.addAttribute("roomNum", roomService.roomnumByFun(Room.INCLASS));
 		return "core";
 	}
+	
 }
