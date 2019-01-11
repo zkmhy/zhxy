@@ -26,4 +26,12 @@ public class RoomServiceImpl implements RoomService{
 		return roomMapper.roomNumByFun(type);
 	}
 
+	@Override
+	public int roomBigNum() {
+		// TODO Auto-generated method stub
+		int inclass=roomMapper.roomNumByFun(1);
+		int study=roomMapper.roomNumByFun(2);
+		return inclass>study?inclass:study;
+	}
+
 }

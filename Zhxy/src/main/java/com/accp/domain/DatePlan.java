@@ -1,6 +1,7 @@
 package com.accp.domain;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,14 +26,16 @@ public class DatePlan {
 	 * 日期对应的星期几
 	 */
 	private String week;
-	/**
-	 * 该日期内的上课教室安排
-	 */
-	private List<Room> lists;
-	/**
-	 * 该日期内的自习教室安排
-	 */
-	private List<Room> studys;
+	
+	private int num;
+	
+	private Boolean another;
+	
+	private boolean today;
+	
+	private String dateStr;
+	
+	private List<Clazz> plans;
 	
 	public Date getDate() {
 		return date;
@@ -40,9 +43,14 @@ public class DatePlan {
 	
 	public void setDate(Date date) {
 		this.date = date;
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM-dd");
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MM/dd");
 		this.str=simpleDateFormat.format(date);
 		this.week=MyUtils.weekDay(date);
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+		this.num=calendar.get(Calendar.DAY_OF_MONTH);
+		this.today=MyUtils.isToday(date);
+		this.dateStr=MyUtils.format(date);
 	}
 	public String getStr() {
 		return str;
@@ -51,25 +59,51 @@ public class DatePlan {
 		this.str = str;
 	}
 	
-	public List<Room> getLists() {
-		return lists;
-	}
-	public void setLists(List<Room> lists) {
-		this.lists = lists;
-	}
 	public String getWeek() {
 		return week;
 	}
 	public void setWeek(String week) {
 		this.week = week;
+	}	
+	
+	public int getNum() {
+		return num;
 	}
 
-	public List<Room> getStudys() {
-		return studys;
+	public void setNum(int num) {
+		this.num = num;
 	}
 
-	public void setStudys(List<Room> studys) {
-		this.studys = studys;
-		this.lists = MyUtils.fillList(lists, studys.size());		
+	public Boolean getAnother() {
+		return another;
 	}
+
+	public void setAnother(Boolean another) {
+		this.another = another;
+	}
+
+	public boolean isToday() {
+		return today;
+	}
+
+	public void setToday(boolean today) {
+		this.today = today;
+	}
+
+	public List<Clazz> getPlans() {
+		return plans;
+	}
+
+	public void setPlans(List<Clazz> plans) {
+		this.plans = plans;
+	}
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+	}
+
 }

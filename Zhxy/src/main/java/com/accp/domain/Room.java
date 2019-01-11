@@ -1,6 +1,7 @@
 package com.accp.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,27 +10,14 @@ import java.util.List;
 public class Room implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	public static int CLASSROOM=0;//教室
-	public static int STUDYROOM=1;//自习室
-	public static int MACHINEROOM=2;//机房
-	public static int ALLROOM=-1;//所有
-	
-	/**
-	 * 表示教室能够上课
-	 */
-	public static int INCLASS=1;
-	/**
-	 * 表示教室能够自习
-	 */
-	public static int FORSTUDY=2;
-
-	/**
-	 * 表示教室能够考试
-	 */
-	public static int FORTEST=3;
-	
+		
 	private int id;
+	private Boolean enable;
+	private Boolean inclass;
+	private Boolean forstudy;
+	private Boolean fortest;
 	private String name;
+	private Boolean ap;
 	private int floor;
 	private Plan am;
 	private Plan pm;
@@ -82,5 +70,36 @@ public class Room implements Serializable{
 	public Room() {
 		this.am=new Plan();
 		this.pm=new Plan();
+		this.plans=new ArrayList<Plan>();
+	}
+	public Boolean getEnable() {
+		return enable;
+	}
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
+	public Boolean getInclass() {
+		return inclass;
+	}
+	public void setInclass(Boolean inclass) {
+		this.inclass = inclass;
+	}
+	public Boolean getForstudy() {
+		return forstudy;
+	}
+	public void setForstudy(Boolean forstudy) {
+		this.forstudy = forstudy;
+	}
+	public Boolean getFortest() {
+		return fortest;
+	}
+	public void setFortest(Boolean fortest) {
+		this.fortest = fortest;
+	}
+	public Boolean getAp() {
+		return ap;
+	}
+	public void setAp(Boolean ap) {
+		this.ap = ap;
 	}
 }

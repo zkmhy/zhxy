@@ -14,13 +14,14 @@ public class Plan implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private boolean ap; // 上午/下午
-	private int cid;
 	private int rid;
 	private Clazz clazz;
 	private boolean active; //是否活动
 	private boolean study; //是否上课
 	private Event event;
 	private Date date;
+	private Room room;
+	private boolean advance;
 	
 	public int getId() {
 		return id;
@@ -64,6 +65,7 @@ public class Plan implements Serializable{
 	
 	public Plan() {
 		this.clazz=new Clazz();
+		this.advance=false;
 	}
 	public Plan(Clazz clazz, Room room, Date tempDate, boolean ap, boolean study, boolean active) {
 		// TODO Auto-generated constructor stub
@@ -73,12 +75,6 @@ public class Plan implements Serializable{
 		this.ap=ap;
 		this.study=study;
 		this.active=active;
-	}
-	public int getCid() {
-		return cid;
-	}
-	public void setCid(int cid) {
-		this.cid = cid;
 	}
 	public int getRid() {
 		return rid;
@@ -92,4 +88,17 @@ public class Plan implements Serializable{
 	public void setEvent(Event event) {
 		this.event = event;
 	}
+	public Room getRoom() {
+		return room;
+	}
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	public boolean isAdvance() {
+		return advance;
+	}
+	public void setAdvance(boolean advance) {
+		this.advance = advance;
+	}
+	
 }

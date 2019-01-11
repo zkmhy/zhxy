@@ -11,15 +11,14 @@
 		<association property="clazz"
 			javaType="com.accp.domain.Clazz"
 			select="com.accp.mapper.ClazzMapper.queryById" column="cid"></association>
+		<association property="event" column="{date=date,id=cid}" javaType="com.accp.domain.Event" select="com.accp.mapper.EventMapper.dateEvent"></association>
+	</resultMap>
+	<resultMap type="com.accp.domain.Plan" id="clazzplan" extends="plan">
+		<association property="room" column="roomid" javaType="com.accp.domain.Room" select="com.accp.mapper.RoomMapper.queryById"></association>
 	</resultMap>
 	<resultMap type="com.accp.domain.DatePlan" id="dateplan">
 		<result property="date" column="date" />
-		<association property="lists"
-			column="{date=date,type=class}" javaType="list"
-			select="com.accp.mapper.RoomMapper.datePlan"></association>
-		<association property="studys"
-			column="{date=date,type=study}" javaType="list"
-			select="com.accp.mapper.RoomMapper.datePlan"></association>
+		<association property="plans" javaType="list" column="date" select="com.accp.mapper.ClazzMapper.clazzPlan"></association>
 	</resultMap>
 	<!-- 某个教室在某天的课程安排 -->
 	<select id="roomDatePlan" resultMap="plan">
@@ -34,23 +33,56 @@
 		where id=#{id}
 	</select>
 	<select id="datePlan" resultMap="dateplan">
-		select #{date} `date`,1 class,2
-		study
+		select #{date} `date`
 	</select>
 	<insert id="addPlan">
-		insert plan(cid,roomid,ap,study,active,date)
+		insert plan(cid,roomid,ap,study,active,date,advance)
 		value
-		(#{cid},#{rid},#{ap},#{study},#{active},#{date})
+		(#{clazz.id},#{rid},#{ap},#{study},#{active},#{date},#{advance})
 	</insert>
 	<select id="existPlan" resultMap="plan">
 		select *
 		from plan
 		where
 		roomid=#{room.id} and `date`=date(#{date}) and ap=#{ap}
+		limit 1
+	</select>
+	<select id="clazzPlan" resultMap="plan">
+		select *
+		from plan
+		where
+		cid=#{clazz.id} and `date`=date(#{date}) and ap=#{ap}
+		limit 1
 	</select>
 	<select id="timePlan" resultMap="plan">
 		select *
 		from plan
 		where roomid=#{room.id} and `date` between date(#{begin}) and date(#{end})
 	</select>
+	<delete id="deleteAdv">
+		delete from plan where advance=true
+	</delete>
+	<select id="dates" resultType="date">
+		select `date`
+		from plan
+		where cid=#{clazz.id}
+		group by `date`
+		order by `date` desc
+		limit 7
+	</select>
+	<select id="classNumOfWeek" resultType="int">
+		select count(0)
+		from plan
+		where cid =#{clazz.id} and `date` between date(#{begin}) and date(#{end})
+	</select>
+	<select id="classPlan" resultMap="clazzplan">
+		select *
+		from plan
+		where `date`=date(#{date}) and cid=#{id}
+	</select>
+	<update id="updateDate">
+		update plan
+		set `date`=date(#{date})
+		where id=#{id}
+	</update>
 </mapper>

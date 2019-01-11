@@ -1,6 +1,7 @@
 package com.accp.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class Event {
 
@@ -17,6 +18,8 @@ public class Event {
 	private Room room;
 	private boolean aP;
 	private boolean study;
+	private List<People> peoples;
+	private String peoplesStr;
 
 	public int getId() {
 		return id;
@@ -91,5 +94,26 @@ public class Event {
 
 	public void setaP(boolean aP) {
 		this.aP = aP;
+	}
+
+	public List<People> getPeoples() {
+		return peoples;
+	}
+
+	public void setPeoples(List<People> peoples) {
+		this.peoples = peoples;
+		StringBuffer sb=new StringBuffer();
+		for (People people : peoples) {
+			sb.append(people.getName()+" / ");
+		}
+		this.peoplesStr=sb.substring(0, sb.lastIndexOf("/"));
+	}
+
+	public String getPeoplesStr() {
+		return peoplesStr;
+	}
+
+	public void setPeoplesStr(String peoplesStr) {
+		this.peoplesStr = peoplesStr;
 	}
 }

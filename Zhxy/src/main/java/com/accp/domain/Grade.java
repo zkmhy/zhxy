@@ -10,7 +10,6 @@ public class Grade implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
-	private int floor;
 	
 	public int getId() {
 		return id;
@@ -23,11 +22,5 @@ public class Grade implements Serializable{
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public int getFloor() {
-		return floor;
-	}
-	public void setFloor(int floor) {
-		this.floor = floor;
 	}
 }

@@ -28,7 +28,7 @@ public class WebMvcMyConfig extends WebMvcConfigurationSupport {
 	 */
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		//本工程
+		// 	本工程
 		registry.addResourceHandler("*").addResourceLocations("classpath:/static/");
 	}
 	

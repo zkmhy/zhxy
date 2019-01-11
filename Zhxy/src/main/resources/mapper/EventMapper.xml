@@ -13,11 +13,17 @@
 		<result property="ap" column="ap" />
 		<result property="study" column="study" />
 		<association property="room" javaType="com.accp.domain.Room" column="rid" select="com.accp.mapper.RoomMapper.queryById"></association>
+		<association property="peoples" javaType="list" column="id" select="peoples"></association>
 	</resultMap>
 	<select id="dateEvent" resultMap="detailEvent">
 		select *
-		from class_calendar
+		from class_calendar as c,event as e
 		where
-		`date`=date(#{date}) and cid=#{clazz.id}
+		`date`=date(#{date}) and cid=#{id} and c.eid=e.id
+	</select>
+	<select id="peoples" resultMap="com.accp.mapper.PeopleMapper.people">
+		select *,(select name from role where id=rid) role
+		from people
+		where id in (select pid from calendar_teacher where cid=#{id})
 	</select>
 </mapper>

@@ -1,6 +1,5 @@
 package com.accp.mapper;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.accp.domain.Clazz;
 import com.accp.domain.DatePlan;
+import com.accp.domain.People;
 import com.accp.domain.Plan;
 import com.accp.domain.Room;
 
@@ -40,13 +40,27 @@ public interface PlanMapper {
 	 */
 	Plan existPlan(@Param("date")Date date,@Param("room")Room room,@Param("ap")boolean ap);
 	
-	/**
+	Plan clazzPlan(@Param("date")Date date,@Param("clazz")Clazz clazz,@Param("ap")boolean ap);
+
+	Plan peoplePlan(@Param("date")Date date,@Param("people")People people,@Param("ap")boolean ap);
+	
+	/**m
 	 * 查找某一时间段内 教室的课表安排
 	 * @param date 开始时间
 	 * @param end 结束时间
 	 * @param room 教室
 	 * @return 教室集合
 	 */
-	List<Plan> timePlan(@Param("begin")Date date,@Param("end")Date end,@Param("room")Room room);	
-
+	List<Plan> timePlan(@Param("begin")Date date,@Param("end")Date end,@Param("room")Room room);
+	
+	int deleteAdv();
+	
+	int isExistPlan(@Param("date")Date date,@Param("clazz")Clazz clazz);
+	
+	List<Date> dates(@Param("clazz")Clazz clazz);
+	
+	int classNumOfWeek(@Param("begin")Date begin,@Param("end")Date end,@Param("clazz")Clazz clazz);
+	
+	int updateDate(@Param("date")Date date,@Param("id")int id);
+	
 }

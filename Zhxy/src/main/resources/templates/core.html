@@ -32,10 +32,16 @@ td {
 body {
 	padding: 1% 10%;
 }
+
+.delete{
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
 	<button class="btn-success">自动排课</button>
+	<span class="info"></span>
+	<span class="delete">清除数据</span>
 	<table class="sheet">
 		<tr>
 			<td rowspan="2">日期</td>
@@ -64,21 +70,36 @@ body {
 			</tr>
 			<tr v-for="room,index in item.lists">
 				<td>{{room.name}}</td>
-				<td><span v-if="room.am.study">{{room.am.clazz.curr.name}}</span>
-					<span v-else>{{room.am.clazz.name}}</span></td>
-				<td><span v-if="room.am.study">{{room.am.clazz.teacher.name}}</span>
-					<span v-else>{{room.am.clazz.name}}</span></td>
+				<td>
+					<span v-if="room.am.event==null">
+						<span v-if="room.am.study">{{room.am.clazz.curr.ename}}</span>
+						<span v-else>{{room.am.clazz.name}}</span>
+					</span>
+					<span v-else>
+						{{room.am.event.content}}
+					</span>
+				</td>
+				<td>
+					<span v-if="room.am.event==null">
+						<span v-if="room.am.study">{{room.am.clazz.teacher.name}}</span>
+						<span v-else>{{room.am.clazz.name}}</span>
+					</span>
+					<span v-else>
+						{{room.am.event.peoplesStr}}
+					</span>
+				</td>
 				<td>{{room.am.clazz.name}}</td>
-				<td><span v-if="room.pm.study">{{room.pm.clazz.curr.name}}</span>
+				<td><span v-if="room.pm.study">{{room.pm.clazz.curr.ename}}</span>
 					<span v-else>{{room.pm.clazz.name}}</span></td>
 				<td><span v-if="room.pm.study">{{room.pm.clazz.teacher.name}}</span>
 					<span v-else>{{room.pm.clazz.name}}</span></td>
 				<td>{{room.pm.clazz.name}}</td>
-				<td><span v-if="item.studys[index]">{{item.studys[index].am.clazz.name}}</span>
+				<td v-if="!item.studys[index]" colspan="3"></td>
+				<td v-if="item.studys[index]"><span >{{item.studys[index].am.clazz.name}}</span>
 				</td>
-				<td><span v-if="item.studys[index]">{{item.studys[index].pm.clazz.name}}</span>
+				<td v-if="item.studys[index]"><span>{{item.studys[index].pm.clazz.name}}</span>
 				</td>
-				<td><span v-if="item.studys[index]">{{item.studys[index].name}}</span>
+				<td v-if="item.studys[index]"><span>{{item.studys[index].name}}</span>
 				</td>
 			</tr>
 			<tr>
@@ -100,7 +121,28 @@ body {
 		}
 	});
 	
-	console.log(v.list);
+	$(".btn-success").click(function(){
+		$.ajax({
+			url : "auto",
+			success:function(data){
+				$(".info").text("");
+				v.list=JSON.parse(data);
+			},error:function(){
+				$(".info").text("失败");
+				$(".info").css("color","red");
+			}
+		});
+	});
+	
+	$(".delete").click(function(){
+		$.ajax({
+			url:"delete",
+			success:function(data){
+				v.list=JSON.parse(data);
+			}
+		});
+	});
+	
 </script>
 </body>
 </html>

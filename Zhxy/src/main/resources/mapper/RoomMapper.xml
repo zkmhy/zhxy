@@ -5,15 +5,31 @@
 	<resultMap type="com.accp.domain.Room" id="room">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
-		<result property="floor" column="floor" />		
+		<result property="floor" column="floor" />
+		<result property="enable" column="enable" />
+		<result property="inclass" column="inclass" />
+		<result property="forstudy" column="forstudy" />
+		<result property="fortest" column="fortest" />
 	</resultMap>
-	<resultMap type="com.accp.domain.Room" id="planRoom" extends="room">
-		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.accp.mapper.PlanMapper.roomDatePlan"></association>
+	<resultMap type="com.accp.domain.Room" id="planRoom"
+		extends="room">
+		<association property="plans" column="{date=date,id=id}"
+			javaType="list" select="com.accp.mapper.PlanMapper.roomDatePlan"></association>
 	</resultMap>
+	<resultMap type="com.accp.domain.Room" extends="room" id="specialRoom">
+		<result property="ap" column="ap" />
+	</resultMap>
+	<select id="allroom" resultMap="room">
+		select *
+		from classroom
+		where
+		enable = true
+	</select>
 	<select id="queryById" resultMap="room">
 		select *
 		from classroom
-		where id=#{id}
+		where
+		id=#{id}
 	</select>
 	<select id="roomNumByFun" resultType="int">
 		select count(0)
@@ -34,47 +50,64 @@
 		select *,#{date} date
 		from classroom
 		<where>
-			<if test="type==1">
-				and inclass=true
-			</if>		
-			<if test="type==2">
+			<if test="t==1">
+				and inclass=true or fortest=true
+			</if>
+			<if test="t==2">
 				and inclass=false and forstudy=true
 			</if>
 		</where>
 		order by fortest,`name`,`floor`
 	</select>
-	<select id="allRoom" resultMap="room">
+	<select id="classRoom" resultMap="room">
 		select *
 		from classroom
-		<where>
-			floor=#{floor}
-			<if test="type==1">
-				and inclass=true
-			</if>
-			<if test="type=2">
-				and forstudy=true
-			</if>
-		</where>
-	</select>
-	<select id="floors" resultType="int">
+		where
+		floor in (
 		select floor
 		from grade_floor
-		where gid=(select gradeId from clazz where id=#{id})
-	</select>
-	<select id="remainingRoom" resultMap="room">
-		select *
-		from classroom
-		<where>
-			floor = (select floor from grade_floor where gid=(select
-			gradeId from clazz where id=#{clazz.id}))
-			and id not in (select roomid
-			from plan where `date`=date(#{date} and ap=#{ap}))
-			<if test="type==1">
+		where gid=#{clazz.grade.id}
+		)  and id not in (select roomid from plan where `date`=date(#{day})) and people >= #{clazz.people}
+		<choose>
+			<when test="study">
 				and inclass=true
-			</if>
-			<if test="type==2">
-				and forstudy=true
-			</if>
-		</where>
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
+	</select>
+	<select id="teacherRoom" resultMap="specialRoom">
+		select *,(select !ap from plan where `date`=date(#{day}) and roomid=classroom.id limit 1) ap
+		from classroom
+		where
+		id in (
+		select roomid from plan where `date`=date(#{day}) and cid in (
+		select id from clazz
+		where teacherId=#{teacher.id} )
+		) and floor in (select floor from grade_floor where gid=#{clazz.grade.id}) and people >= #{clazz.people}
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
+		limit 1
+	</select>
+	<select id="remainRoom" resultMap="specialRoom">
+		select *,(select !ap from plan where `date`=date(#{day}) and roomid =classroomid.id limit 1) ap
+		from classroom
+		where id in (select roomid from plan where `date`=date(#{day}) group by roomid having count(0)=1 ) and floor in ( select floor
+		from grade_floor where gid=#{clazz.grade.id}) and people >= #{clazz.people} and people >= #{clazz.people}
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
 	</select>
 </mapper>

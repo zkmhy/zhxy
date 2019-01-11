@@ -9,8 +9,56 @@
 		<result property="role" column="role" />
 	</resultMap>
 	<select id="queryById" resultMap="people">
-		select *,(select name from role where id=rid) role
+		select *,(select name from role
+		where id=rid) role
 		from people
 		where id=#{id}
+	</select>
+	<select id="classNum" resultType="int">
+		select count(0)
+		from plan
+		where
+		`date` = date(`date`) and cid in (select id from clazz where teacherId
+		= #{people.id}) and study=true
+	</select>
+	<select id="room" resultMap="people">
+		select *
+		from people
+		where id in
+		(select teacherId from clazz where id in
+		(select id from clazz where
+		gradeId in (select gid from grade_floor
+		where floor=(select floor from
+		classroom where id=#{room.id})))
+		group by
+		teacherId
+		)
+		and id not in
+		(select teacherId from clazz where id in
+		(select cid from plan where
+		`date` between date(#{begin}) and
+		date(#{end})
+		<if test="room.inclass"> and study=true</if>
+		<if test="!room.inclass and room.forstudy">and study=false</if>
+		))
+	</select>
+	<select id="allTeacher" resultMap="people">
+		select *
+		from people
+		where rid=1
+	</select>
+	<select id="floors" resultType="int">
+		select
+	</select>
+	<select id="isPlanBusy" resultType="int">
+		select 1
+		from plan
+		where `date` =date(#{day}) and ap=#{ap} and cid in
+		(select id from clazz where teacherId =#{teacher.id}) and study=true
+	</select>
+	<select id="isEventBusy" resultType="int">
+		select 1
+		from class_calendar
+		where `date`=date(#{day}) and (ap=0 or <choose><when test="ap">ap=2</when><otherwise>ap=1</otherwise></choose>) and id in(select cid from calendar_teacher where pid=#{teacher.id})
 	</select>
 </mapper>

@@ -10,4 +10,6 @@ public interface RoomService {
 	int roomnum(int type);
 	
 	int roomnumByFun(int type);
+	
+	int roomBigNum();
 }
