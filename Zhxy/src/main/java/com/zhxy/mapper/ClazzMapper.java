@@ -22,5 +22,5 @@ public interface ClazzMapper {
 	
 	List<Clazz> queryClazz(People people);
 	
-	List<Clazz> clazz(People people);
+	List<Clazz> clazz(@Param("ids")List<Integer> id,@Param("grade")Integer grade);
 }

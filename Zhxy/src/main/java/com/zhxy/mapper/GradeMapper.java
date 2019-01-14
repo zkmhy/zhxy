@@ -12,5 +12,5 @@ public interface GradeMapper {
 
 	Grade queryById(int id);
 	
-	List<Grade> findGrade(int id);
+	List<Grade> findGrade(List<Integer> ids);
 }

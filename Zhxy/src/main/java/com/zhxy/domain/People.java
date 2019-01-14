@@ -1,6 +1,7 @@
 package com.zhxy.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class People implements Serializable{
 
@@ -12,6 +13,8 @@ public class People implements Serializable{
 	private String name;
 	private int rid;
 	private String role;
+	private int position;
+	private List<People> peoples;
 	
 	public int getId() {
 		return id;
@@ -41,5 +44,17 @@ public class People implements Serializable{
 	public People() {
 		this.name="";
 		this.id=-1;
+	}
+	public List<People> getPeoples() {
+		return peoples;
+	}
+	public void setPeoples(List<People> peoples) {
+		this.peoples = peoples;
+	}
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }

@@ -64,4 +64,14 @@
 		having count(*)=2
 		limit 1
 	</select>
+	<select id="clazz" resultMap="clazz">
+		select *
+		from clazz
+		<where>
+			teacherId in <foreach collection="ids" item="id" open="(" close=")" separator=",">#{id}</foreach>
+			<if test="grade">
+				and gradeId=#{grade}
+			</if>
+		</where>
+	</select>
 </mapper>

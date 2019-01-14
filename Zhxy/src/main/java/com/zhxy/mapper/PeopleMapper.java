@@ -25,4 +25,6 @@ public interface PeopleMapper {
 	Integer isPlanBusy(@Param("teacher")People people,@Param("day")Date day,@Param("ap")boolean ap);
 
 	Integer isEventBusy(@Param("teacher")People people,@Param("day")Date day,@Param("ap")boolean ap);
+	
+	List<People> position(int id);
 }

@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.zhxy.domain.Calendar;
+import com.zhxy.domain.Grade;
+import com.zhxy.domain.People;
+import com.zhxy.service.GradeService;
+import com.zhxy.service.PeopleService;
 import com.zhxy.service.PlanService;
 import com.zhxy.utils.MyUtils;
 
@@ -21,6 +25,10 @@ public class AjaxController {
 
 	@Autowired
 	PlanService planService;
+	@Autowired
+	PeopleService peopleSerivce;
+	@Autowired
+	GradeService gradeService;
 
 	@RequestMapping("/calendar")
 	public String calendar(String str, int type) {
@@ -57,5 +65,11 @@ public class AjaxController {
 			planService.updateDate(date, integer);
 		}
 		return "";
+	}
+	
+	@RequestMapping("/core")
+	public List<Grade> grade() {		
+		People people=peopleSerivce.queryById(1);
+		return gradeService.grade(people);
 	}
 }

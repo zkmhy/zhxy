@@ -18,6 +18,6 @@
 		select *
 		from grade
 		where id in
-		(select gradeId from clazz where teacherId in ( select staffid from cp_staff ) group by gradeId )
+		(select gradeId from clazz where teacherId in <foreach collection="list" item="id" open="(" close=")" separator=",">id</foreach> )
 	</select>
 </mapper>

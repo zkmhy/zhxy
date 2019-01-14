@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxy.mapper.PeopleMapper">
-	<cache></cache>
+	<!-- <cache></cache> -->
 	<resultMap type="com.zhxy.domain.People" id="staff">
 		<result property="id" column="staffid" />
 		<result property="name" column="staffname" />
 		<result property="rid" column="rid" />
 		<result property="role" column="role" />
+		<result property="position" column="positionid" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.People" extends="staff" id="position">
+		<association property="peoples" column="positionid" select="position"></association>
 	</resultMap>
 	<select id="queryById" resultMap="staff">
 		select *,(select rolename from cp_role
@@ -60,5 +64,10 @@
 		select 1
 		from class_calendar
 		where `date`=date(#{day}) and (ap=0 or <choose><when test="ap">ap=2</when><otherwise>ap=1</otherwise></choose>) and id in(select cid from calendar_teacher where pid=#{teacher.id})
+	</select>
+	<select id="position" resultMap="position">
+		select *
+		from cp_staff
+		where positionid in (select positionid from cp_position where pid=#{id})
 	</select>
 </mapper>
