@@ -26,4 +26,5 @@
 		from cp_staff
 		where id in (select pid from calendar_teacher where cid=#{id})
 	</select>
+	<insert id="addEvent"></insert>
 </mapper>

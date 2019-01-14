@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxy.mapper.GradeMapper">
-	<cache></cache>
+	<!-- <cache></cache> -->
 	<resultMap type="com.zhxy.domain.Grade" id="grade">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
@@ -18,6 +18,7 @@
 		select *
 		from grade
 		where id in
-		(select gradeId from clazz where teacherId in <foreach collection="list" item="id" open="(" close=")" separator=",">id</foreach> )
+		(select gradeId from clazz where teacherId in <foreach collection="list" item="id" open="(" close=")" separator=",">#{id}</foreach> )
+		order by name
 	</select>
 </mapper>
