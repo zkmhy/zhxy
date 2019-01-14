@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.accp.mapper.PlanMapper">
+<mapper namespace="com.zhxy.mapper.PlanMapper">
 	<!-- <cache></cache> -->
-	<resultMap type="com.accp.domain.Plan" id="plan">
+	<resultMap type="com.zhxy.domain.Plan" id="plan">
 		<result property="id" column="id" />
 		<result property="ap" column="ap" />
 		<result property="active" column="active" />
 		<result property="date" column="date" />
 		<result property="study" column="study" />
 		<association property="clazz"
-			javaType="com.accp.domain.Clazz"
-			select="com.accp.mapper.ClazzMapper.queryById" column="cid"></association>
-		<association property="event" column="{date=date,id=cid}" javaType="com.accp.domain.Event" select="com.accp.mapper.EventMapper.dateEvent"></association>
+			javaType="com.zhxy.domain.Clazz"
+			select="com.zhxy.mapper.ClazzMapper.queryById" column="cid"></association>
+		<association property="event" column="{date=date,id=cid}" javaType="com.zhxy.domain.Event" select="com.zhxy.mapper.EventMapper.dateEvent"></association>
 	</resultMap>
-	<resultMap type="com.accp.domain.Plan" id="clazzplan" extends="plan">
-		<association property="room" column="roomid" javaType="com.accp.domain.Room" select="com.accp.mapper.RoomMapper.queryById"></association>
+	<resultMap type="com.zhxy.domain.Plan" id="clazzplan" extends="plan">
+		<association property="room" column="roomid" javaType="com.zhxy.domain.Room" select="com.zhxy.mapper.RoomMapper.queryById"></association>
 	</resultMap>
-	<resultMap type="com.accp.domain.DatePlan" id="dateplan">
+	<resultMap type="com.zhxy.domain.DatePlan" id="dateplan">
 		<result property="date" column="date" />
-		<association property="plans" javaType="list" column="date" select="com.accp.mapper.ClazzMapper.clazzPlan"></association>
+		<association property="plans" javaType="list" column="date" select="com.zhxy.mapper.ClazzMapper.clazzPlan"></association>
 	</resultMap>
 	<!-- 某个教室在某天的课程安排 -->
 	<select id="roomDatePlan" resultMap="plan">
@@ -84,5 +84,15 @@
 		update plan
 		set `date`=date(#{date})
 		where id=#{id}
+	</update>
+	<select id="existAuto" resultType="int">
+		select count(0)
+		from plan
+		where advance=true
+	</select>
+	<update id="pushAuto">
+		update plan
+		set advance=false
+		where advance=true
 	</update>
 </mapper>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.accp.mapper.PeopleMapper">
+<mapper namespace="com.zhxy.mapper.PeopleMapper">
 	<cache></cache>
-	<resultMap type="com.accp.domain.People" id="people">
-		<result property="id" column="id" />
-		<result property="name" column="name" />
+	<resultMap type="com.zhxy.domain.People" id="staff">
+		<result property="id" column="staffid" />
+		<result property="name" column="staffname" />
 		<result property="rid" column="rid" />
 		<result property="role" column="role" />
 	</resultMap>
-	<select id="queryById" resultMap="people">
-		select *,(select name from role
-		where id=rid) role
-		from people
-		where id=#{id}
+	<select id="queryById" resultMap="staff">
+		select *,(select rolename from cp_role
+		where roleid=rid) role
+		from cp_staff
+		where staffid=#{id}
 	</select>
 	<select id="classNum" resultType="int">
 		select count(0)
@@ -21,9 +21,9 @@
 		`date` = date(`date`) and cid in (select id from clazz where teacherId
 		= #{people.id}) and study=true
 	</select>
-	<select id="room" resultMap="people">
+	<select id="room" resultMap="staff">
 		select *
-		from people
+		from cp_staff
 		where id in
 		(select teacherId from clazz where id in
 		(select id from clazz where
@@ -42,10 +42,10 @@
 		<if test="!room.inclass and room.forstudy">and study=false</if>
 		))
 	</select>
-	<select id="allTeacher" resultMap="people">
+	<select id="allTeacher" resultMap="staff">
 		select *
-		from people
-		where rid=1
+		from cp_staff
+		where rid in (select roleid from cp_role where canTeacher=true)
 	</select>
 	<select id="floors" resultType="int">
 		select

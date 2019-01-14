@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.accp.mapper.GradeMapper">
+<mapper namespace="com.zhxy.mapper.GradeMapper">
 	<cache></cache>
-	<resultMap type="com.accp.domain.Grade" id="grade">
+	<resultMap type="com.zhxy.domain.Grade" id="grade">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 	</resultMap>
+	<resultMap type="com.zhxy.domain.Grade" extends="grade"
+		id="myGrade"></resultMap>
 	<select id="queryById" resultMap="grade">
 		select *
 		from grade
-		where id=#{id}
+		where
+		id=#{id}
+	</select>
+	<select id="findGrade" resultMap="myGrade">
+		select *
+		from grade
+		where id in
+		(select gradeId from clazz where teacherId in ( select staffid from cp_staff ) group by gradeId )
 	</select>
 </mapper>

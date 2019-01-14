@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.accp.mapper.RoomMapper">
+<mapper namespace="com.zhxy.mapper.RoomMapper">
 	<!-- <cache></cache> -->
-	<resultMap type="com.accp.domain.Room" id="room">
+	<resultMap type="com.zhxy.domain.Room" id="room">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="floor" column="floor" />
@@ -11,12 +11,12 @@
 		<result property="forstudy" column="forstudy" />
 		<result property="fortest" column="fortest" />
 	</resultMap>
-	<resultMap type="com.accp.domain.Room" id="planRoom"
+	<resultMap type="com.zhxy.domain.Room" id="planRoom"
 		extends="room">
 		<association property="plans" column="{date=date,id=id}"
-			javaType="list" select="com.accp.mapper.PlanMapper.roomDatePlan"></association>
+			javaType="list" select="com.zhxy.mapper.PlanMapper.roomDatePlan"></association>
 	</resultMap>
-	<resultMap type="com.accp.domain.Room" extends="room" id="specialRoom">
+	<resultMap type="com.zhxy.domain.Room" extends="room" id="specialRoom">
 		<result property="ap" column="ap" />
 	</resultMap>
 	<select id="allroom" resultMap="room">
@@ -97,7 +97,7 @@
 		limit 1
 	</select>
 	<select id="remainRoom" resultMap="specialRoom">
-		select *,(select !ap from plan where `date`=date(#{day}) and roomid =classroomid.id limit 1) ap
+		select *,(select !ap from plan where `date`=date(#{day}) and roomid =classroom.id limit 1) ap
 		from classroom
 		where id in (select roomid from plan where `date`=date(#{day}) group by roomid having count(0)=1 ) and floor in ( select floor
 		from grade_floor where gid=#{clazz.grade.id}) and people >= #{clazz.people} and people >= #{clazz.people}

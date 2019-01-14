@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<LINK rel=stylesheet type="text/css" th:href="@{static/css/style.css}">
+<title>首页</title>
+</head>
+<body>
+	<DIV id=header class=wrap>
+		<DIV id=logo>
+			<IMG th:src="@{static/images/logo.gif}">
+		</DIV>
+		<div class=search>
+			<a style="color:blue;cursor: pointer;" th:href="@{/toGuanli}">我的</a>
+			<a style="color:blue;cursor: pointer;" th:href="@{/toFabu}">新增房屋信息</a>
+		</div>
+	</DIV>
+	<DIV id="navbar" class=wrap>
+		<DL class="search clearfix">
+			<FORM id=sform method=post>
+				<DT>
+					<UL>
+						<LI class=bold>房屋信息</LI>
+						<LI>标题：<INPUT class=text type=text id=title> <LABEL
+							class=ui-blue><INPUT value=搜索房屋 type=button id=search></LABEL>
+						</LI>
+					</UL>
+				</DT>
+				<DD>
+					<UL>
+						<LI class=first>价格</LI>
+						<LI><SELECT id="price">
+								<OPTION selected value="0">不限</OPTION>
+								<OPTION value='1'>20万以下</OPTION>
+								<OPTION value='2'>20万—50万</OPTION>
+								<OPTION value='3'>50万以上</OPTION>
+						</SELECT></LI>
+					</UL>
+				</DD>
+				<DD>
+					<UL>
+						<LI class=first>房屋位置</LI>
+						<LI>
+							<SELECT id=shen name=street_id>
+								<OPTION value="" selected>不限</OPTION>
+								<OPTION th:each="ss:${shen}" th:value="${ss}" th:text="${ss}"></OPTION>
+							</SELECT>省
+							<SELECT id=shi name=street_id>
+								<OPTION value="" selected>不限</OPTION>
+							</SELECT>市
+							<SELECT id=qu name=street_id>
+								<OPTION value="" selected>不限</OPTION>
+							</SELECT>区
+						</LI>
+					</UL>
+				</DD>
+				<DD>
+					<UL>
+						<LI class=first>房型</LI>
+						<LI><SELECT id="typeid">
+								<OPTION selected value="0">不限</OPTION>
+								<OPTION th:each="h:${houseType}" th:value="${h.thid}" th:text="${h.thname}"></OPTION>
+						</SELECT></LI>
+					</UL>
+				</DD>
+				<DD>
+					<UL>
+						<LI class=first>面积</LI>
+						<LI><SELECT id="area">
+								<OPTION selected value="0">不限</OPTION>
+								<OPTION value='1'>40以下</OPTION>
+								<OPTION value='2'>40-500</OPTION>
+								<OPTION value='3'>500以上</OPTION>
+						</SELECT></LI>
+					</UL>
+				</DD>
+			</FORM>
+		</DL>
+	</DIV>
+	<DIV class="main wrap" id="tab">
+		<TABLE class=house-list>
+			<TBODY>
+				<TR v-for="(h,index) in page.list">
+					<TD class=house-thumb style="color:red" v-if="h.deal==0">
+						出售
+					</TD>
+					<TD class=house-thumb style="color:red" v-else>
+						购买
+					</TD>
+					<TD>
+						<DL>
+							<DT>
+								<A v-bind:href="'/details?id='+h.hid" target="_blank">{{h.title}}</A>
+							</DT>
+							<DD>
+								{{h.address.province}}{{h.address.city}}{{h.address.district}},
+								{{h.area}}平米<BR>联系方式：{{h.phone}}
+							</DD>
+						</DL>
+					</TD>
+					<TD class=house-type>{{h.thname}}</TD>
+					<TD class=house-price><SPAN>{{h.price}}</SPAN>万</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+		<DIV class=pager>
+			<UL>
+				<LI class=current><A style="cursor: pointer;" v-on:click="go(page.firstPage)">首页</A></LI>
+				<LI><A style="cursor: pointer;" v-on:click="go(page.prePage)">上一页</A></LI>
+				<LI><A style="cursor: pointer;" v-on:click="go(page.nextPage)">下一页</A></LI>
+				<LI><A style="cursor: pointer;" v-on:click="go(page.lastPage)">末页</A></LI>
+			</UL>
+			<SPAN class=total>{{page.pageNum}}/{{page.pages}}页</SPAN>
+		</DIV>
+	</DIV>
+	<DIV id=footer class=wrap>
+		<DL>
+			<DT>房屋出售 © 2018 赵客缦胡缨 京ICP证1000001号</DT>
+			<DD>关于我们 · 联系方式 · 意见反馈 · 帮助中心</DD>
+		</DL>
+	</DIV>
+	<script type="text/javascript" th:src="@{static/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{static/js/vue.js}"></script>
+	<script type="text/javascript">
+		var v= new Vue({
+			el:"#tab",
+			data:{
+				page:{
+					list:null,
+				}
+			},methods:{
+				go:function(pageNum){
+					if(pageNum!=0){
+						go(pageNum);
+					}
+				}
+			},watch:{
+	
+			}
+		});
+		var title = "";
+		var priceid = 0;
+		var shen = "";
+		var shi = "";
+		var qu = "";
+		var typeid = 0;
+		var areaid = 0;
+		var nowpage = 1;
+		function go(pageNum){
+			$.ajax({
+				url:"[[@{/go}]]",
+				data:{
+					"pageNum":pageNum	
+				},
+				dataType:'json',
+				type:"post",
+				success:function(data){
+					v.page=data;
+					nowpage = data.pageNum;
+				}
+			});
+		}
+		
+		function search(){
+			$.ajax({
+				url:"[[@{/search}]]",
+				data:{
+					"title":title,
+					"priceid":priceid,
+					"shen":shen,
+					"shi":shi,
+					"qu":qu,
+					"typeid":typeid,
+					"areaid":areaid,
+					"nowpage":nowpage
+				},
+				dataType:"json",
+				type:"post",
+				success:function(data){
+					v.page=data;
+				}
+			});
+		}
+		
+		$(function(){
+			$.ajax({
+				url:"[[@{/reload}]]",
+				dataType:"json",
+				success:function(data){
+					console.log(data);
+					v.page=data;
+				}
+			}); 
+			$("#shen").change(function(){
+				if($(this).val()!=''){
+					$.ajax({
+						url:"[[@{/shi}]]",
+						dataType:"json",
+						type:"post",
+						data:{
+							"shen":$(this).val()
+						},
+						success:function(data){
+							$(".shi_address").remove();
+							$.each(data,function(){
+								$("#shi").append($('<OPTION class="shi_address" value='+this+'>'+this+'</OPTION>'));
+							})
+						}
+					}); 
+				}else{
+					$(".shi_address").remove();
+					$(".qu_address").remove();
+					$("#aid").val("");
+				}
+				shen = $(this).val();
+				search();
+			});
+			$("#shi").change(function(){
+				if($(this).val()!=''){
+					$.ajax({
+						url:"[[@{/qu}]]",
+						dataType:"json",
+						type:"post",
+						data:{
+							"shi":$(this).val()
+						},
+						success:function(data){
+							$(".qu_address").remove();
+							$.each(data,function(){
+								$("#qu").append($('<OPTION class="qu_address" value='+this+'>'+this+'</OPTION>'));
+							});
+						}
+					}); 
+				}else{
+					$(".qu_address").remove();
+					$("#aid").val("");
+				}
+				shi = $(this).val();
+				search();
+			});
+			$("#qu").change(function(){
+				if($(this).val()!=''){
+					$.ajax({
+						url:"[[@{/address}]]",
+						dataType:"json",
+						type:"post",
+						data:{
+							"qu":$(this).val()
+						},
+						success:function(data){
+							$("#aid").val(data.aid);
+						}
+					}); 
+				}else{
+					$("#aid").val("");
+				}
+				qu = $(this).val();
+				search();
+			});
+			$("#search").click(function(){
+				title = $("#title").val();
+				search();
+			});
+			$("#price").change(function(){
+				priceid=$(this).val();
+				search();
+			});
+			$("#typeid").change(function(){
+				typeid=$(this).val();
+				search();
+			});
+			$("#area").change(function(){
+				areaid=$(this).val();
+				search();
+			});
+		});
+	</script> 
+</body>
+</html>
