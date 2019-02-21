@@ -12,10 +12,6 @@ import java.util.Map;
 import com.zhxy.domain.DatePlan;
 import com.zhxy.domain.Room;
 
-import io.lettuce.core.ReadFrom;
-import io.lettuce.core.ReadFrom.Nodes;
-import io.lettuce.core.models.role.RedisNodeDescription;
-
 /**
  * 帮助类
  * 
