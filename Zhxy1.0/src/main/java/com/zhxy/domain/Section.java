@@ -7,6 +7,7 @@ public class Section {
 	private String name;
 	private String info;
 	private int hour;
+	private boolean check;
 	
 	public String getName() {
 		return name;
@@ -42,6 +43,12 @@ public class Section {
 	}
 	public void setCid(int cid) {
 		this.cid = cid;
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 	
 }

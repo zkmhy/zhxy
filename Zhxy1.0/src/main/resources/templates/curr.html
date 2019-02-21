@@ -2,52 +2,48 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>调课</title>
-<link href="assets/css/plugins.css" rel="stylesheet" />
-<link href="assets/css/bootstrap.css" rel="stylesheet" />
-<link href="css/plugins.css" rel="stylesheet" />
-<link href="css/button.css" rel="stylesheet" />
+<title>智慧校园</title>
+<!-- Mobile specific metas -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- Force IE9 to render in normal mode -->
+<!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+<meta name="author" content="SuggeElson" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="application-name" content="sprFlat admin template" />
+<!-- Import google fonts - Heading first/ text second -->
+<link rel='stylesheet' type='text/css'
+<!--[if lt IE 9]>
+
+		<![endif]-->
+<!-- Css files -->
+<!-- Icons -->
 <link href="assets/css/icons.css" rel="stylesheet" />
+<!-- jQueryUI -->
+<link href="assets/css/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
+<!-- Bootstrap stylesheets (included template modifications) -->
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+<!-- Plugins stylesheets (all plugin custom css) -->
+<link href="assets/css/plugins.css" rel="stylesheet" />
+<!-- Main stylesheets (template main css file) -->
+<link href="assets/css/main.css" rel="stylesheet" />
+<!-- Custom stylesheets ( Put your own changes here ) -->
+<link href="assets/css/custom.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/curr.css" />
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="assets/img/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="assets/img/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="assets/img/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed"
+	href="assets/img/ico/apple-touch-icon-57-precomposed.png">
+<link rel="icon" href="assets/img/ico/favicon.ico" type="image/png">
+<!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
+<meta name="msapplication-TileColor" content="#3399cc" />
 </head>
-<style>
-.fc-button {
-	margin-left: -4px;
-}
-
-.search input {
-	line-height: 20px;
-	padding: 4px 0;
-	text-indent: 1rem;
-}
-
-.ab-ul {
-	position: absolute;
-	z-index: 999;
-	cursor: pointer;
-	background-color: white;
-	text-align: center;
-	padding: 0;
-	display: none;
-}
-
-li {
-	list-style: none;
-}
-
-li:hover {
-	background-color: deepskyblue;
-	color: white;
-}
-
-.cover {
-	display: none;
-}
-
-#save {
-	text-align: center;
-	display: none;
-}
-</style>
 <body>
 	<div id="header">
 		<div class="container-fluid">
@@ -305,7 +301,6 @@ li:hover {
 						</li>
 						<li><a href="curr.to"><i class="im-table2"></i> 课程管理</a></li>
 					</ul></li>
-
 			</ul>
 			<!-- End #sideNav -->
 		</div>
@@ -316,125 +311,212 @@ li:hover {
 			<div class="row">
 				<div class="col-lg-12 heading">
 					<h1 class="page-header">
-						<i class="br-stats"></i> 新增版本
+						<i class="im-table2"></i> 课程管理
 					</h1>
 					<ul id="crumb" class="breadcrumb">
 					</ul>
 				</div>
 			</div>
-			<div class="cover"></div>
-			<ul class="ab-ul">
-				<li id="none">无</li>
-				<li class="li" v-for="item in room" v-bind:rid="item.id">{{item.name}}</li>
-			</ul>
-			<div class="row">
-				<div class="fc fc-ltr">
-					<div class="fc-content">
-						<div class="fc-grid" id="calendar">
-							<table class="fc-border-separate" style="width: 98%;"
-								cellspacing="0">
-								<thead>
-									<tr>
-										<th class="fc-day-header fc-widget-header">周一</th>
-										<th class="fc-day-header fc-widget-header">周二</th>
-										<th class="fc-day-header fc-widget-header">周三</th>
-										<th class="fc-day-header fc-widget-header">周四</th>
-										<th class="fc-day-header fc-widget-header">周五</th>
-										<th class="fc-day-header fc-widget-header">周六</th>
-										<th class="fc-day-header fc-widget-header">周日</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="fc-week fc-last" v-for="week in map">
-										<td class="fc-widget-content fc-last" v-for="day in week">
-											<div class="date" style="min-height: 92px;"
-												v-bind:date="day.dateStr">
-												<div class="fc-day-number">{{day.num}}</div>
-												<div class="fc-day-content" style="text-align: center;">
-													<div v-for="clazz in day.plans">
-														<div class="external-event clazz" v-bind:cid="clazz.id">
-															{{clazz.name}}
-															<div class="ap" ap="false">
-																上午 <span v-if="clazz.am"> <span
-																	v-if="clazz.am.active"> <span class="planid"
-																		v-bind:planid="clazz.am.id">
-																			<div v-if="clazz.am.room">
-																				{{clazz.am.room.name}}</div>
-																			<div v-else>{{clazz.event.content}}</div>
-																			<div>{{clazz.event.peoplesStr}}
-																				{{clazz.event.content}}</div>
-																	</span>
-																</span> <span v-else> <span v-if="clazz.am.study"
-																		class="planid" v-bind:planid="clazz.am.id">
-																			<div class="room study"
-																				v-bind:roomid="clazz.am.room.id">
-																				{{clazz.am.room.name}}</div>
-																			<div class="teacher"
-																				v-bind:teacherid="clazz.teacher.id">
-																				{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
-																	</span> <span v-if="!clazz.am.study">
-																			<div class="room" v-bind:roomid="clazz.am.room.id">
-																				{{clazz.am.room.name}}</div>
-																			<div class="study">自习</div>
-																	</span>
-																</span>
-																</span> <span v-else>
-																	<div style="min-height: 20px;" class="room" roomid="0">
-																	</div>
-																	<div style="min-height: 20px;" class="none"></div>
-																</span>
-															</div>
-															<div class="ap" ap="true">
-																下午 <span v-if="clazz.pm"> <span
-																	v-if="clazz.pm.active"> <span class="planid"
-																		v-bind:planid="clazz.pm.id">
-																			<div v-if="clazz.pm.room">
-																				{{clazz.pm.room.name}}</div>
-																			<div v-else>{{clazz.event.content}}</div>
-																			<div>{{clazz.event.peoplesStr}}
-																				{{clazz.event.content}}</div>
-																	</span>
-																</span> <span v-else> <span v-if="clazz.pm.study"
-																		class="planid" v-bind:planid="clazz.pm.id">
-																			<div class="room study"
-																				v-bind:roomid="clazz.pm.room.id">
-																				{{clazz.pm.room.name}}</div>
-																			<div class="teacher"
-																				v-bind:teacherid="clazz.teacher.id">
-																				{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
-																	</span> <span v-if="!clazz.pm.study">
-																			<div class="room" v-bind:roomid="clazz.pm.room.id">
-																				{{clazz.pm.room.name}}</div>
-																			<div class="study">自习</div>
-																	</span>
-																</span>
-																</span> <span v-else>
-																	<div style="min-height: 20px;" class="room" roomid="0">
-																	</div>
-																	<div style="min-height: 20px;" class="none"></div>
-																</span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+			<div id="curr-content">
+				<div id="curr-header">
+					<span> 专业: <select id="major">
+							<option value="all">全部</option>
+							<option v-for="major in majors" :value="major.id">{{major.name}}</option>
+					</select>
+					</span> <span> 年级: <select id="grade">
+							<option value="all">全部</option>
+							<option v-for="grade in grades" :value="grade.id">{{grade.name}}</option>
+					</select>
+					</span>
+					<div id="curr-header-icons">
+						<button id="delete" class="btn btn-danger hide-it">删除</button>
+						<i id="plus-curr" class="im-plus"></i> <i id="remove-it"
+							class="im-remove2"></i>
+					</div>
+				</div>
+				<div id="curr-table">
+					<table style="text-align: center;" width="100%">
+						<tr>
+							<td style="position: absolute;"><input type="checkbox"
+								class="hide-it" id="all" /></td>
+							<td>课程</td>
+							<td>专业</td>
+							<td>年级</td>
+							<td>章节数</td>
+							<td>课时</td>
+							<td></td>
+						</tr>
+						<tr class="tr" v-for="curr in lists">
+							<td style="position: absolute;"><input type="checkbox"
+								class="curr hide-it" :value="curr.id" /></td>
+							<td>{{curr.name}}</td>
+							<td><span v-if="curr.major"> {{curr.major.name}} </span></td>
+							<td><span v-if="curr.grade"> {{curr.grade.name}} </span></td>
+							<td><span> {{curr.num}} </span></td>
+							<td><span> {{curr.hour}} </span></td>
+							<td><span class="a info" v-bind:cid="curr.id">查看详情</span></td>
+						</tr>
+					</table>
+					<div id="curr-footer" class="hide-it">
+						<span class="fc-button fc-state-default fc-corner-left"> <i
+							class="en-arrow-left8 s16"></i>
+						</span> <span class="fc-button fc-state-default fc-corner-right">
+							<i class="en-arrow-right8 s16"></i>
+						</span>
 					</div>
 				</div>
 			</div>
-			<div id="save">
-				<span class="ninth-button"> <span class="btn blue"><span
-						class="btn-lg affirm">保存</span></span>
-				</span>
+			<div id="curr-info" class="hide-it">
+				<div class="curr-icons">
+					<i id="plus" class="im-plus"></i> <i id="edit" class="im-quill"></i>
+					<i id="remove" class="im-remove2"></i> <i id="close"
+						class="im-close"></i>
+				</div>
+				<div id="info-header" v-if="curr">
+					<p>
+						<input id="infoname" class="spe" size="23" readonly="readonly"
+							:value="curr.name" /> 简称(英):<input id="infoename" class="spe"
+							size="4" readonly="readonly" :value="curr.ename" /> <span
+							class="span"> 章节数:<span class="snum">{{curr.num}}</span>
+							总课时:<span class="hnum">{{curr.hour}}</span>
+						</span>
+					</p>
+					<p>
+						年级: <span class="an"> <select id="infograde"
+							class="select sel" :value="curr.grade.id" disabled="false">
+								<option v-for="item in grades" :value="item.id">{{item.name}}</option>
+						</select>
+						</span>
+					</p>
+					<p>
+						所属专业: <span class="an"> <select id="infomajor"
+							class="select sel" :value="curr.major.id" disabled="false">
+								<option v-for="item in majors" :value="item.id">{{item.name}}</option>
+						</select>
+						</span>
+					</p>
+				</div>
+				<div class="curr-lists" v-if="curr">
+					章节:
+					<div style="height: 20px;">
+						<input class="hide-it" id="removeAll" type="checkbox" />
+					</div>
+					<div class="sec save" v-for="section in curr.lists"
+						:sid="section.id">
+						<input type="checkbox" class="hide-it" :value="section.id" /> <input
+							:value="section.name" class="spe" style="margin-right: 100px;"
+							readonly="readonly" /> 课时: <input type="number" class="spe"
+							style="width: 35px;" min="1" max="4" readonly="readonly"
+							:value="section.hour" />
+					</div>
+					<div id="new"></div>
+					<div id="new-btn" class="hide-it">
+						<button class="btn btn-success"
+							style="margin-right: 140px; margin-left: 60px;">确认</button>
+						<button class="btn cancel">取消</button>
+					</div>
+					<div id="edit-btn" class="hide-it">
+						<button class="btn btn-success"
+							style="margin-right: 140px; margin-left: 60px;">确认</button>
+						<button class="btn cancel">取消</button>
+					</div>
+				</div>
+			</div>
+			<div id="section-remove" class="hide-it">
+				<button id="remove-section" class="btn btn-warning">删除章节</button>
+				<button id="remove-curr" class="btn btn-danger">删除课程</button>
+				<button class="btn cancel">取消</button>
+			</div>
+			<div id="curr-add" class="hide-it">
+				<div class="curr-icons">
+					<i id="add-plus" class="im-plus"></i> <i class="im-close add-close"></i>
+				</div>
+				<div class="info-header">
+					<p>
+						课程名: <input id="currname" /> 简称(英):<input id="currename" />
+					</p>
+					<p>
+						年级 : <select id="currgrade">
+							<option v-for="grade in grades" :value="grade.id">{{grade.name}}</option>
+						</select>
+					</p>
+					<p>
+						所属专业 : <select id="currmajor">
+							<option v-for="major in majors" :value="major.id">{{major.name}}</option>
+						</select>
+					</p>
+					<p>
+						章节数: <span class="snum">0</span> 总课时: <span class="hnum">0</span>
+					</p>
+				</div>
+				<div class="curr-lists" id="curr-lists">
+					<div class="sec">
+						章节 : <input
+							style="margin-right: 60px; border-bottom: 1px solid black;" /> <span
+							class="sec-hour"> 课时: <input type="number" value="1"
+							min="1" max="4" />
+						</span>
+						<button class="btn hide-it remove">移除</button>
+					</div>
+				</div>
+				<div style="margin-top: 20px;">
+					<button class="btn btn-success"
+						style="margin-right: 140px; margin-left: 60px;">确认</button>
+					<button class="btn add-close">取消</button>
+				</div>
 			</div>
 		</div>
 	</div>
+	<div id="hint" class="hide-it"></div>
 </body>
-<script src="js/jquery-1.12.4.js"></script>
+<script src="assets/plugins/core/pace/pace.min.js"></script>
+<!-- Important javascript libs(put in all pages) -->
+<script src="assets/js/jquery-1.8.3.min.js"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+</script>
+<script src="assets/js/jquery-ui.js"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+</script>
+<!--[if lt IE 9]>
+		<script type="text/javascript" src="assets/js/libs/excanvas.min.js"></script>
+		<script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script type="text/javascript" src="assets/js/libs/respond.min.js"></script>
+		<![endif]-->
+<!-- Bootstrap plugins -->
+<script src="assets/js/bootstrap/bootstrap.js"></script>
+<!-- Core plugins ( not remove ever) -->
+<!-- Handle responsive view functions -->
+<script src="assets/js/jRespond.min.js"></script>
+<!-- Custom scroll for sidebars,tables and etc. -->
+<script src="assets/plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
+<script
+	src="assets/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
+<!-- Resize text area in most pages -->
+<script src="assets/plugins/forms/autosize/jquery.autosize.js"></script>
+<!-- Proivde quick search for many widgets -->
+<script src="assets/plugins/core/quicksearch/jquery.quicksearch.js"></script>
+<!-- Bootbox confirm dialog for reset postion on panels -->
+<script src="assets/plugins/ui/bootbox/bootbox.js"></script>
+<!-- Other plugins ( load only nessesary plugins for every page) -->
+<script src="assets/plugins/charts/sparklines/jquery.sparkline.js"></script>
+<script src="assets/plugins/charts/pie-chart/jquery.easy-pie-chart.js"></script>
+<script src="assets/plugins/forms/icheck/jquery.icheck.js"></script>
+<script src="assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
+<script src="assets/plugins/forms/tinymce/tinymce.min.js"></script>
+<script src="assets/plugins/misc/highlight/highlight.pack.js"></script>
+<script src="assets/plugins/misc/countTo/jquery.countTo.js"></script>
+<script src="assets/plugins/ui/weather/skyicons.js"></script>
+<script src="assets/plugins/ui/notify/jquery.gritter.js"></script>
+<script src="assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="assets/js/jquery.sprFlat.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="js/url.js"></script>
 <script src="js/vue.js"></script>
-<script src="js/switching.js"></script>
+<script src="js/curr.js"></script>
 </html>

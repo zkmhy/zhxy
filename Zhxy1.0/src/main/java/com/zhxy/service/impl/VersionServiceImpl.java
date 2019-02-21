@@ -46,10 +46,10 @@ public class VersionServiceImpl implements VersionService {
 	@Override
 	public boolean hasCurr(Integer[] list) {
 		// TODO Auto-generated method stub
-		if(list==null || list.length==0) {
+		if (list == null || list.length == 0) {
 			return false;
 		}
-		return versionMapper.hasCurr(list)>0;
+		return versionMapper.hasCurr(list) > 0;
 	}
 
 	@Override
@@ -59,27 +59,62 @@ public class VersionServiceImpl implements VersionService {
 	}
 
 	@Override
-	public void updateVersion(int vid,Integer[] list) {
+	public void updateVersion(int vid, Integer[] list) {
 		// TODO Auto-generated method stub
-		versionMapper.updateVersion(vid,list);
-		Integer[] curr=versionMapper.restCurr(vid);
-		if(curr.length>0) {
-			versionMapper.updateCurr(vid, curr);
+		if (list != null && list.length > 0) {
+			versionMapper.updateVersion(vid, list);
+			Integer[] curr = versionMapper.restCurr(vid);
+			if (curr.length > 0) {
+				versionMapper.updateCurr(vid, curr);
+			}
+			updateVersion(vid);
 		}
-		versionMapper.update(vid);
 	}
 
 	@Override
-	public void deleteSec(int vid,Integer[] list) {
+	public void deleteSec(int vid, Integer[] list) {
 		// TODO Auto-generated method stub
-		versionMapper.deleteSec(vid,list);
-		versionMapper.update(vid);
+		if (list != null && list.length > 0) {
+			versionMapper.deleteSec(vid, list);
+			updateVersion(vid);
+		}
 	}
 
 	@Override
 	public void deleteCurr(int vid, Integer[] list) {
 		// TODO Auto-generated method stub
-		versionMapper.deleteCurr(vid, list);
+		if (list != null && list.length > 0) {
+			versionMapper.deleteCurr(vid, list);
+		}
+	}
+
+	@Override
+	public void updateVersion(int id) {
+		// TODO Auto-generated method stub
+		versionMapper.update(id);
+		versionMapper.updateHour(id);
+	}
+
+	@Override
+	public String versionName() {
+		// TODO Auto-generated method stub
+		return "ACCP " + versionMapper.versionName() + ".0";
+	}
+
+	@Override
+	public boolean allCheck(Integer vid) {
+		// TODO Auto-generated method stub
+		if (vid == null) {
+			return false;
+		}
+		return versionMapper.allCheck(vid);
+	}
+
+	@Override
+	public void insertVer(Version version) {
+		// TODO Auto-generated method stub
+		versionMapper.insert(version);
+		updateVersion(version.getId(), version.getList());
 	}
 
 }

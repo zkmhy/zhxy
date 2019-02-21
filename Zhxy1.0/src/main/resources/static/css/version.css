@@ -1,0 +1,106 @@
+#version{
+	padding-left: 3%;
+	margin-top: 20px;
+}
+.version{
+	margin: 10px 0;
+	width: 200px;
+	padding: 3px 0 10px 10px;
+}
+.version span{
+	margin-left: 1%;
+	display: inline-block;
+}
+.version h6{
+	display: none;
+}
+.version:hover{
+	cursor: pointer;
+	background-color: skyblue;
+	color: white;	
+	box-shadow: #666 1px 5px 10px;
+}
+#version .info:hover{
+	transform: scale(1.3);
+	transition: all linear 0.4s;
+}
+.info:hover h6{
+	display: block;
+}
+.versioninfo{
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+}
+.hideinfo{
+	width: 90%;
+}
+.versioninfo .header span{
+	margin-right: 10px;
+}
+.versioninfo h5{
+	margin-left: 10px;
+}
+.versioninfo h6{
+	margin-left: 20px;
+}
+.versioninfo p{
+	margin-left: 30px;
+}
+.header i{
+	float: right;
+	font-size: 25px;
+	cursor: pointer;
+	margin: 0 10px;
+}
+.major{
+	width: 80%;
+}
+.now-select{
+	display: none;
+}
+.hint{
+	position: fixed;
+	top:46%;
+	left:50%;
+	background-color: gray;
+	border-radius: 40px;
+	color:white;
+	padding: 3px 10px;
+	display: none;
+}
+.hideinfo .info [type=checkbox]{
+	display: none;
+}
+.hideinfo .col-lg-5{
+	display: none;
+}
+.select-div{
+	cursor: pointer;
+}
+.adddiv .sel{
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.adddiv .sel select{
+	height: 25px;
+}
+.hideinfo .col-lg-4{
+	display: none;
+}
+.appenddiv{
+	margin-top: 20px;
+	text-align: center;
+}
+.appenddiv .btn-success{
+	margin-right: 40px;
+}
+
+.adddiv>div:first-of-type{
+	margin-bottom: 15px;
+}
+
+.deletediv,.adddiv{
+	padding-top: 20px;
+}

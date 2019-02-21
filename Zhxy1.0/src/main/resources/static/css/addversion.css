@@ -1,0 +1,27 @@
+.version-div{
+	margin-left: 20%;
+}
+.version{
+	width: 650px;
+	position: relative;
+}
+.version input{
+	border: none;
+	border-bottom: 1px solid black;
+}
+.version i:before{
+	cursor: pointer;
+	margin-top: -20px;
+	margin-left: 30px;
+}
+
+.version span{
+	display: inline-block;
+	margin: 0 5px;
+}
+.btn{
+	position: absolute;
+	right: 150px;
+	top: 20px;
+	font-size: 19px;
+}

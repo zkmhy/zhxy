@@ -24,4 +24,6 @@ public interface CurrService {
 	void updateCurr(Curriculum curriculum);
 	
 	List<Curriculum> restCurr(Integer vid,Integer mid,Integer gid);
+	
+	List<Curriculum> curriculums(Integer vid);
 }

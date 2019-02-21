@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>智慧校园</title>
+<!-- Mobile specific metas -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- Force IE9 to render in normal mode -->
+<!--[if IE]><meta http-equiv="x-ua-compatible" content="IE=9" /><![endif]-->
+<meta name="author" content="SuggeElson" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<meta name="application-name" content="sprFlat admin template" />
+<!-- Import google fonts - Heading first/ text second -->
+<link rel='stylesheet' type='text/css'
+<!--[if lt IE 9]>
+
+		<![endif]-->
+<!-- Css files -->
+<!-- Icons -->
+<link href="assets/css/icons.css" rel="stylesheet" />
+<!-- jQueryUI -->
+<link href="assets/css/sprflat-theme/jquery.ui.all.css" rel="stylesheet" />
+<!-- Bootstrap stylesheets (included template modifications) -->
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+<!-- Plugins stylesheets (all plugin custom css) -->
+<link href="assets/css/plugins.css" rel="stylesheet" />
+<!-- Main stylesheets (template main css file) -->
+<link href="assets/css/main.css" rel="stylesheet" />
+<!-- Custom stylesheets ( Put your own changes here ) -->
+<link href="assets/css/custom.css" rel="stylesheet" />
+<link href="css/plugins.css" rel="stylesheet" />
+<link href="css/button.css" rel="stylesheet" />
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+	href="assets/img/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	href="assets/img/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	href="assets/img/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed"
+	href="assets/img/ico/apple-touch-icon-57-precomposed.png">
+<link rel="icon" href="assets/img/ico/favicon.ico" type="image/png">
+<!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
+<meta name="msapplication-TileColor" content="#3399cc" />
+</head>
+<style>
+.fc-button {
+	margin-left: -4px;
+}
+
+.search input {
+	line-height: 20px;
+	padding: 4px 0;
+	text-indent: 1rem;
+}
+
+#event-div {
+	padding-bottom: 50px;
+	margin-bottom: 30px;
+}
+
+.day-event {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+</style>
+<body>
+	<div id="header">
+		<div class="container-fluid">
+			<div class="navbar">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="index.html"> <i
+						class="im-windows8 text-logo-element animated bounceIn"></i><span
+						class="text-logo">智慧</span><span class="text-slogan">校园</span>
+					</a>
+				</div>
+				<nav class="top-nav" role="navigation">
+					<ul class="nav navbar-nav pull-left">
+						<li id="toggle-sidebar-li"><a href="#" id="toggle-sidebar"><i
+								class="en-arrow-left2"></i> </a></li>
+						<li><a href="#" class="full-screen"><i
+								class="fa-fullscreen"></i></a></li>
+						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
+								class="ec-cog"></i><span class="notification">10</span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#"><i class="en-database"></i> Database <span
+										class="notification">3</span></a></li>
+								<li><a href="#"><i class="st-cube"></i> Packages <span
+										class="notification blue">17</span></a></li>
+								<li><a href="#"><i class="st-health"></i> Disconnects <span
+										class="notification yellow">1</span></a></li>
+								<li><a href="#"><i class="im-images"></i> Images <span
+										class="notification teal">320</span></a></li>
+								<li><a href="#"><i class="st-users"></i> Users <span
+										class="notification orange">2k</span></a></li>
+								<li><a href="#"><i class="st-meter"></i> Traffic <span
+										class="notification magenta">2tb</span></a></li>
+								<li><a href="#"><i class="im-coin"></i> Finances <span
+										class="notification pink">+3k</span></a></li>
+								<li><a href="#"><i class="st-folder"></i> Directories <span
+										class="notification green">17</span></a></li>
+								<li><a href="#"><i class="st-bag"></i> Orders <span
+										class="notification purple">12</span></a></li>
+								<li><a href="#"><i class="ec-contract"></i> Contracts <span
+										class="notification dark">7</span></a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
+								class="ec-mail"></i><span class="notification">4</span></a>
+							<ul class="dropdown-menu email" role="menu">
+								<li class="mail-head">
+									<div class="clearfix">
+										<div class="pull-left">
+											<a href="email-inbox.html"><i class="ec-archive"></i></a>
+										</div>
+										<span>Inbox</span>
+										<div class="pull-right">
+											<a href="email-inbox.html"><i class="st-pencil"></i></a>
+										</div>
+									</div>
+								</li>
+								<li class="search-email">
+									<form>
+										<input type="text" name="search"
+											placeholder="Search for emails">
+										<button type="submit">
+											<i class="ec-search"></i>
+										</button>
+									</form>
+								</li>
+								<li class="mail-list clearfix"><a href="#"> <img
+										src="assets/img/avatars/128.jpg" class="mail-avatar pull-left"
+										alt="avatar">
+										<p class="name">
+											<span class="status"><i class="en-dot"></i></span> Jason
+											Rivera <span class="notification">2</span> <span class="time">12:30
+												am</span>
+										</p>
+										<p class="msg">I contact you regarding my account please
+											can you set up my pass ...</p>
+								</a></li>
+								<li class="mail-list clearfix"><a href="#"> <img
+										src="assets/img/avatars/129.jpg" class="mail-avatar pull-left"
+										alt="avatar">
+										<p class="name">
+											<span class="status off"><i class="en-dot"></i></span> Steeve
+											Mclark <span class="notification">6</span> <span class="time">10:26
+												am</span>
+										</p>
+										<p class="msg">Good job dude awesome work here, please add
+											theese features ...</p>
+								</a></li>
+								<li class="mail-list clearfix"><a href="#"> <img
+										src="assets/img/avatars/130.jpg" class="mail-avatar pull-left"
+										alt="avatar">
+										<p class="name">
+											<span class="status off"><i class="en-dot"></i></span> Fellix
+											Jones <span class="notification">1</span> <span class="time">7:15
+												am</span>
+										</p>
+										<p class="msg">I have some issues when try to reach my
+											product page can you ...</p>
+								</a></li>
+								<li class="mail-list clearfix"><a href="#"> <img
+										src="assets/img/avatars/131.jpg" class="mail-avatar pull-left"
+										alt="avatar">
+										<p class="name">
+											<span class="status"><i class="en-dot"></i></span> Tina
+											Dowsen <span class="notification">5</span> <span class="time">03:46
+												am</span>
+										</p>
+										<p class="msg">Hello Sugge, i want to apply for your
+											referal program , please ...</p>
+								</a></li>
+								<li class="mail-more"><a href="email-inbox.html">View
+										all <i class="en-arrow-right7"></i>
+								</a></li>
+							</ul></li>
+					</ul>
+					<ul class="nav navbar-nav pull-right">
+						<li><a href="#" id="toggle-header-area"><i
+								class="ec-download"></i></a></li>
+						<li class="dropdown"><a href="#" data-toggle="dropdown"><i
+								class="br-alarm"></i> <span class="notification">5</span></a>
+							<ul class="dropdown-menu notification-menu right" role="menu">
+								<li class="clearfix"><i class="ec-chat"></i> <a href="#"
+									class="notification-user"> Ric Jones </a> <span
+									class="notification-action"> replied to your </span> <a
+									href="#" class="notification-link"> comment</a></li>
+								<li class="clearfix"><i class="st-pencil"></i> <a href="#"
+									class="notification-user"> SuggeElson </a> <span
+									class="notification-action"> just write a </span> <a href="#"
+									class="notification-link"> post</a></li>
+								<li class="clearfix"><i class="ec-trashcan"></i> <a
+									href="#" class="notification-user"> SuperAdmin </a> <span
+									class="notification-action"> just remove </span> <a href="#"
+									class="notification-link"> 12 files</a></li>
+								<li class="clearfix"><i class="st-paperclip"></i> <a
+									href="#" class="notification-user"> C. Wiilde </a> <span
+									class="notification-action"> attach </span> <a href="#"
+									class="notification-link"> 3 files</a></li>
+								<li class="clearfix"><i class="st-support"></i> <a href="#"
+									class="notification-user"> John Simpson </a> <span
+									class="notification-action"> add support </span> <a href="#"
+									class="notification-link"> ticket</a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" data-toggle="dropdown">
+								<img class="user-avatar" src="assets/img/avatars/48.jpg"
+								alt="SuggeElson">SuggeElson
+						</a>
+							<ul class="dropdown-menu right" role="menu">
+								<li><a href="profile.html"><i class="st-user"></i>
+										Profile</a></li>
+								<li><a href="file.html"><i class="st-cloud"></i> Files</a>
+								</li>
+								<li><a href="#"><i class="st-settings"></i> Settings</a></li>
+								<li><a href="login.html"><i class="im-exit"></i> Logout</a>
+								</li>
+							</ul></li>
+						<li id="toggle-right-sidebar-li"><a href="#"
+							id="toggle-right-sidebar"><i class="ec-users"></i> <span
+								class="notification">3</span></a></li>
+					</ul>
+				</nav>
+			</div>
+			<!-- Start #header-area -->
+			<div id="header-area" class="fadeInDown">
+				<div class="header-area-inner">
+					<ul class="list-unstyled list-inline">
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="im-pie"></i> <span>Earning
+										Stats</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="ec-images color-dark"></i> <span>Gallery</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="en-light-bulb color-orange"></i> <span>Fresh
+										ideas</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="ec-link color-blue"></i> <span>Links</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="ec-support color-red"></i> <span>Support</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<div class="shortcut-button">
+								<a href="#"> <i class="st-lock color-teal"></i> <span>Lock
+										area</span>
+								</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!-- End #header-area -->
+		</div>
+		<!-- Start .header-inner -->
+	</div>
+	<div id="sidebar">
+		<!-- Start .sidebar-inner -->
+		<div class="sidebar-inner">
+			<!-- Start #sideNav -->
+			<ul id="sideNav" class="nav nav-pills nav-stacked">
+				<li class="top-search">
+					<form>
+						<input type="text" name="search" placeholder="Search ...">
+						<button type="submit">
+							<i class="ec-search s20"></i>
+						</button>
+					</form>
+				</li>
+				<li><a href="index.html">首页<i class="im-screen"></i></a></li>
+				<li><a href="#">数据统计<i class="st-chart"></i></a></li>
+				<li><a href="#">课表 <i class="fa-leaf"></i></a>
+					<ul class="nav sub">
+						<li><a href="charts.to"><i class="im-paragraph-justify"></i>
+								查看 课表</a></li>
+						<li><a href="switching.to"><i
+								class="im-paragraph-justify"></i> 调课</a></li>
+					</ul></li>
+				<!--班级管理-->
+				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
+					<ul class="nav sub">
+						<li><a href="tables.html"><i class="en-arrow-right7"></i>
+								查看班级</a></li>
+						<li><a href="data-tables.html"><i class="en-arrow-right7"></i>
+								新增班级</a></li>
+					</ul></li>
+				<li><a href="#">考勤 <i class="st-lab"></i></a>
+					<ul class="nav sub">
+						<li><a href="notifications.html"><i class="fa-bell"></i>
+								班级考勤</a></li>
+						<li><a href="panels.html"><i class="br-window"></i> 教员考勤</a>
+						</li>
+						<li><a href="tiles.html"><i class="im-windows8"></i> 校工考勤</a>
+						</li>
+					</ul></li>
+				<li><a href="#">版本及课程 <i class="im-twitter2"></i></a>
+					<ul class="nav sub">
+						<li><a href="version.to"><i class="br-mouse"></i> 查看历史版本</a>
+						</li>
+						<li><a href="addVersion.to"><i class="br-stats"></i> 新增版本</a>
+						</li>
+						<li><a href="versioninfo.to"><i class="st-atom"></i> 版本修改</a>
+						</li>
+						<li><a href="curr.to"><i class="im-table2"></i> 课程管理</a></li>
+					</ul></li>
+
+			</ul>
+			<!-- End #sideNav -->
+		</div>
+		<!-- End .sidebar-inner -->
+	</div>
+	<div id="content">
+		<div class="content-wrapper">
+			<div class="row">
+				<div class="col-lg-12 heading">
+					<h1 class="page-header">
+						<i class="im-paragraph-justify"></i> 查看课表
+					</h1>
+					<ul id="crumb" class="breadcrumb">
+					</ul>
+				</div>
+			</div>
+			<div class="search">
+				<input placeholder="班级/教室" /> <input type="date" />
+			</div>
+			<div class="row">
+				<div class="fc fc-ltr col-lg-8">
+					<table class="fc-header" width="100%">
+						<tbody>
+							<tr>
+								<td class="fc-header-left"><span
+									class="fc-button fc-state-default fc-corner-left"
+									@click="go(calendar.preDate,calendar.type)"> <i
+										class="en-arrow-left8 s16"></i>
+								</span> <span class="fc-button fc-state-default fc-corner-right"
+									@click="go(calendar.nextDate,calendar.type)"> <i
+										class="en-arrow-right8 s16"></i>
+								</span> <span class="fc-header-space"></span> <span
+									class="fc-button fc-state-default fc-corner-left fc-corner-right"
+									@click="go(calendar.today,calendar.type)">今天</span></td>
+								<td class="fc-header-center"><span class="fc-header-title">
+										<h2>{{calendar.title}}</h2>
+								</span></td>
+								<td class="fc-header-right"><span
+									class="fc-button fc-state-active fc-state-default fc-corner-left"
+									@click="go(calendar.dateStr,1)">月</span> <span
+									class="fc-button fc-state-default"
+									@click="go(calendar.dateStr,2)">周</span> <span
+									class="fc-button fc-state-default fc-corner-right"
+									@click="go(calendar.dateStr,3)">日</span></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="fc-content">
+						<div class="fc-grid" id="calendar">
+							<table class="fc-border-separate" style="width: 100%;"
+								cellspacing="0">
+								<thead v-if="calendar.type<3">
+									<tr>
+										<th class="fc-day-header fc-widget-header">周日</th>
+										<th class="fc-day-header fc-widget-header">周一</th>
+										<th class="fc-day-header fc-widget-header">周二</th>
+										<th class="fc-day-header fc-widget-header">周三</th>
+										<th class="fc-day-header fc-widget-header">周四</th>
+										<th class="fc-day-header fc-widget-header">周五</th>
+										<th class="fc-day-header fc-widget-header">周六</th>
+									</tr>
+								</thead>
+								<tbody v-if="calendar.type==1">
+									<tr class="fc-week fc-last" v-for="item in calendar.months">
+										<td class="fc-widget-content fc-last" v-for="day in item">
+											<div v-if="day.another" class="fc-other-month"
+												style="min-height: 92px;" v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content" style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div v-if="clazz.am!=null || clazz.pm!=null"
+															class="external-event ">
+															{{clazz.name}}
+															<div v-if="clazz.am!=null" class="fc-ba-green ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.am.room.id">
+																上午 <span v-if="clazz.am!=null && clazz.am.study"
+																	class="planid" v-bind:planid="clazz.am.id">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.am!=null && !clazz.am.study">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+															<div v-if="clazz.pm!=null" class="fc-ba-pink ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.pm.room.id">
+																下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+																	class="planid" v-bind:planid="clazz.pm.id">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div v-else-if="day.today" style="min-height: 92px;"
+												id="today" class="fc-state-highlight"
+												v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content fc-state-highlight"
+													style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div v-if="clazz.am!=null || clazz.pm!=null"
+															class="external-event ">
+															{{clazz.name}}
+															<div v-if="clazz.am!=null" class="fc-ba-green ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.am.room.id">
+																上午 <span v-if="clazz.am!=null && clazz.am.study"
+																	class="planid" v-bind:planid="clazz.am.id">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.am!=null && !clazz.am.study">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+															<div v-if="clazz.pm!=null" class="fc-ba-pink ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.pm.room.id">
+																下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+																	class="planid" v-bind:planid="clazz.pm.id">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div v-else style="min-height: 92px;"
+												v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content" style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div v-if="clazz.am!=null || clazz.pm!=null"
+															class="external-event ">
+															{{clazz.name}}
+															<div v-if="clazz.am!=null" class="fc-ba-green ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.am.room.id">
+																上午 <span v-if="clazz.am!=null && clazz.am.study"
+																	class="planid" v-bind:planid="clazz.am.id">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.am!=null && !clazz.am.study">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+															<div v-if="clazz.pm!=null" class="fc-ba-pink ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.pm.room.id">
+																下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+																	class="planid" v-bind:planid="clazz.pm.id">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<tbody v-else-if="calendar.type==2">
+									<tr class="fc-week fc-last">
+										<td class="fc-widget-content fc-last"
+											v-for="day in calendar.weeks">
+											<div v-if="day.today" style="min-height: 92px;" id="today"
+												class="fc-state-highlight" v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content fc-state-highlight"
+													style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div v-if="clazz.am!=null || clazz.pm!=null"
+															class="external-event ">
+															{{clazz.name}}
+															<div v-if="clazz.am!=null" class="fc-ba-green ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.am.room.id">
+																上午 <span v-if="clazz.am!=null && clazz.am.study"
+																	class="planid" v-bind:planid="clazz.am.id">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.am!=null && !clazz.am.study">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+															<div v-if="clazz.pm!=null" class="fc-ba-pink ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.pm.room.id">
+																下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+																	class="planid" v-bind:planid="clazz.pm.id">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div v-else style="min-height: 92px;"
+												v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content" style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div v-if="clazz.am!=null || clazz.pm!=null"
+															class="external-event ">
+															{{clazz.name}}
+															<div v-if="clazz.am!=null" class="fc-ba-green ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.am.room.id">
+																上午 <span v-if="clazz.am!=null && clazz.am.study"
+																	class="planid" v-bind:planid="clazz.am.id">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.am!=null && !clazz.am.study">
+																	<div class="find" v-bind:roomid="clazz.am.room.id">
+																		{{clazz.am.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+															<div v-if="clazz.pm!=null" class="fc-ba-pink ap"
+																v-bind:teacherid="clazz.teacher.id"
+																v-bind:roomid="clazz.pm.room.id">
+																下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+																	class="planid" v-bind:planid="clazz.pm.id">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div class="find" v-bind:teacherid="clazz.teacher.id">
+																		{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+																</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+																	<div class="find" v-bind:roomid="clazz.pm.room.id">
+																		{{clazz.pm.room.name}}</div>
+																	<div>自习</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+								<tbody v-else>
+									<div class="fc-day-content" style="text-align: center;"
+										v-if="calendar.datePlan">
+										<div v-for="clazz in calendar.datePlan.plans">
+											<div v-if="clazz.am!=null || clazz.pm!=null" class="day">
+												{{clazz.name}}
+												<div v-if="clazz.am!=null" class="ap fc-ba-cold"
+													v-bind:teacherid="clazz.teacher.id"
+													v-bind:roomid="clazz.am.room.id">
+													上午 <span v-if="clazz.am!=null && clazz.am.study"
+														class="planid" v-bind:planid="clazz.am.id">
+														<div class="find" v-bind:roomid="clazz.am.room.id">
+															{{clazz.am.room.name}}</div>
+														<div class="find" v-bind:teacherid="clazz.teacher.id">
+															{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+													</span> <span v-if="clazz.am!=null && !clazz.am.study">
+														<div class="find" v-bind:roomid="clazz.am.room.id">
+															{{clazz.am.room.name}}</div>
+														<div>自习</div>
+													</span>
+												</div>
+												<div v-if="clazz.pm!=null" class="ap fc-ba-warm"
+													v-bind:teacherid="clazz.teacher.id"
+													v-bind:roomid="clazz.pm.room.id">
+													下午 <span v-if="clazz.pm!=null && clazz.pm.study"
+														class="planid" v-bind:planid="clazz.pm.id">
+														<div class="find" v-bind:roomid="clazz.pm.room.id">
+															{{clazz.pm.room.name}}</div>
+														<div class="find" v-bind:teacherid="clazz.teacher.id">
+															{{clazz.teacher.name}} {{clazz.curr.ename}}</div>
+													</span> <span v-if="clazz.pm!=null && !clazz.pm.study">
+														<div class="find" v-bind:roomid="clazz.pm.room.id">
+															{{clazz.pm.room.name}}</div>
+														<div>自习</div>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="page-header">
+						<h4>
+							事件 <small>拖拽到日历中</small>
+						</h4>
+					</div>
+					<div id="event-div">
+						<div eventid="1" class="external-event event draggable"
+							v-for="e in events">{{e.content}}</div>
+					</div>
+					<span class="ninth-button"> <span class="btn blue"><span
+							class="btn-lg auto">自动排课</span></span>
+					</span> <span class="existAuto" style="position: absolute;">已有自动生成的课表，请先推送或取消</span>
+					<span class="eigth-button"> <a class="btn btn-21 cancelAuto">取消</a>
+					</span>
+				</div>
+			</div>
+			<div class="cleardiv"></div>
+			<div class="hidediv">
+				<div class="cover"></div>
+				<div class="contentdiv">
+					<div class="check_event">
+						<div>
+							<div class="check-grade col-lg-2">
+								年级: <input type="checkbox" class="allCheckbox" value="0" /> <span
+									class="selector">全部</span>
+								<div v-for="item in grade">
+									<span class="hold"></span> <input class="grade" type="checkbox" />
+									<span class="selector">{{item.name}}</span>
+									<div v-for="clazz in item.clazzs">
+										<span class="hold"></span> <input type="checkbox"
+											class="clazz" v-bind:value="clazz.id" /> <span
+											class="selector">{{clazz.name}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 time">
+								时间: <input type="radio" class="radio_time" name="time" value="0"
+									checked id="allday" /> <label for="allday">整天</label> <input
+									type="radio" class="radio_time" name="time" value="1"
+									id="check_am" /> <label for="check_am">上午</label> <input
+									type="radio" class="radio_time" name="time" value="2"
+									id="check_pm" /> <label for="check_pm">下午</label>
+								<div style="display: none;">
+									是否自习 <input class="isStudy" type="radio" />
+								</div>
+							</div>
+							<div class="cleardiv"></div>
+							<div class="button">
+								<span class="ninth-button"> <span class="btn blue"><span
+										class="btn-lg affirm">确认</span></span>
+								</span> <span class="ninth-button"> <span class="btn red"><span
+										class="btn-lg eventCancel">取消</span></span>
+								</span>
+							</div>
+							<span class="en-erase"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="assets/plugins/core/pace/pace.min.js"></script>
+<!-- Important javascript libs(put in all pages) -->
+<script src="assets/js/jquery-1.8.3.min.js"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="assets/js/libs/jquery-2.1.1.min.js">\x3C/script>')
+</script>
+<script src="assets/js/jquery-ui.js"></script>
+<script>
+	window.jQuery
+			|| document
+					.write('<script src="assets/js/libs/jquery-ui-1.10.4.min.js">\x3C/script>')
+</script>
+<!--[if lt IE 9]>
+		<script type="text/javascript" src="assets/js/libs/excanvas.min.js"></script>
+		<script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script type="text/javascript" src="assets/js/libs/respond.min.js"></script>
+		<![endif]-->
+<!-- Bootstrap plugins -->
+<script src="assets/js/bootstrap/bootstrap.js"></script>
+<!-- Core plugins ( not remove ever) -->
+<!-- Handle responsive view functions -->
+<script src="assets/js/jRespond.min.js"></script>
+<!-- Custom scroll for sidebars,tables and etc. -->
+<script src="assets/plugins/core/slimscroll/jquery.slimscroll.min.js"></script>
+<script
+	src="assets/plugins/core/slimscroll/jquery.slimscroll.horizontal.min.js"></script>
+<!-- Resize text area in most pages -->
+<script src="assets/plugins/forms/autosize/jquery.autosize.js"></script>
+<!-- Proivde quick search for many widgets -->
+<script src="assets/plugins/core/quicksearch/jquery.quicksearch.js"></script>
+<!-- Bootbox confirm dialog for reset postion on panels -->
+<script src="assets/plugins/ui/bootbox/bootbox.js"></script>
+<!-- Other plugins ( load only nessesary plugins for every page) -->
+<script src="assets/plugins/forms/icheck/jquery.icheck.js"></script>
+<script src="assets/plugins/forms/tags/jquery.tagsinput.min.js"></script>
+<script src="assets/plugins/forms/tinymce/tinymce.min.js"></script>
+<script src="assets/plugins/misc/highlight/highlight.pack.js"></script>
+<script src="assets/plugins/misc/countTo/jquery.countTo.js"></script>
+<script src="assets/plugins/ui/weather/skyicons.js"></script>
+<script src="assets/plugins/ui/notify/jquery.gritter.js"></script>
+<script src="assets/plugins/ui/calendar/fullcalendar.js"></script>
+<script src="assets/js/jquery.sprFlat.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="js/url.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/date.js"></script>
+<script src="js/flot.js"></script>
+<script src="js/grade.js"></script>
+<script type="text/javascript">
+	
+</script>
+</html>

@@ -19,6 +19,7 @@
 				from version_curr
 				where vid=#{id}
 			)
+			group by mid
 		)
 	</select>
 	<select id="majors" resultMap="major">

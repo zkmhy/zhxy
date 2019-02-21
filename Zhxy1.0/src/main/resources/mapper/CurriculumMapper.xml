@@ -9,8 +9,8 @@
 		<result property="hour" column="hour" />
 		<result property="num" column="num" />
 	</resultMap>
-	<resultMap type="com.zhxy.domain.Curriculum" id="curr2"
-		extends="curr">
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curr"
+		id="curr2">
 		<association property="major" column="mid"
 			javaType="com.zhxy.domain.Major"
 			select="com.zhxy.mapper.MajorMapper.queryById"></association>
@@ -18,18 +18,25 @@
 			javaType="com.zhxy.domain.Grade"
 			select="com.zhxy.mapper.GradeMapper.queryById"></association>
 	</resultMap>
-	<resultMap type="com.zhxy.domain.Curriculum" extends="curr2" id="restcurr">
-		<association property="lists" column="vid=vid,cid=id" javaType="list" select="com.zhxy.mapper.SectionMapper.restSection"></association>
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curr2" id="spe">
+		<result property="check" column="check" />
+		<association property="lists" column="{vid=vid,cid=id}" javaType="list" select="com.zhxy.mapper.SectionMapper.allSec"></association>
 	</resultMap>
-	<resultMap type="com.zhxy.domain.Curriculum" id="curriculum"
-		extends="curr2">
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curr2"
+		id="curriculum">
 		<association property="lists" column="{vid=vid,cid=id}"
 			javaType="list" select="com.zhxy.mapper.SectionMapper.c_s"></association>
 	</resultMap>
-	<resultMap type="com.zhxy.domain.Curriculum" extends="curriculum" id="ver">
+	<resultMap type="com.zhxy.domain.Curriculum"
+		extends="curriculum" id="ver">
 		<result property="vhour" column="vhour" />
 		<result property="vnum" column="vnum" />
 		<result property="resthour" column="resthour" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" extends="ver"
+		id="restcurr">
+		<association property="lists" column="vid=vid,cid=id"
+			javaType="list" select="com.zhxy.mapper.SectionMapper.restSection"></association>
 	</resultMap>
 	<select id="queryById" resultMap="curriculum">
 		select *,null vid
@@ -38,9 +45,12 @@
 		where id=#{id}
 	</select>
 	<select id="g-c" resultMap="ver">
-		select *,#{vid} vid,(select hour from version_curr where vid=#{vid} and cid=c.id) vhour,
-		(select num from version_curr where vid=#{vid} and cid=c.id) vnum,
-		(select resthour from version_curr where vid=#{vid} and cid=c.id) resthour		
+		select *,#{vid} vid,(select hour from
+		version_curr where vid=#{vid} and cid=c.id) vhour,
+		(select num from
+		version_curr where vid=#{vid} and cid=c.id) vnum,
+		(select resthour from
+		version_curr where vid=#{vid} and cid=c.id) resthour
 		from curriculum as c
 		where id in (
 		select cid from
@@ -95,7 +105,7 @@
 		<where>
 			id in (
 			<foreach collection="array" item="item" separator=",">
-				#{item}				
+				#{item}
 			</foreach>
 			)
 		</where>
@@ -107,10 +117,10 @@
 			select sid
 			from curr_section
 			where cid in (
-						<foreach collection="array" item="item" separator=",">
-							#{item}
-						</foreach>
-						)
+			<foreach collection="array" item="item" separator=",">
+				#{item}
+			</foreach>
+			)
 			)
 		</where>
 	</delete>
@@ -125,34 +135,45 @@
 		</where>
 	</delete>
 	<insert id="addCurr" useGeneratedKeys="true" keyProperty="id">
-		insert curriculum(name,ename,gradeId,mid)
-		value (#{name},#{ename},#{grade.id},#{major.id})
+		insert
+		curriculum(name,ename,gradeId,mid)
+		value
+		(#{name},#{ename},#{grade.id},#{major.id})
 	</insert>
 	<update id="updateCurr">
 		update curriculum as c
-		set hour=(select sum(hour) from section where id in (select sid from curr_section where cid=c.id) ),
-		num=(select count(0) from section where id in (select sid from curr_section where cid =c.id) )
+		set hour=(select sum(hour) from section where id
+		in (select sid from curr_section where cid=c.id) ),
+		num=(select
+		count(0) from section where id in (select sid from curr_section where
+		cid =c.id) )
 		where id in (
-			<foreach collection="array" item="item" separator=",">
-				#{item}			
-			</foreach>
+		<foreach collection="array" item="item" separator=",">
+			#{item}
+		</foreach>
 		)
 	</update>
 	<update id="updateCurriculum">
 		update curriculum
-		set name=#{name},ename=#{ename},gradeId=#{grade.id},mid=#{major.id}
-		where id=#{id}
+		set
+		name=#{name},ename=#{ename},gradeId=#{grade.id},mid=#{major.id}
+		where
+		id=#{id}
 	</update>
 	<select id="restCurr" resultMap="restcurr">
-		select *,#{vid} vid
-		from curriculum
+		select *,#{vid} vid,
+		num-(select num from
+		version_curr where vid=#{vid} and cid=c.id) vnum,
+		(select resthour from
+		version_curr where vid=#{vid} and cid=c.id) resthour
+		from curriculum as c
 		<where>
 			<if test="vid!=null">
 				and id in (
-							select cid
-							from curr_section
-							where sid not in (select sid from version_sec where vid=#{vid})
-						)
+				select cid
+				from curr_section
+				where sid not in (select sid from version_sec where vid=#{vid})
+				)
 			</if>
 			<if test="gid!=null">
 				and gradeId=#{gid}
@@ -161,5 +182,12 @@
 				and mid=#{mid}
 			</if>
 		</where>
+	</select>
+	<select id="allCurr" resultMap="spe">
+		select *,#{vid} vid,case
+							when (select num from version_curr where cid=curriculum.id and vid=#{vid})=num then true
+							else false
+							end `check`
+		from curriculum
 	</select>
 </mapper>

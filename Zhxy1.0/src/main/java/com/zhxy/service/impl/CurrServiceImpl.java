@@ -53,7 +53,7 @@ public class CurrServiceImpl implements CurrService{
 	@Override
 	public void deleteSec(Curriculum curriculum) {
 		// TODO Auto-generated method stub
-		if(curriculum.getLists().size()>0) {
+		if(curriculum.getLists()!=null&& curriculum.getLists().size()>0) {
 			curriculumMapper.deleteSec(curriculum);
 			sectionService.deleteSec(curriculum.getLists());
 			Integer[] id=new Integer[] {curriculum.getId()};
@@ -64,9 +64,11 @@ public class CurrServiceImpl implements CurrService{
 	@Override
 	public void deleteCurr(Integer[] list) {
 		// TODO Auto-generated method stub
-		curriculumMapper.deleteCurr(list);
-		curriculumMapper.deleteSection(list);
-		curriculumMapper.deleteSectionInfo(list);
+		if(list!=null && list.length>0) {
+			curriculumMapper.deleteCurr(list);
+			curriculumMapper.deleteSection(list);
+			curriculumMapper.deleteSectionInfo(list);
+		}
 	}
 
 	@Override
@@ -91,6 +93,12 @@ public class CurrServiceImpl implements CurrService{
 	public List<Curriculum> restCurr(Integer vid,Integer mid,Integer gid) {
 		// TODO Auto-generated method stub
 		return curriculumMapper.restCurr(vid,mid,gid);
+	}
+
+	@Override
+	public List<Curriculum> curriculums(Integer vid) {
+		// TODO Auto-generated method stub
+		return curriculumMapper.allCurr(vid);
 	}
 	
 }

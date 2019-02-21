@@ -23,4 +23,11 @@ public interface VersionService {
 	
 	void deleteCurr(int vid,Integer[] list);
 	
+	void updateVersion(int id);
+	
+	String versionName();
+	
+	boolean allCheck(Integer vid);
+	
+	void insertVer(Version version);
 }

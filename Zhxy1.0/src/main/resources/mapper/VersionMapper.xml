@@ -19,7 +19,7 @@
 	<select id="num" resultType="int">
 		select count(0)
 		from clazz
-		where vid=#{id}
+		where vid=#{id} and dissolve=false		
 	</select>
 	<select id="queryById" resultMap="more">
 		select *
@@ -45,7 +45,7 @@
 	<select id="queryRest" resultMap="version">
 		select *
 		from version
-		where id not in (select vid from clazz)
+		where `out`=false
 	</select>
 	<select id="restCurr" resultType="int">
 		select cid
@@ -84,14 +84,33 @@
 		)
 		where vid=#{id}
 	</update>
+	<update id="updateHour">
+		update version
+		set `hour`=(select sum(`hour`) from version_curr where vid=version.id)
+		where id=#{id}
+	</update>
 	<delete id="deleteSec">
 		delete 
 		from version_sec
-		where vid =#{id} and sid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+		where vid =#{vid} and sid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
 	</delete>
 	<delete id="deleteCurr">
 		delete
-		from version_sec
-		where vid =#{id} and cid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+		from version_curr
+		where vid =#{vid} and cid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
 	</delete>
+	<select id="versionName" resultType="int">
+		select count(0)+1
+		from version
+	</select>
+	<select id="allCheck" resultType="boolean">
+		select case 
+			   when (select count(0) from version_sec where vid=#{vid} )=(select count(0) from section ) then true 
+			   else false
+			   end
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into version(name,`date`)
+		value (#{name},now())
+	</insert>
 </mapper>

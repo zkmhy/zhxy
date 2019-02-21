@@ -6,6 +6,9 @@
 		<result property="name" column="name" />
 		<result property="hour" column="hour" />
 	</resultMap>
+	<resultMap type="com.zhxy.domain.Section" extends="section" id="spe">
+		<result property="check" column="check" />
+	</resultMap>
 	<select id="c_s" resultMap="section">
 		select *
 		from section
@@ -16,7 +19,7 @@
 					from curr_section
 					where cid=#{cid}
 					<if test="vid!=null">
-						and id in (select sid from version_sec where vid=#{vid})
+						and sid in (select sid from version_sec where vid=#{vid})
 					</if>
 				)
 			</if>
@@ -49,4 +52,16 @@
 		set name=#{name},hour=#{hour}
 		where id=#{id}
 	</update>
+	<select id="allSec" resultMap="spe">
+		SELECT *,CASE (SELECT COUNT(0) FROM version_sec WHERE sid=section.`id` AND vid=#{vid} ) 
+				 WHEN 0 THEN FALSE 
+				 ELSE TRUE 
+				 END `check`
+		FROM section
+		where id in (
+			select sid
+			from curr_section
+			where cid=#{cid}
+		)
+	</select>
 </mapper>

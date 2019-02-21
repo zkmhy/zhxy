@@ -28,8 +28,14 @@
 		where id in (
 			SELECT gradeId
 			FROM curriculum
-			WHERE mid =#{mid}
+			WHERE mid =#{mid} and  id in (
+				select cid
+				from version_curr
+				where vid=#{vid}
+			)
+			group by gradeId
 		)
+		order by name
 	</select>
 	<select id="grades" resultMap="grade">
 		select *

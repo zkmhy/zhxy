@@ -19,6 +19,7 @@ public class Curriculum implements Serializable{
 	private int vhour;
 	private int vnum;
 	private int resthour;
+	private boolean check;
 	private List<Section> lists;
 	
 	public int getId() {
@@ -95,6 +96,12 @@ public class Curriculum implements Serializable{
 	}
 	public void setResthour(int resthour) {
 		this.resthour = resthour;
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 	
 }

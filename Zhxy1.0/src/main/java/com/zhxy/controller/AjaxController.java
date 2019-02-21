@@ -162,6 +162,11 @@ public class AjaxController {
 		return currService.restCurr(vid,mid,gid);
 	}
 	
+	@RequestMapping("allCurr")
+	public List<Curriculum> allCurr(Integer vid){
+		return currService.curriculums(vid);
+	}
+	
 	@RequestMapping("queryMajor")
 	public List<Major> queryMajors(){
 		return majorService.majors();
@@ -233,11 +238,26 @@ public class AjaxController {
 	}
 	
 	@RequestMapping(value="verdeletecurr")
-	public void verdel(int vid,Integer[] list) {
-		
+	public void verDelCurr(int vid,Integer[] list) {
+		versionService.deleteCurr(vid, list);
 	}
 	@RequestMapping(value="verdeletesec")
-	public void verdelsec(int vid,Integer[] list) {
+	public void verDelSec(int vid,Integer[] list) {
 		versionService.deleteSec(vid, list);		
+	}
+	
+	@RequestMapping("versionName")
+	public String versionName() {
+		return versionService.versionName();
+	}
+	
+	@RequestMapping("allCheck")
+	public boolean allCheck(Integer vid) {
+		return versionService.allCheck(vid);
+	}
+	
+	@RequestMapping(value="addVer",produces="application/json;charset=utf-8")
+	public void addVer(@RequestBody Version version) {
+		versionService.insertVer(version);;
 	}
 }

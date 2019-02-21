@@ -1,0 +1,104 @@
+i{
+	cursor: pointer;
+}
+.hide-it{
+	display: none;
+}
+#hint{
+	position: fixed;
+	top:46%;
+	left:50%;
+	background-color: gray;
+	border-radius: 40px;
+	color:white;
+	padding: 3px 10px;
+}
+#curr-header span{
+	margin-right: 20px;
+}
+#curr-header-icons{
+	float: right;
+	margin-right: 6.5%;
+	font-size: 20px;
+}
+
+#curr-table{
+	margin-top: 20px;
+}
+#curr-footer{
+	padding-left: 40%;
+	margin-top: 20px;
+}
+#curr-info,#curr-add{
+	position: absolute;
+	width: 50%;
+	margin-left: 20%;
+}
+.curr-icons{
+	float: right;
+	margin-right: 5%;
+}
+.curr-icons i{
+	margin-right: 10px;
+	font-size: 19px;
+}
+.sec{
+	margin: 7px 30px;
+}
+.sec .btn{
+	margin-left: 100px;
+	position: absolute;
+	margin-top: -10px;
+}
+.sec-hour input{
+	border: none;
+}
+#section-add span{
+	width: 60px;
+	display: inline-block;
+}
+#section-add .btn:first-of-type{
+	margin-right: 100px;
+	margin-left: 20px;
+}
+input{
+	border: none;
+	border-bottom: 1px solid black;
+	text-indent: 4px;
+}
+#curr-info input{
+	border: none;
+}
+input[type=checkbox]{
+	position: absolute;
+}
+.sec input[type=checkbox]{
+	margin-left: -15px;
+}
+.section{
+	width: 260px;
+	position: relative;
+}
+.section-icons{
+	position: absolute;
+	right: 0;
+	top: -20px;
+}
+.a{
+	cursor: pointer;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #768399;
+}
+.span{
+	display: inline-block;
+	margin-left: 70px;
+}
+.snum{
+	margin-right: 25px;
+}
+#curr-info .sel{
+	border: none;
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+}

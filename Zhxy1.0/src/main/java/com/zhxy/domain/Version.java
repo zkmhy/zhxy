@@ -25,8 +25,10 @@ public class Version {
 	
 	private int num;
 	
+	private Integer[] list;
+	
 	private List<Major> lists;
-
+	
 	public String getName() {
 		return name;
 	}
@@ -81,5 +83,13 @@ public class Version {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Integer[] getList() {
+		return list;
+	}
+
+	public void setList(Integer[] list) {
+		this.list = list;
 	}
 }

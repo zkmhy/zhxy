@@ -22,7 +22,9 @@ public interface VersionMapper {
 	
 	Integer[] restCurr(int vid);
 	
-	void update(int id);
+	void update(int id); //更新 版本——课程 关联表 数据
+	
+	void updateHour(int id); //更新 版本表 数据
 	
 	void updateVersion(int vid,Integer[] list);
 	
@@ -31,4 +33,11 @@ public interface VersionMapper {
 	void deleteSec(int vid,Integer[] list);
 	
 	void deleteCurr(int vid,Integer[] list);
+	
+	int versionName();
+	
+	boolean allCheck(Integer vid);
+	
+	void insert(Version version);
+	
 }

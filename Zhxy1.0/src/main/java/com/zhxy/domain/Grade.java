@@ -47,7 +47,7 @@ public class Grade implements Serializable{
 		this.lists = lists;
 		this.hour=0;
 		for (Curriculum curriculum : lists) {
-			this.hour+=curriculum.getHour();
+			this.hour+=curriculum.getVhour();
 		}
 	}
 	public int getHour() {

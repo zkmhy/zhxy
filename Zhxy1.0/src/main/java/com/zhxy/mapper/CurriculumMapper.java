@@ -13,6 +13,8 @@ public interface CurriculumMapper {
 
 	Curriculum queryById(Integer id);
 	
+	List<Curriculum> allCurr(Integer id);
+	
 	List<Curriculum> curriculums(@Param("mid")int mid,@Param("gid")int gid);
 	
 	List<Curriculum> currInfos(@Param("mid")Integer mid,@Param("gid")Integer gid);

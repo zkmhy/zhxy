@@ -1,12 +1,11 @@
 var calendar;
-var url = "http://localhost:8080/ajax/";
 
 var vue = new Vue({
 	el: "#content",
 	data: {
 		calendar: {},
-		grade:[],
-		events:[]
+		grade: [],
+		events: []
 	},
 	methods: {
 		go: function(date, type) {
@@ -16,21 +15,21 @@ var vue = new Vue({
 });
 
 $.ajax({
-	url:url+"allEvent",
-	success:function(data){
-		vue.events=data;
+	url: URL + "allEvent",
+	success: function(data) {
+		vue.events = data;
 	}
 });
 
 function cal(str, type) {
 	$.ajax({
-		url: url + "calendar",
+		url: URL + "calendar",
 		data: {
 			str: str,
 			type: type
 		},
 		success: function(data) {
-			vue.calendar = JSON.parse(data);
+			vue.calendar = data;
 			calendar = $("#calendar");
 		},
 		error: function() {
@@ -47,12 +46,12 @@ $(".auto").click(function() {
 
 function auto() {
 	$.ajax({
-		url: url + "auto",
+		url: URL + "auto",
 		data: {
 			type: vue.calendar.type
 		},
 		success: function(data) {
-			vue.calendar = JSON.parse(data);
+			vue.calendar = data;
 			calendar = $("#calendar");
 		},
 		error: function() {
@@ -63,13 +62,13 @@ function auto() {
 
 $(".cancelAuto").click(function() {
 	$.ajax({
-		url: url + "cancelAdv",
+		url: URL + "cancelAdv",
 		data: {
 			type: vue.calendar.type,
 			str: vue.calendar.dateStr
 		},
 		success: function(data) {
-			vue.calendar = JSON.parse(data);
+			vue.calendar = data;
 			calendar = $("#calendar");
 			$(".existAuto").hide();
 		},
