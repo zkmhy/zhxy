@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.RoomMapper">
+	<!-- <cache></cache> -->
+	<resultMap type="com.zhxy.domain.Room" id="room">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="floor" column="floor" />
+		<result property="enable" column="enable" />
+		<result property="inclass" column="inclass" />
+		<result property="forstudy" column="forstudy" />
+		<result property="fortest" column="fortest" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Room" id="planRoom"
+		extends="room">
+		<association property="plans" column="{date=date,id=id}"
+			javaType="list" select="com.zhxy.mapper.PlanMapper.roomDatePlan"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Room" extends="room" id="specialRoom">
+		<result property="ap" column="ap" />
+	</resultMap>
+	<select id="allroom" resultMap="room">
+		select *
+		from classroom
+		where
+		enable = true
+	</select>
+	<select id="queryById" resultMap="room">
+		select *
+		from classroom
+		where
+		id=#{id}
+	</select>
+	<select id="roomNumByFun" resultType="int">
+		select count(0)
+		from classroom
+		<where>
+			<if test="type==1">
+				and inclass=true
+			</if>
+			<if test="type==2">
+				and forstudy=true
+			</if>
+			<if test="type==3">
+				and fortest=true
+			</if>
+		</where>
+	</select>
+	<select id="datePlan" resultMap="planRoom">
+		select *,#{date} date
+		from classroom
+		<where>
+			<if test="t==1">
+				and inclass=true or fortest=true
+			</if>
+			<if test="t==2">
+				and inclass=false and forstudy=true
+			</if>
+		</where>
+		order by fortest,`name`,`floor`
+	</select>
+	<select id="classRoom" resultMap="room">
+		select *
+		from classroom
+		where
+		floor in (
+		select floor
+		from grade_floor
+		where gid=#{clazz.grade.id}
+		)  and id not in (select roomid from plan where `date`=date(#{day})) and people >= #{clazz.people}
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
+	</select>
+	<select id="teacherRoom" resultMap="specialRoom">
+		select *,(select !ap from plan where `date`=date(#{day}) and roomid=classroom.id limit 1) ap
+		from classroom
+		where
+		id in (
+		select roomid from plan where `date`=date(#{day}) and cid in (
+		select id from clazz
+		where teacherId=#{teacher.id} )
+		) and floor in (select floor from grade_floor where gid=#{clazz.grade.id}) and people >= #{clazz.people}
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
+		limit 1
+	</select>
+	<select id="remainRoom" resultMap="specialRoom">
+		select *,(select !ap from plan where `date`=date(#{day}) and roomid =classroom.id limit 1) ap
+		from classroom
+		where id in (select roomid from plan where `date`=date(#{day}) group by roomid having count(0)=1 ) and floor in ( select floor
+		from grade_floor where gid=#{clazz.grade.id}) and people >= #{clazz.people}
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true and inclass=false
+			</otherwise>
+		</choose>
+	</select>
+	<select id="spare" resultMap="room">
+		select *
+		from classroom
+		where id not in (select roomid from plan where `date`=#{day} and ap=#{ap}) and floor in (select floor from grade_floor where gid =(select gradeid from clazz where id =#{cid}))
+		and people >= (select people from clazz where id=#{cid})
+		<choose>
+			<when test="study">
+				and inclass=true
+			</when>
+			<otherwise>
+				and forstudy=true
+			</otherwise>
+		</choose>		
+	</select>
+</mapper>

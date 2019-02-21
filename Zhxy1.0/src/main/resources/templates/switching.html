@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>调课</title>
+		<link href="assets/css/plugins.css" rel="stylesheet" />
+		<link href="assets/css/bootstrap.css" rel="stylesheet" />
+		<link href="css/plugins.css" rel="stylesheet" />
+		<link href="css/button.css" rel="stylesheet" />
+		<link href="assets/css/icons.css" rel="stylesheet" />
+	</head>
+	<style>
+		.fc-button {
+			margin-left: -4px;
+		}
+
+		.search input {
+			line-height: 20px;
+			padding: 4px 0;
+			text-indent: 1rem;
+		}
+
+		.ab-ul {
+			position: absolute;
+			z-index: 999;
+			cursor: pointer;
+			background-color: white;
+			text-align: center;
+			padding: 0;
+			display: none;
+		}
+
+		li {
+			list-style: none;
+		}
+
+		li:hover {
+			background-color: deepskyblue;
+			color: white;
+		}
+
+		.cover {
+			display: none;
+		}
+		#save{
+			text-align: center;
+			display: none;
+		}
+	</style>
+	<body>
+		<div id="content">
+			<div class="cover"></div>
+			<ul class="ab-ul">
+				<li id="none">无</li>
+				<li class="li" v-for="item in room" v-bind:rid="item.id">{{item.name}}</li>
+			</ul>
+			<div class="row">
+				<div class="fc fc-ltr">
+					<div class="fc-content">
+						<div class="fc-grid" id="calendar">
+							<table class="fc-border-separate" style="width: 98%;" cellspacing="0">
+								<thead>
+									<tr>
+										<th class="fc-day-header fc-widget-header">周一</th>
+										<th class="fc-day-header fc-widget-header">周二</th>
+										<th class="fc-day-header fc-widget-header">周三</th>
+										<th class="fc-day-header fc-widget-header">周四</th>
+										<th class="fc-day-header fc-widget-header">周五</th>
+										<th class="fc-day-header fc-widget-header">周六</th>
+										<th class="fc-day-header fc-widget-header">周日</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="fc-week fc-last" v-for="week in map">
+										<td class="fc-widget-content fc-last" v-for="day in week">
+											<div class="date" style="min-height: 92px;" v-bind:date="day.dateStr">
+												<div class="fc-day-number">{{day.num}}</div>
+												<div class="fc-day-content" style="text-align: center;">
+													<div v-for="clazz in day.plans">
+														<div class="external-event clazz" v-bind:cid="clazz.id">
+															{{clazz.name}}
+															<div class="ap" ap="false">
+																上午
+																<span v-if="clazz.am">
+																	<span v-if="clazz.am.active">
+																		<span class="planid" v-bind:planid="clazz.am.id">
+																			<div v-if="clazz.am.room">
+																				{{clazz.am.room.name}}
+																			</div>
+																			<div v-else>
+																				{{clazz.event.content}}
+																			</div>
+																			<div>
+																				{{clazz.event.peoplesStr}} {{clazz.event.content}}
+																			</div>
+																		</span>
+																	</span>
+																	<span v-else>
+																		<span v-if="clazz.am.study" class="planid" v-bind:planid="clazz.am.id">
+																			<div class="room study" v-bind:roomid="clazz.am.room.id">
+																				{{clazz.am.room.name}}
+																			</div>
+																			<div class="teacher" v-bind:teacherid="clazz.teacher.id">
+																				{{clazz.teacher.name}} {{clazz.curr.ename}}
+																			</div>
+																		</span>
+																		<span v-if="!clazz.am.study">
+																			<div class="room" v-bind:roomid="clazz.am.room.id">
+																				{{clazz.am.room.name}}
+																			</div>
+																			<div class="study">
+																				自习
+																			</div>
+																		</span>
+																	</span>
+																</span>
+																<span v-else>
+																	<div style="min-height: 20px;" class="room" roomid="0">
+																	</div>
+																	<div style="min-height: 20px;" class="none">
+																	</div>
+																</span>
+															</div>
+															<div class="ap" ap="true">
+																下午
+																<span v-if="clazz.pm">
+																	<span v-if="clazz.pm.active">
+																		<span class="planid" v-bind:planid="clazz.pm.id">
+																			<div v-if="clazz.pm.room">
+																				{{clazz.pm.room.name}}
+																			</div>
+																			<div v-else>
+																				{{clazz.event.content}}
+																			</div>
+																			<div>
+																				{{clazz.event.peoplesStr}} {{clazz.event.content}}
+																			</div>
+																		</span>
+																	</span>
+																	<span v-else>
+																		<span v-if="clazz.pm.study" class="planid" v-bind:planid="clazz.pm.id">
+																			<div class="room study" v-bind:roomid="clazz.pm.room.id">
+																				{{clazz.pm.room.name}}
+																			</div>
+																			<div class="teacher" v-bind:teacherid="clazz.teacher.id">
+																				{{clazz.teacher.name}} {{clazz.curr.ename}}
+																			</div>
+																		</span>
+																		<span v-if="!clazz.pm.study">
+																			<div class="room" v-bind:roomid="clazz.pm.room.id">
+																				{{clazz.pm.room.name}}
+																			</div>
+																			<div class="study">
+																				自习
+																			</div>
+																		</span>
+																	</span>
+																</span>
+																<span v-else>
+																	<div style="min-height: 20px;" class="room" roomid="0">
+																	</div>
+																	<div style="min-height: 20px;" class="none">
+																	</div>
+																</span>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="save">
+				<span class="ninth-button">
+					<span class="btn blue"><span class="btn-lg affirm">保存</span></span>
+				</span>
+			</div>
+		</div>
+	</body>
+	<script src="js/jquery-1.12.4.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/switching.js"></script>
+</html>

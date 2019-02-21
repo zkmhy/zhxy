@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.EventMapper">
+	<resultMap type="com.zhxy.domain.Event" id="event">
+		<result property="id" column="id" />
+		<result property="content" column="content" />
+		<result property="great" column="great" />
+		<result property="roomid" column="rid"/>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Event" extends="event"
+		id="detailEvent">
+		<result property="note" column="note" />
+		<result property="date" column="date" />
+		<result property="ap" column="ap" />
+		<result property="study" column="study" />
+		<association property="room" javaType="com.zhxy.domain.Room" column="rid" select="com.zhxy.mapper.RoomMapper.queryById"></association>
+		<association property="peoples" javaType="list" column="id" select="peoples"></association>
+	</resultMap>
+	<select id="dateEvent" resultMap="detailEvent">
+		select *
+		from class_calendar as c,event as e
+		where
+		`date`=date(#{date}) and cid=#{id} and c.eid=e.id
+	</select>
+	<select id="peoples" resultMap="com.zhxy.mapper.PeopleMapper.staff">
+		select *,(select rolename from cp_role where roleid=rid) role
+		from cp_staff
+		where staffid in (select pid from calendar_teacher where cid=#{id})
+	</select>
+	<insert id="addEvent">
+		insert into class_calendar(cid,rid,eid,date,ap,study)
+		values <foreach collection="idList" item="cid" separator=",">
+				 (#{cid},#{roomid},#{id},#{eventStr},#{time},#{study})
+			  </foreach>
+	</insert>
+	<select id="allEvent" resultMap="event">
+		select *
+		from event
+	</select>
+</mapper>

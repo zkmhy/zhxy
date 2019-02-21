@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.MajorMapper">
+	<resultMap type="com.zhxy.domain.Major" id="major">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Major" extends="major" id="v-m">
+		<association property="lists" column="{mid=id,vid=vid}" javaType="list" select="com.zhxy.mapper.GradeMapper.m-g"></association>
+	</resultMap>
+	<select id="v-m" resultMap="v-m">
+		SELECT *,#{id} vid
+		FROM major
+		WHERE id in (
+			select mid
+			from curriculum
+			where id in(
+				select cid
+				from version_curr
+				where vid=#{id}
+			)
+		)
+	</select>
+	<select id="majors" resultMap="major">
+		select *
+		from major
+	</select>
+	<select id="queryById" resultMap="major">
+		select *
+		from major
+		where id=#{id}
+	</select>
+</mapper>

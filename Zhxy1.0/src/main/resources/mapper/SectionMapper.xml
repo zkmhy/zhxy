@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.SectionMapper">
+	<resultMap type="com.zhxy.domain.Section" id="section">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="hour" column="hour" />
+	</resultMap>
+	<select id="c_s" resultMap="section">
+		select *
+		from section
+		<where>
+			<if test="cid!=null">
+				and id in (
+					select sid
+					from curr_section
+					where cid=#{cid}
+					<if test="vid!=null">
+						and id in (select sid from version_sec where vid=#{vid})
+					</if>
+				)
+			</if>
+		</where>
+	</select>
+	<select id="restSection" resultMap="section">
+		select *
+		from section
+		where id in (select sid from curr_section where cid=#{cid})
+		and id not in (select sid from version_sec where vid=#{vid})
+	</select>
+	<insert id="addSection" useGeneratedKeys="true" keyProperty="id">
+		insert section(name,hour)
+		values 
+		<foreach collection="list" item="item" separator=",">
+			(#{item.name},#{item.hour})
+		</foreach>
+	</insert>
+	<delete id="deleteSec">
+		delete from section
+		<where>
+			id in 
+			<foreach collection="list" item="item" open="(" close=")" separator=",">
+				#{item.id}
+			</foreach>
+		</where>
+	</delete>
+	<update id="updateSec">
+		update section
+		set name=#{name},hour=#{hour}
+		where id=#{id}
+	</update>
+</mapper>

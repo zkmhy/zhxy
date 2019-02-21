@@ -1,0 +1,85 @@
+.fc-ba-green {
+	background-color: rgb(113, 211, 152);
+	border-color: rgb(113, 211, 152);
+}
+
+.fc-ba-red {
+	background-color: rgb(246, 132, 132);
+	border-color: rgb(246, 132, 132);
+}
+
+.fc-ba-orange {
+	background-color: rgb(244, 177, 98);
+	border-color: rgb(244, 177, 98);
+}
+
+.fc-ba-gray {
+	background-color: rgb(121, 133, 155);
+	border-color: rgb(121, 133, 155);
+}
+
+.fc-ba-blue {
+	background-color: rgb(151, 211, 197);
+	border-color: rgb(151, 211, 197);
+}
+
+.fc-ba-pink {
+	background-color: rgb(247, 141, 184);
+	border-color: rgb(247, 141, 184);
+}
+.ap{
+	color: white;
+	background: linear-gradient(to bottom,#75b9e6,lightskyblue,skyblue,lightblue,lightblue);
+	padding: 15px 0;
+}
+.ap:last-of-type{
+	background: linear-gradient(to bottom,lightblue,skyblue,lightskyblue,lightskyblue,#75b9e6);
+}
+.cleardiv {
+	clear: both;
+	color:whitesmoke
+}
+.day {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	min-height: 165px;
+	color: black;
+	padding: 10px;
+}
+.ap div:hover{
+	background-color: deepskyblue;
+	cursor: pointer;
+	color: white;
+}
+.hidediv{
+	display: none;
+}
+.cover{
+	position: fixed;
+	background-color: black;
+	opacity: 0.5;
+	height: 100%;
+	width: 100%;
+	z-index: 999;
+	top: 0;
+}
+.contentdiv{
+	position: fixed;
+	z-index: 999;
+	top:25%;
+	margin: 0 10%;
+	width: 80%;
+	background-color: white;
+}
+.hold{
+	display: inline-block;
+	width: 2.5em;
+}
+.selector{
+	cursor: pointer;
+}
+.check-grade div{
+	display: none;
+}

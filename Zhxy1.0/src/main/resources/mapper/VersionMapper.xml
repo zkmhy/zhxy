@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.VersionMapper">
+	<resultMap type="com.zhxy.domain.Version" id="version">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="create" column="date" />
+		<result property="outtime" column="outtime" />
+		<result property="hour" column="hour" />
+		<association property="num" column="id" javaType="int" select="num"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Version" extends="version" id="more">
+		<association property="lists" column="id" javaType="list" select="com.zhxy.mapper.MajorMapper.v-m"></association>
+	</resultMap>
+	<select id="queryAll" resultMap="version">
+		select *
+		from version
+	</select>
+	<select id="num" resultType="int">
+		select count(0)
+		from clazz
+		where vid=#{id}
+	</select>
+	<select id="queryById" resultMap="more">
+		select *
+		from version
+		where id =#{id}
+	</select>
+	<select id="hasSec" resultType="int">
+		select count(0)
+		from version_sec
+		where sid in 
+		<foreach collection="list" open="(" close=")" item="item" separator=",">
+			#{item.id}
+		</foreach>
+	</select>
+	<select id="hasCurr" resultType="int">
+		select count(0)
+		from version_curr
+		where cid in
+		<foreach collection="array" open="(" close=")" item="item" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	<select id="queryRest" resultMap="version">
+		select *
+		from version
+		where id not in (select vid from clazz)
+	</select>
+	<select id="restCurr" resultType="int">
+		select cid
+		from curr_section
+		where cid not in (select cid from version_curr where vid=#{vid}) and sid in (select sid from version_sec where vid =#{vid})
+		group by cid
+	</select>
+	<update id="updateVersion">
+		insert into version_sec(vid,sid)
+		values 
+		<foreach collection="list" item="item" separator=",">
+			(#{vid},#{item})
+		</foreach>
+	</update>	
+	<update id="updateCurr">
+		insert into version_curr(vid,cid)	
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{vid},#{item})
+		</foreach>
+	</update>
+	<update id="update">
+		UPDATE version_curr
+		SET `hour`=(
+			SELECT SUM(HOUR)
+			FROM section
+			WHERE id IN (SELECT sid FROM version_sec WHERE vid =version_curr.`vid`) AND id IN (SELECT sid FROM curr_section WHERE cid =version_curr.`cid`)
+		),num =(
+			SELECT COUNT(*)
+			FROM section
+			WHERE id IN (SELECT sid FROM version_sec WHERE vid =version_curr.`vid`) AND id IN (SELECT sid FROM curr_section WHERE cid =version_curr.`cid`)
+		),resthour=(
+			SELECT `hour`-version_curr.`hour`
+			FROM curriculum
+			WHERE id=version_curr.`cid`
+		)
+		where vid=#{id}
+	</update>
+	<delete id="deleteSec">
+		delete 
+		from version_sec
+		where vid =#{id} and sid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+	</delete>
+	<delete id="deleteCurr">
+		delete
+		from version_sec
+		where vid =#{id} and cid in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+	</delete>
+</mapper>

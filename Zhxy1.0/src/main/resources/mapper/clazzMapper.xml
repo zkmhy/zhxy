@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.ClazzMapper">
+	<!-- <cache></cache> -->
+	<resultMap type="com.zhxy.domain.Clazz" id="clazz">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="num" column="num" />
+		<result property="people" column="people" />
+		<association property="grade" column="gradeId"
+			select="com.zhxy.mapper.GradeMapper.queryById"
+			javaType="com.zhxy.domain.Grade"></association>
+		<association property="teacher"
+			javaType="com.zhxy.domain.People" column="teacherId"
+			select="com.zhxy.mapper.PeopleMapper.queryById"></association>
+		<association property="curr"
+			javaType="com.zhxy.domain.Curriculum" column="currId"
+			select="com.zhxy.mapper.CurriculumMapper.queryById"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Clazz" id="clazzNum"
+		extends="clazz">
+		<result property="planNum" column="planNum" />
+		<result property="weekNum" column="weekNum" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Clazz" extends="clazz" id="planClazz">
+		<association property="event" column="{date=date,id=id}" javaType="com.zhxy.domain.Event" select="com.zhxy.mapper.EventMapper.dateEvent"></association>
+		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.zhxy.mapper.PlanMapper.classPlan"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Clazz" extends="clazz" id="advclazz">
+		<association property="event" column="{date=date,id=id}" javaType="com.zhxy.domain.Event" select="com.zhxy.mapper.EventMapper.dateEvent"></association>
+		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.zhxy.mapper.PlanMapper.classadvPlan"></association>
+	</resultMap>
+	<select id="queryById" resultMap="clazz">
+		select *
+		from clazz
+		where
+		id=#{id}
+	</select>
+	<select id="allClazz" resultMap="clazz">
+		select *
+		from clazz
+	</select>
+	<select id="findClazz" resultMap="clazzNum">
+		select *,(select count(0) from plan where cid=clazz.id and `date`
+		between date(#{begin}) and date(#{end}) and active=false and
+		study=true) weekNum,(select count(0) from plan where cid=clazz.id and `date`
+		<![CDATA[<=]]> date(#{before}) and active=false and
+		study=true) planNum
+		from clazz
+		where teacherId=#{teacher.id} and `start` <![CDATA[<]]>
+		date(#{end})
+		order by planNum,`start`
+	</select>
+	<select id="clazzPlan" resultMap="planClazz">
+		select *,#{date} `date`
+		from clazz
+		where dissolve=false
+		order by `begin`
+	</select>
+	<select id="advplan" resultMap="advclazz">
+		select *,#{date} `date`
+		from clazz
+		where dissolve=false
+		order by `begin`		
+	</select>
+	<select id="isStudyByOnself" resultType="int">
+		select count(*)
+		from plan
+		where cid=#{clazz.id} and `date` between date(#{begin}) and
+		date(#{end}) and study=false
+		group by `date`
+		having count(*)=2
+		limit 1
+	</select>
+	<select id="clazz" resultMap="clazz">
+		select *
+		from clazz
+		<where>
+			teacherId in <foreach collection="ids" item="id" open="(" close=")" separator=",">#{id}</foreach>
+			<if test="grade">
+				and gradeId=#{grade}
+			</if>
+		</where>
+	</select>
+	<select id="notIndateClazz" resultMap="clazz">
+		select *
+		from clazz
+		<where>
+			teacherId in <foreach collection="ids" item="id" open="(" close=")" separator=",">#{id}</foreach>
+			<if test="grade">
+				and gradeId=#{grade}
+			</if>
+			and id not in (select cid from class_calendar where `date`=date(#{date}) )			
+		</where>
+	</select>
+	<select id="queryClazzByNotice" resultMap="clazz">
+		select *
+		from clazz
+		where id in (select cid from notice_relation where Notice_Id=#{id})	
+	</select>
+	<select id="teacherClazz" resultMap="clazz">
+		select *
+		from clazz
+		where teacherId in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+	</select>
+</mapper>

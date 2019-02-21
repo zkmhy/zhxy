@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.CurriculumMapper">
+	<!-- <cache></cache> -->
+	<resultMap type="com.zhxy.domain.Curriculum" id="curr">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="ename" column="ename" />
+		<result property="hour" column="hour" />
+		<result property="num" column="num" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" id="curr2"
+		extends="curr">
+		<association property="major" column="mid"
+			javaType="com.zhxy.domain.Major"
+			select="com.zhxy.mapper.MajorMapper.queryById"></association>
+		<association property="grade" column="gradeId"
+			javaType="com.zhxy.domain.Grade"
+			select="com.zhxy.mapper.GradeMapper.queryById"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curr2" id="restcurr">
+		<association property="lists" column="vid=vid,cid=id" javaType="list" select="com.zhxy.mapper.SectionMapper.restSection"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" id="curriculum"
+		extends="curr2">
+		<association property="lists" column="{vid=vid,cid=id}"
+			javaType="list" select="com.zhxy.mapper.SectionMapper.c_s"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curriculum" id="ver">
+		<result property="vhour" column="vhour" />
+		<result property="vnum" column="vnum" />
+		<result property="resthour" column="resthour" />
+	</resultMap>
+	<select id="queryById" resultMap="curriculum">
+		select *,null vid
+		from
+		curriculum
+		where id=#{id}
+	</select>
+	<select id="g-c" resultMap="ver">
+		select *,#{vid} vid,(select hour from version_curr where vid=#{vid} and cid=c.id) vhour,
+		(select num from version_curr where vid=#{vid} and cid=c.id) vnum,
+		(select resthour from version_curr where vid=#{vid} and cid=c.id) resthour		
+		from curriculum as c
+		where id in (
+		select cid from
+		version_curr where
+		vid=#{vid}
+		) and mid =#{mid} and gradeId=#{gid}
+	</select>
+	<select id="curriculums" resultMap="curr">
+		select *
+		from curriculum
+		where
+		mid=#{mid} and gradeId=#{gid}
+	</select>
+	<select id="currInfos" resultMap="curr2">
+		select *,null vid
+		from curriculum
+		<where>
+			<if test="gid!=null">
+				and gradeId=#{gid}
+			</if>
+			<if test="mid!=null">
+				and mid=#{mid}
+			</if>
+		</where>
+		order by num desc,hour
+	</select>
+	<select id="s-c" resultMap="curr2">
+		select *
+		from curriculum
+		where
+		id=(select cid from curr_section where sid=#{id})
+	</select>
+	<insert id="addSection">
+		insert curr_section(cid,sid)
+		values
+		<foreach collection="list" separator="," item="item">
+			(#{item.cid},#{item.id})
+		</foreach>
+	</insert>
+	<delete id="deleteSec">
+		delete from curr_section
+		<where>
+			cid=#{id} and sid in
+			<foreach collection="lists" item="item" open="(" close=")"
+				separator=",">
+				#{item.id}
+			</foreach>
+		</where>
+	</delete>
+	<delete id="deleteCurr">
+		delete from curriculum
+		<where>
+			id in (
+			<foreach collection="array" item="item" separator=",">
+				#{item}				
+			</foreach>
+			)
+		</where>
+	</delete>
+	<delete id="deleteSection">
+		delete from section
+		<where>
+			id in (
+			select sid
+			from curr_section
+			where cid in (
+						<foreach collection="array" item="item" separator=",">
+							#{item}
+						</foreach>
+						)
+			)
+		</where>
+	</delete>
+	<delete id="deleteSectionInfo">
+		delete from curr_section
+		<where>
+			cid in (
+			<foreach collection="array" item="item" separator=",">
+				#{item}
+			</foreach>
+			)
+		</where>
+	</delete>
+	<insert id="addCurr" useGeneratedKeys="true" keyProperty="id">
+		insert curriculum(name,ename,gradeId,mid)
+		value (#{name},#{ename},#{grade.id},#{major.id})
+	</insert>
+	<update id="updateCurr">
+		update curriculum as c
+		set hour=(select sum(hour) from section where id in (select sid from curr_section where cid=c.id) ),
+		num=(select count(0) from section where id in (select sid from curr_section where cid =c.id) )
+		where id in (
+			<foreach collection="array" item="item" separator=",">
+				#{item}			
+			</foreach>
+		)
+	</update>
+	<update id="updateCurriculum">
+		update curriculum
+		set name=#{name},ename=#{ename},gradeId=#{grade.id},mid=#{major.id}
+		where id=#{id}
+	</update>
+	<select id="restCurr" resultMap="restcurr">
+		select *,#{vid} vid
+		from curriculum
+		<where>
+			<if test="vid!=null">
+				and id in (
+							select cid
+							from curr_section
+							where sid not in (select sid from version_sec where vid=#{vid})
+						)
+			</if>
+			<if test="gid!=null">
+				and gradeId=#{gid}
+			</if>
+			<if test="mid!=null">
+				and mid=#{mid}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.PlanMapper">
+	<!-- <cache></cache> -->
+	<resultMap type="com.zhxy.domain.Plan" id="plan">
+		<result property="id" column="id" />
+		<result property="ap" column="ap" />
+		<result property="active" column="active" />
+		<result property="date" column="date" />
+		<result property="study" column="study" />
+		<result property="rid" column="roomid"/>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Plan" id="clazzplan" extends="plan">
+		<association property="room" column="roomid" javaType="com.zhxy.domain.Room" select="com.zhxy.mapper.RoomMapper.queryById"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.DatePlan" id="dateplan">
+		<result property="date" column="date" />
+		<association property="plans" javaType="list" column="date" select="com.zhxy.mapper.ClazzMapper.clazzPlan"></association>
+	</resultMap>
+	<!-- 某个教室在某天的课程安排 -->
+	<select id="roomDatePlan" resultMap="plan">
+		select *
+		from plan
+		where
+		Date(`date`)=Date(#{date}) and roomid = #{id}
+	</select>
+	<select id="queryById" resultMap="plan">
+		select *
+		from plan
+		where id=#{id}
+	</select>
+	<select id="datePlan" resultMap="dateplan">
+		select #{date} `date`
+	</select>
+	<insert id="addPlan">
+		insert plan(cid,roomid,ap,study,active,date,advance)
+		value
+		(#{clazz.id},#{rid},#{ap},#{study},#{active},#{date},#{advance})
+	</insert>
+	<select id="existPlan" resultMap="plan">
+		select *
+		from plan
+		where
+		roomid=#{room.id} and `date`=date(#{date}) and ap=#{ap}
+		limit 1
+	</select>
+	<select id="clazzPlan" resultMap="plan">
+		select *
+		from plan
+		where
+		cid=#{clazz.id} and `date`=date(#{date}) and ap=#{ap}
+		limit 1
+	</select>
+	<select id="timePlan" resultMap="plan">
+		select *
+		from plan
+		where roomid=#{room.id} and `date` between date(#{begin}) and date(#{end})
+	</select>
+	<delete id="deleteAdv">
+		delete from plan where advance=true
+	</delete>
+	<select id="dates" resultType="date">
+		select `date`
+		from plan
+		where cid=#{clazz.id}
+		group by `date`
+		order by `date` desc
+		limit 7
+	</select>
+	<select id="classNumOfWeek" resultType="int">
+		select count(0)
+		from plan
+		where cid =#{clazz.id} and `date` between date(#{begin}) and date(#{end})
+	</select>
+	<select id="classPlan" resultMap="clazzplan">
+		select *
+		from plan
+		where `date`=date(#{date}) and cid=#{id}
+	</select>
+	<select id="classadvPlan" resultMap="clazzplan">
+		select *
+		from plan
+		where `date`=date(#{date}) and cid=#{id} and advance=true		
+	</select>
+	<update id="updateDate">
+		update plan
+		set `date`=date(#{date})
+		where id=#{id}
+	</update>
+	<select id="existAuto" resultType="int">
+		select count(0)
+		from plan
+		where advance=true
+	</select>
+	<update id="pushAuto">
+		update plan
+		set advance=false
+		where advance=true
+	</update>
+	<select id="maxDate" resultType="date">
+		select Max(`date`)
+		from plan
+	</select>
+	<select id="maxdate" resultType="date">
+		select Max(`date`)
+		from plan
+		where advance=true
+	</select>
+	<select id="mindate" resultType="date">
+		select min(`date`)
+		from plan
+		where advance=true
+	</select>
+</mapper>
