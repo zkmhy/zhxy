@@ -32,4 +32,14 @@ public class CoreController {
 	public String curr() {
 		return "curr";
 	}
+	
+	@RequestMapping("addclazz.to")
+	public String addClazz() {
+		return "appendclazz";
+	}
+	
+	@RequestMapping("clazz.to")
+	public String clazz() {
+		return "clazz";
+	}
 }

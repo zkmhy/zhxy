@@ -16,6 +16,7 @@
 		<association property="curr"
 			javaType="com.zhxy.domain.Curriculum" column="currId"
 			select="com.zhxy.mapper.CurriculumMapper.queryById"></association>
+		<association property="major" column="way" select="com.zhxy.mapper.MajorMapper.queryById"></association>
 	</resultMap>
 	<resultMap type="com.zhxy.domain.Clazz" id="clazzNum"
 		extends="clazz">
@@ -102,5 +103,23 @@
 		select *
 		from clazz
 		where teacherId in (<foreach collection="list" item="item" separator=",">#{item}</foreach>)
+	</select>
+	<select id="nextNum" resultType="int">
+		select count(0)+1
+		from clazz
+		<where>
+			<choose>
+				<when test="mid">
+					gradeId=#{gid} and way=#{mid}
+				</when>
+				<otherwise>
+					way is null
+				</otherwise>
+			</choose>
+			and year(start)=year(now()) 
+		</where>
+	</select>
+	<select id="existClazz" resultType="boolean">
+		select case when (select count(0) from clazz where dissolve=false)>0 then true else false end
 	</select>
 </mapper>

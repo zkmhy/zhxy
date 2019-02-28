@@ -12,6 +12,9 @@
 	<resultMap type="com.zhxy.domain.People" extends="staff" id="position">
 		<association property="peoples" column="positionid" select="position"></association>
 	</resultMap>
+	<resultMap type="com.zhxy.domain.People" extends="staff" id="ban">
+		<result property="bNum" column="num" />		
+	</resultMap>
 	<select id="queryById" resultMap="staff">
 		select *,(select rolename from cp_role
 		where roleid=rid) role
@@ -69,5 +72,29 @@
 		select *
 		from cp_staff
 		where positionid in (select positionid from cp_position where pid=#{id})
+	</select>
+	<select id="betterClazz" resultMap="staff">
+		select *,(select count(0) from clazz where bid=staffid) num
+		from cp_staff
+		where rid in (select roleid from cp_role where canClazz=true) and num &lt; 3
+		order by num
+		limit 1
+	</select>
+	<select id="existBan" resultType="boolean">
+		select case when (
+							select count(0) 
+							from cp_staff 
+							where rid in (select roleid from cp_role where canClazz=true) and
+							(select count(0) from clazz where dissolve=false and bid=staffid) &lt; 4
+						)>0 then true else false end
+	</select>
+	<select id="existTeacher" resultType="boolean">
+		select case when (select count(0) from cp_staff where rid in (select roleid from cp_role where canTeacher=true) )>0 then true else false end
+	</select>
+	<select id="bans" resultMap="ban">
+		select *,(select count(0) from clazz where dissolve=false and bid=staffid) num
+		from cp_staff
+		where rid in (select roleid from cp_role where canClazz=true) and (select count(0) from clazz where dissolve=false and bid=staffid) &lt; 4
+		order by num
 	</select>
 </mapper>

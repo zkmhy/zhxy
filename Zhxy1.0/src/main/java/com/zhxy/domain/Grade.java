@@ -12,6 +12,7 @@ public class Grade implements Serializable{
 	private int id;
 	private int hour;
 	private String name;
+	private int major;
 	private List<Clazz> clazzs;
 	private List<String> names;
 	private List<Curriculum> lists;
@@ -55,5 +56,11 @@ public class Grade implements Serializable{
 	}
 	public void setHour(int hour) {
 		this.hour = hour;
+	}
+	public int getMajor() {
+		return major;
+	}
+	public void setMajor(int major) {
+		this.major = major;
 	}
 }

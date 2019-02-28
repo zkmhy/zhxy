@@ -30,4 +30,6 @@ public interface VersionService {
 	boolean allCheck(Integer vid);
 	
 	void insertVer(Version version);
+	
+	boolean existVer();
 }

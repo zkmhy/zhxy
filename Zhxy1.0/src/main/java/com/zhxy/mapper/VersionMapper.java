@@ -40,4 +40,6 @@ public interface VersionMapper {
 	
 	void insert(Version version);
 	
+	boolean existVer();
+	
 }

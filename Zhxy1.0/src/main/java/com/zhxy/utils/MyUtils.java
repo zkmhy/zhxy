@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.zhxy.domain.Data;
 import com.zhxy.domain.DatePlan;
 import com.zhxy.domain.Room;
+import com.zhxy.domain.Student;
 
 /**
  * 帮助类
@@ -385,5 +387,81 @@ public class MyUtils {
 			}
 		}
 	}
+	
+	public static String clazzName(int num) {
+		String name="AT"+new SimpleDateFormat("yy").format(new Date());
+		if(num<10)
+			name+="0";
+		name+=num;
+		return name;
+	}
+	
+	public static String clazzName(int num,String name) {
+		String str=name;
+		if(num<10)
+			str+="0";
+		str+=num;
+		return str;
+	}
+	
+	public static List<Data> sexData(List<Student> students) {
+		List<Data> lists=new ArrayList<>();
+		double man=0;
+		double woman=0;
+		for (Student student : students) {
+			if(student.getSex()>0) {
+				man++;
+			}else {
+				woman++;
+			}			
+		}
+		Data manData=new Data("男",man,man/students.size());
+		Data womanData=new Data("女",woman,woman/students.size());
+		lists.add(manData);
+		lists.add(womanData);
+		return lists;
+	}
 
+	public static List<Data> ageDatas(List<Student> students) {
+		List<Data> lists=new ArrayList<>();
+		double aduit=0;
+		double nonage=0;
+		for (Student student : students) {
+			if(student.getSex()>0) {
+				aduit++;
+			}else {
+				nonage++;
+			}			
+		}
+		Data aduitData=new Data("未成年",nonage,nonage/students.size());
+		Data nonageData=new Data("成年",aduit,aduit/students.size());
+		lists.add(aduitData);
+		lists.add(nonageData);
+		return lists;		
+	}
+	
+	public static List<Data> eduData(List<Student> students) {
+		List<Data> lists=new ArrayList<>();
+		for (Student student : students) {
+			boolean exist=false;
+			for (Data data : lists) {
+				if(data.getName().equals(student.getEdu().getName())) {
+					double num=data.getNum();
+					data.setNum(++num);
+					exist=true;
+					break;
+				}
+			}
+			if(!exist) {
+				Data data=new Data();
+				data.setName(student.getEdu().getName());
+				data.setNum(1);
+				lists.add(data);
+			}
+		}
+		for (Data data : lists) {
+			data.setWidth(data.getNum()/students.size());
+		}
+		return lists;
+	}
 }

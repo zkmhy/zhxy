@@ -12,4 +12,10 @@ public interface GradeService {
 	List<Grade> queryGrades(int mid);
 	
 	List<Grade> allGrade();
+	
+	Grade queryById(int id);
+	
+	boolean existGrade();
+	
+	List<Grade> gradeList();
 }

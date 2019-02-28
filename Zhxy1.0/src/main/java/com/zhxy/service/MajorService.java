@@ -6,6 +6,7 @@ import com.zhxy.domain.Major;
 
 public interface MajorService {
 
-	List<Major> majors();
+	List<Major> majors(boolean all);
 
+	Major queryById(int id);
 }

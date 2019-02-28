@@ -54,4 +54,22 @@ public class GradeServiceImpl implements GradeService{
 		return gradeMapper.allGrade();
 	}
 
+	@Override
+	public Grade queryById(int id) {
+		// TODO Auto-generated method stub
+		return gradeMapper.queryById(id);
+	}
+
+	@Override
+	public boolean existGrade() {
+		// TODO Auto-generated method stub
+		return gradeMapper.existGrade();
+	}
+
+	@Override
+	public List<Grade> gradeList() {
+		// TODO Auto-generated method stub
+		return gradeMapper.gradeList();
+	}
+
 }

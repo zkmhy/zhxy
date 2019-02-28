@@ -16,4 +16,8 @@ public interface GradeMapper {
 	List<Grade> grades(int mid);
 	
 	List<Grade> allGrade();
+	
+	boolean existGrade();
+	
+	List<Grade> gradeList();
 }

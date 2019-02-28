@@ -52,4 +52,28 @@ public class PeopleServiceImpl implements PeopleService{
 		return peopleMapper.queryById(id);
 	}
 
+	@Override
+	public People butterTeacher() {
+		// TODO Auto-generated method stub
+		return peopleMapper.betterClazz();
+	}
+
+	@Override
+	public boolean existBan() {
+		// TODO Auto-generated method stub
+		return peopleMapper.existBan();
+	}
+
+	@Override
+	public boolean existTeacher() {
+		// TODO Auto-generated method stub
+		return peopleMapper.existTeacher();
+	}
+
+	@Override
+	public List<People> bans() {
+		// TODO Auto-generated method stub
+		return peopleMapper.bans();
+	}
+
 }

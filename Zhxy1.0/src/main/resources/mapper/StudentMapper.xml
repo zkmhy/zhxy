@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.StudentMapper">
+	<resultMap type="com.zhxy.domain.Student" id="stu">
+		<result property="id" column="studentid" />
+		<result property="sex" column="sex" />
+		<result property="age" column="age" />
+		<result property="name" column="studentname" />
+		<association property="edu" column="eduid" javaType="com.zhxy.domain.Education" select="com.zhxy.mapper.EducationMapper.queryById"></association>
+	</resultMap>
+	<select id="existStudent" resultType="boolean">
+		select case 
+			  when (
+			  		select count(0) 
+			  		from cp_student
+			  		where (studentid not in (select sid from stu_clazz where inside=true) or free=true) <if test="mid">and major=#{mid}</if> )>=25 then true
+			  else false
+			  end
+	</select>
+	<select id="students" resultMap="stu">
+		select *
+		from cp_student
+		where studentid not in (select sid from stu_clazz where inside=true) and free=false <if test="mid">and major=#{mid}</if>
+		limit 30
+	</select>
+	<select id="frees" resultMap="stu">
+		select *
+		from cp_student
+		where free=true and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>)
+	</select>
+	<select id="querys" resultMap="stu">
+		select *
+		from cp_student
+		where free=false and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>)
+		and studentid not in (select sid from stu_clazz where inside=true)
+	</select>
+</mapper>

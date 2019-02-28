@@ -13,6 +13,7 @@ public class Clazz implements Serializable {
 	private String name;
 	private Grade grade;
 	private People teacher;
+	private People ban;
 	private Curriculum curr;
 	private int planNum;
 	private int weekNum;
@@ -20,6 +21,7 @@ public class Clazz implements Serializable {
 	private int people;
 	private Plan am;
 	private Plan pm;
+	private Major major;
 	private List<Plan> plans;
 	private Event event;
 	
@@ -122,5 +124,17 @@ public class Clazz implements Serializable {
 	
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+	public Major getMajor() {
+		return major;
+	}
+	public void setMajor(Major major) {
+		this.major = major;
+	}
+	public People getBan() {
+		return ban;
+	}
+	public void setBan(People ban) {
+		this.ban = ban;
 	}
 }

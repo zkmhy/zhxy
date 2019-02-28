@@ -18,9 +18,15 @@ public class MajorServiceImpl implements MajorService{
 	MajorMapper majorMapper;
 	
 	@Override
-	public List<Major> majors() {
+	public List<Major> majors(boolean all) {
 		// TODO Auto-generated method stub
-		return majorMapper.majors();
+		return majorMapper.majors(all);
+	}
+
+	@Override
+	public Major queryById(int id) {
+		// TODO Auto-generated method stub
+		return majorMapper.queryById(id);
 	}
 
 }

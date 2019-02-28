@@ -117,4 +117,10 @@ public class VersionServiceImpl implements VersionService {
 		updateVersion(version.getId(), version.getList());
 	}
 
+	@Override
+	public boolean existVer() {
+		// TODO Auto-generated method stub
+		return versionMapper.existVer();
+	}
+
 }

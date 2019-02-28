@@ -25,6 +25,11 @@
 	<select id="majors" resultMap="major">
 		select *
 		from major
+		<where>
+			<if test="!all">
+				and id>0
+			</if>
+		</where>
 	</select>
 	<select id="queryById" resultMap="major">
 		select *

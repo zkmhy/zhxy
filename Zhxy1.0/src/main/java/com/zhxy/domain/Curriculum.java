@@ -20,6 +20,7 @@ public class Curriculum implements Serializable{
 	private int vnum;
 	private int resthour;
 	private boolean check;
+	private People teacher;
 	private List<Section> lists;
 	
 	public int getId() {
@@ -102,6 +103,12 @@ public class Curriculum implements Serializable{
 	}
 	public void setCheck(boolean check) {
 		this.check = check;
+	}
+	public People getTeacher() {
+		return teacher;
+	}
+	public void setTeacher(People teacher) {
+		this.teacher = teacher;
 	}
 	
 }

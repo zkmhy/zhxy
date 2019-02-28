@@ -27,8 +27,6 @@ public interface ClazzMapper {
 
 	Integer isStudyByOnself(@Param("clazz")Clazz clazz,@Param("begin")Date date,@Param("end")Date end);
 	
-	List<Clazz> queryClazz(People people);
-	
 	List<Clazz> clazz(@Param("ids")List<Integer> id,@Param("grade")Integer grade);
 	
 	List<Clazz> notIndateClazz(@Param("ids")List<Integer> id,@Param("grade")Integer grade,@Param("date") String date);
@@ -40,4 +38,7 @@ public interface ClazzMapper {
 	 */
 	List<Clazz> queryClazzByNotice(int id);
 	
+	int nextNum(@Param("gid")int gid,@Param("mid")Integer mid);
+	
+	boolean existClazz();
 }

@@ -15,6 +15,7 @@ public class People implements Serializable{
 	private int rid;
 	private String role;
 	private int position;
+	private int bNum;
 	private List<People> peoples;
 	
 	public int getId() {
@@ -64,5 +65,11 @@ public class People implements Serializable{
 	}
 	public void setAllname(String allname) {
 		this.allname = allname;
+	}
+	public int getbNum() {
+		return bNum;
+	}
+	public void setbNum(int bNum) {
+		this.bNum = bNum;
 	}
 }

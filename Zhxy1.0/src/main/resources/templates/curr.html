@@ -13,7 +13,7 @@
 <meta name="keywords" content="" />
 <meta name="application-name" content="sprFlat admin template" />
 <!-- Import google fonts - Heading first/ text second -->
-<link rel='stylesheet' type='text/css'
+<link rel='stylesheet' type='text/css' />
 <!--[if lt IE 9]>
 
 		<![endif]-->
@@ -31,6 +31,7 @@
 <!-- Custom stylesheets ( Put your own changes here ) -->
 <link href="assets/css/custom.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/curr.css" />
+<link rel="stylesheet" type="text/css" href="css/tanao_plugins.css" />
 <!-- Fav and touch icons -->
 <link rel="apple-touch-icon-precomposed" sizes="144x144"
 	href="assets/img/ico/apple-touch-icon-144-precomposed.png">
@@ -49,7 +50,7 @@
 		<div class="container-fluid">
 			<div class="navbar">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.html"> <i
+					<a class="navbar-brand" href="cp_index.html"> <i
 						class="im-windows8 text-logo-element animated bounceIn"></i><span
 						class="text-logo">智慧</span><span class="text-slogan">校园</span>
 					</a>
@@ -265,31 +266,62 @@
 						</button>
 					</form>
 				</li>
-				<li><a href="index.html">首页<i class="im-screen"></i></a></li>
-				<li><a href="#">数据统计<i class="st-chart"></i></a></li>
+				<li><a href="cp_index.html">首页<i class="im-screen"></i></a></li>
+				<li><a href="StatisticsMainPage.html" target="iFrame1">数据统计<i
+						class="st-chart"></i></a></li>
 				<li><a href="#">课表 <i class="fa-leaf"></i></a>
 					<ul class="nav sub">
 						<li><a href="charts.to"><i class="im-paragraph-justify"></i>
 								查看 课表</a></li>
-						<li><a href="switching.to"><i
-								class="im-keyboard"></i> 调课</a></li>
+						<li><a href="switching.to"><i class="im-keyboard"></i> 调课</a></li>
 					</ul></li>
 				<!--班级管理-->
 				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
 					<ul class="nav sub">
-						<li><a href="tables.html"><i class="en-arrow-right7"></i>
+						<li><a href="tables.html"><i class="im-newspaper"></i>
 								查看班级</a></li>
-						<li><a href="data-tables.html"><i class="en-arrow-right7"></i>
+						<li><a href="addclazz.to"><i class="im-calculate"></i>
 								新增班级</a></li>
 					</ul></li>
 				<li><a href="#">考勤 <i class="st-lab"></i></a>
 					<ul class="nav sub">
-						<li><a href="notifications.html"><i class="fa-bell"></i>
-								班级考勤</a></li>
-						<li><a href="panels.html"><i class="br-window"></i> 教员考勤</a>
-						</li>
-						<li><a href="tiles.html"><i class="im-windows8"></i> 校工考勤</a>
-						</li>
+						<li><a href="toQingjia" target="iFrame1"><i
+								class="fa-bell"></i> 学生请假</a></li>
+						<li><a href="toKaoqin" target="iFrame1"><i
+								class="fa-bell"></i> 学生考勤</a></li>
+						<li><a href="toYuangongKaoqin" target="iFrame1"><i
+								class="br-window"></i> 教员考勤</a></li>
+						<li><a href="toYuangongQingjia" target="iFrame1"><i
+								class="im-windows8"></i> 校工请假</a></li>
+						<li><a href="toFangtan" target="iFrame1"><i
+								class="im-windows8"></i> 访谈</a></li>
+					</ul></li>
+				<li><a href="#">任务管理 <i class="st-lab"></i></a>
+					<ul class="nav sub">
+						<li><a href="teacher" target="iFrame1"><i class="fa-bell"></i>
+								任务发布</a></li>
+						<li><a href="yiyi" target="iFrame1"><i
+								class="im-windows8"></i> 查看任务</a></li>
+					</ul></li>
+				<li><a href="#">题库管理 <i class="st-lab"></i></a>
+					<ul class="nav sub">
+						<li><a href="questions.html" target="iFrame1"><i
+								class="fa-bell"></i> 新增题库</a></li>
+						<li><a href="choosing.html" target="iFrame1"><i
+								class="br-window"></i> 出题</a></li>
+						<li><a href="selectTest.html" target="iFrame1"><i
+								class="im-windows8"></i> 发布考试</a></li>
+						<li><a href="tiles.html" target="iFrame1"><i
+								class="im-windows8"></i> 发布作业</a></li>
+					</ul></li>
+				<li><a href="#">消息公告<i class="st-lab"></i></a>
+					<ul class="nav sub">
+						<li><a href="hxk_history.html" target="iFrame1"><i
+								class="fa-bell"></i> 历史公告</a></li>
+						<li><a href="hxk_write.html" target="iFrame1"><i
+								class="br-window"></i> 发布公告</a></li>
+						<li><a href="hxk_message.html" target="iFrame1"><i
+								class="im-windows8"></i> 查看消息</a></li>
 					</ul></li>
 				<li><a href="#">版本及课程 <i class="im-twitter2"></i></a>
 					<ul class="nav sub">
@@ -301,11 +333,16 @@
 						</li>
 						<li><a href="curr.to"><i class="im-table2"></i> 课程管理</a></li>
 					</ul></li>
+
 			</ul>
-			<!-- End #sideNav -->
 		</div>
 		<!-- End .sidebar-inner -->
 	</div>
+	<div id="iframeSec">
+		<iframe src="" frameborder="0" align="left" width="100%" height=""
+			scrolling="no" name="iFrame1"></iframe>
+	</div>
+
 	<div id="content">
 		<div class="content-wrapper">
 			<div class="row">

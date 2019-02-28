@@ -122,6 +122,9 @@
 			<otherwise>
 				and forstudy=true
 			</otherwise>
-		</choose>		
+		</choose>
+	</select>
+	<select id="existRoom" resultType="boolean">
+		select case when (select count(0) from classroom where enable=true) then true else false end
 	</select>
 </mapper>

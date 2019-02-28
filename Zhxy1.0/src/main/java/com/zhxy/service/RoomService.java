@@ -20,4 +20,7 @@ public interface RoomService {
 	List<Room> spare(String date,int id,boolean study,boolean ap);
 	
 	Room queryById(int id);
+	
+	boolean existRoom();
+
 }

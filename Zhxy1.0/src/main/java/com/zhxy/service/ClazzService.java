@@ -3,6 +3,7 @@ package com.zhxy.service;
 import java.util.List;
 
 import com.zhxy.domain.Clazz;
+import com.zhxy.domain.ClazzInfo;
 
 public interface ClazzService {
 
@@ -17,4 +18,10 @@ public interface ClazzService {
 	List<Clazz> clazz(List<Integer> id,int gradeid,String str);
 	
 	List<Clazz> queryAll();
+	
+	ClazzInfo auto(int gid,Integer mid,String date);
+	
+	String clazzName(int gid,Integer mid);
+	
+	boolean existClazz();
 }

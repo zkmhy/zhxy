@@ -5,6 +5,7 @@
 	<resultMap type="com.zhxy.domain.Grade" id="grade">
 		<result property="id" column="id" />
 		<result property="name" column="name" />
+		<result property="major" column="major" />
 	</resultMap>
 	<resultMap type="com.zhxy.domain.Grade" extends="grade" id="m-g">
 		<association property="lists" column="{gid=id,vid=vid,mid=mid}" javaType="list" select="com.zhxy.mapper.CurriculumMapper.g-c"></association>
@@ -49,5 +50,13 @@
 	<select id="allGrade" resultMap="grade">
 		select *
 		from grade
+	</select>
+	<select id="existGrade" resultType="boolean">
+		select case when (select count(*) from grade)>0 then true else false end
+	</select>
+	<select id="gradeList" resultMap="grade">
+		select *
+		from grade
+		where need=true
 	</select>
 </mapper>

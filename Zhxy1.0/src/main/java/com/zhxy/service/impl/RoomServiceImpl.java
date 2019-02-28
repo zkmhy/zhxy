@@ -49,4 +49,10 @@ public class RoomServiceImpl implements RoomService{
 		return roomMapper.queryById(id);
 	}
 
+	@Override
+	public boolean existRoom() {
+		// TODO Auto-generated method stub
+		return roomMapper.existRoom();
+	}
+
 }
