@@ -34,7 +34,7 @@ public class DatePlan {
 	private boolean today;
 	
 	private String dateStr;
-	
+		
 	private List<Clazz> plans;
 	
 	private String test;

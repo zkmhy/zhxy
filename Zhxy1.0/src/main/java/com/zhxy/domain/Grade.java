@@ -1,6 +1,7 @@
 package com.zhxy.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Grade implements Serializable{
@@ -62,5 +63,11 @@ public class Grade implements Serializable{
 	}
 	public void setMajor(int major) {
 		this.major = major;
+	}
+	
+	public Grade() {
+		this.clazzs=new ArrayList<Clazz>();
+		this.names=new ArrayList<>();
+		this.lists=new ArrayList<>();
 	}
 }

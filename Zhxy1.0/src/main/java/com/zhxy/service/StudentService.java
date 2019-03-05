@@ -16,4 +16,8 @@ public interface StudentService {
 	PageInfo<Student> querys(int page,Integer mid, List<Student> list);
 	
 	PageInfo<Student> frees(int page,Integer mid, List<Student> list);
+	
+	PageInfo<Student> query(int page,int size);
+	
+	void stuNo(List<Student> students);
 }

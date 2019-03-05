@@ -13,7 +13,7 @@
 <meta name="keywords" content="" />
 <meta name="application-name" content="sprFlat admin template" />
 <!-- Import google fonts - Heading first/ text second -->
-<link rel='stylesheet' type='text/css' />
+<link rel='stylesheet' type='text/css'
 <!--[if lt IE 9]>
 
 		<![endif]-->
@@ -40,8 +40,8 @@
 <link rel="apple-touch-icon-precomposed"
 	href="assets/img/ico/apple-touch-icon-57-precomposed.png">
 <link rel="icon" href="assets/img/ico/favicon.ico" type="image/png">
-<link rel="stylesheet" type="text/css" href="css/version.css" />
 <link rel="stylesheet" type="text/css" href="css/tanao_plugins.css" />
+<link rel="stylesheet" type="text/css" href="css/clazz.css" />
 <!-- Windows8 touch icon ( http://www.buildmypinnedsite.com/ )-->
 <meta name="msapplication-TileColor" content="#3399cc" />
 </head>
@@ -50,7 +50,7 @@
 		<div class="container-fluid">
 			<div class="navbar">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="cp_index.html"> <i
+					<a class="navbar-brand" href="index.html"> <i
 						class="im-windows8 text-logo-element animated bounceIn"></i><span
 						class="text-logo">智慧</span><span class="text-slogan">校园</span>
 					</a>
@@ -278,8 +278,7 @@
 				<!--班级管理-->
 				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
 					<ul class="nav sub">
-						<li><a href="clazz.to"><i class="im-newspaper"></i>
-								查看班级</a></li>
+						<li><a href="clazz.to"><i class="im-newspaper"></i> 查看班级</a></li>
 						<li><a href="addclazz.to"><i class="im-calculate"></i>
 								新增班级</a></li>
 					</ul></li>
@@ -343,60 +342,135 @@
 			scrolling="no" name="iFrame1"></iframe>
 	</div>
 	<div id="content">
-		<div></div>
 		<div class="content-wrapper">
 			<div class="row">
 				<div class="col-lg-12 heading">
 					<h1 class="page-header">
-						<i class="br-mouse"></i> 历史版本
+						<i class="im-newspaper"></i> 查看班级
 					</h1>
 					<ul id="crumb" class="breadcrumb">
 					</ul>
 				</div>
 			</div>
-			<div id="version">
-				<div class="col-lg-2">
-					<div class="version info" v-for="item in list"
-						@click="click(item.id)">
-						<h3>{{item.name}}</h3>
-						<h6 v-if="item.num>0">{{item.num}}个班级正在使用</h6>
-						<h6 v-else>暂无班级使用</h6>
-						<span>{{item.create}}</span>
-					</div>
-					<i class="to-header" v-if="v">
-						<div class="version to hide-it" :value="item.id" v-for="item in v.lists">
-							<h3>{{item.name}}</h3>
-						</div>
-					</i>
+		</div>
+		<div id="clazz-div">
+			<table>
+				<tr>
+					<td>班级</td>
+					<td>年级</td>
+					<td>班主任</td>
+					<td>班长</td>
+					<td>开班时间</td>
+					<td>版本号</td>
+					<td>开班人数</td>
+					<td>现有人数</td>
+					<td></td>
+				</tr>
+				<tr v-for="item in clazzInfo.list">
+					<td>{{item.name}}</td>
+					<td>{{item.grade.name}}</td>
+					<td>{{item.ban.name}}</td>
+					<td>{{item.monitor?item.monitor.name:"暂无"}}</td>
+					<td>{{item.begin}}</td>
+					<td>{{item.version.name}}</td>
+					<td>{{item.num}}</td>
+					<td>{{item.people}}</td>
+					<td :value="item.id" class="info">详细信息</td>
+				</tr>
+			</table>
+			<div class="page-module">
+				<span class="prev page-btn" :value="1" v-if="!clazzInfo.isFirstPage">首页</span> <span
+					class="prev page-btn" :value="clazzInfo.prePage" v-if="!clazzInfo.isFirstPage">上一页</span>
+				<span v-if="clazzInfo.pages>0">
+					{{clazzInfo.pageNum}}/{{clazzInfo.pages}} </span> <span class="next page-btn"
+					:value="clazzInfo.pages" v-if="!clazzInfo.isLastPage">尾页</span> <span
+					class="next page-btn" :value="clazzInfo.nextPage" v-if="!clazzInfo.isLastPage">下一页</span>
+			</div>
+		</div>
+		<div id="clazz-info" v-if="clazz">
+			<i class="im-close"></i>
+			<div class="clazz-left col-lg-3">
+				<img src="img/read.jpg" />
+				<p>班级: {{clazz.name}}</p>
+				<p>班主任: {{clazz.ban.name}}</p>
+				<p>年级: {{clazz.grade.name}}</p>
+				<p>当前教员: {{clazz.teacher.name}}</p>
+				<p>当前课程: {{clazz.curr.name}}</p>
+				<p>班长: {{clazz.monitor?clazz.monitor.name:"暂无"}}</p>
+				<p>开班人数: {{clazz.num}}</p>
+				<p>现人数: {{clazz.people}}</p>
+			</div>
+			<div class="clazz-right col-lg-9">
+				<div id="table">
+					<table>
+						<tr>
+							<td></td>
+							<td>周日</td>
+							<td>周一</td>
+							<td>周二</td>
+							<td>周三</td>
+							<td>周四</td>
+							<td>周五</td>
+							<td>周六</td>
+						</tr>
+						<tr>
+							<td>上午</td>
+							<td v-for="item in plans">{{item.am?item.am.room.name:""}}</td>
+						</tr>
+						<tr>
+							<td>下午</td>
+							<td v-for="item in plans">{{item.pm?item.pm.room.name:""}}</td>
+						</tr>
+					</table>
 				</div>
-				<div class="versioninfo col-lg-10" v-if="v">
-					<div class="header">
-						<h4>
-							版本 : <span>{{v.name}}</span> 创建时间 ： <span>{{v.create}}</span> <span
-								v-if="v.outtime"> 停用时间 ： <span>{{v.outtime}}</span></span>
-						</h4>
-						<h4 class="end">
-							<span v-if="v.num"> 正在使用班级 : <span>{{v.num}}</span>
-							</span> <span v-if="v.hour>0"> 总课时 ：{{v.hour}} </span>
-						</h4>
+				<div id="notice" class="clazz-div">
+					<h4>公告通知</h4>
+					<div class="my-container">
+						<div class="notice notice-pre hide-it" v-for="item in pre">{{item.time}}
+							{{item.headline}}</div>
+						<div :class="nHide? 'notice show-it hide-it':'notice show-it'"
+							v-for="item in notice.list">{{item.time}} {{item.headline}}</div>
+						<div class="notice notice-next hide-it" v-for="item in next">{{item.time}}
+							{{item.headline}}</div>
 					</div>
-					<div v-for="major in v.lists">
-						<h4 :mid="major.id">{{major.name}} 课时 ：{{major.hour}}</h4>
-						<div v-for="grade in major.lists">
-							<h5>{{grade.name}} 课时 : {{grade.hour}}</h5>
-							<div v-for="curr in grade.lists">
-								<h6>{{curr.name}} {{curr.ename}} 课时 ：{{curr.hour}}</h6>
-								<div v-for="section in curr.lists">
-									<p>{{section.name}} 课时 ：{{section.hour}}</p>
-								</div>
-							</div>
-						</div>
+					<div class="page-module">
+						<span class="prev" :value="1" v-if="!notice.isFirstPage">首页</span>
+						<span class="prev" :value="notice.prePage"
+							v-if="!notice.isFirstPage">上一页</span> <span v-if="notice.pages>0">
+							{{notice.pageNum}}/{{notice.pages}} </span> <span class="next"
+							:value="notice.pages" v-if="!notice.isLastPage">尾页</span> <span
+							class="next" :value="notice.nextPage" v-if="!notice.isLastPage">下一页</span>
 					</div>
 				</div>
+				<div id="dynamic" class="clazz-div">
+					<h4>班级动态</h4>
+					<div class="my-container"></div>
+					<div class="page-module"></div>
+				</div>
+			</div>
+			<div id="students" class="col-lg-12" v-if="clazz.students.length>0">
+				<table>
+					<tr>
+						<td>姓名</td>
+						<td>年龄</td>
+						<td>入班时间</td>
+						<td>迟到次数</td>
+						<td>考试不通过次数</td>
+						<td>职位</td>
+					</tr>
+					<tr v-for="item in clazz.students">
+						<td>{{item.name}}</td>
+						<td>{{item.age}}</td>
+						<td>{{item.join}}</td>
+						<td></td>
+						<td></td>
+						<td>{{item.position?item.position.name:"暂无"}}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
-	</div>
+	<div class="hint"></div>
 </body>
 <script src="assets/plugins/core/pace/pace.min.js"></script>
 <!-- Important javascript libs(put in all pages) -->
@@ -447,5 +521,5 @@
 <script src="assets/js/app.js"></script>
 <script src="js/vue.js"></script>
 <script src="js/url.js"></script>
-<script src="js/version.js"></script>
+<script src="js/clazz.js"></script>
 </html>

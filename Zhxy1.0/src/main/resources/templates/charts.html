@@ -13,7 +13,7 @@
 <meta name="keywords" content="" />
 <meta name="application-name" content="sprFlat admin template" />
 <!-- Import google fonts - Heading first/ text second -->
-<link rel='stylesheet' type='text/css'/>
+<link rel='stylesheet' type='text/css' />
 <!--[if lt IE 9]>
 
 		<![endif]-->
@@ -48,12 +48,6 @@
 <style>
 .fc-button {
 	margin-left: -4px;
-}
-
-.search input {
-	line-height: 20px;
-	padding: 4px 0;
-	text-indent: 1rem;
 }
 
 #event-div {
@@ -301,7 +295,7 @@
 				<!--班级管理-->
 				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
 					<ul class="nav sub">
-						<li><a href="tables.html"><i class="im-newspaper"></i>
+						<li><a href="clazz.to"><i class="im-newspaper"></i>
 								查看班级</a></li>
 						<li><a href="addclazz.to"><i class="im-calculate"></i>
 								新增班级</a></li>
@@ -362,7 +356,8 @@
 		<!-- End .sidebar-inner -->
 	</div>
 	<div id="iframeSec">
-		<iframe src="" frameborder="0" align="left" width="100%" height="" scrolling="no" name="iFrame1"></iframe>
+		<iframe src="" frameborder="0" align="left" width="100%" height=""
+			scrolling="no" name="iFrame1"></iframe>
 	</div>
 	<div id="content">
 		<div class="content-wrapper">
@@ -374,9 +369,6 @@
 					<ul id="crumb" class="breadcrumb">
 					</ul>
 				</div>
-			</div>
-			<div class="search">
-				<input placeholder="班级/教室" /> <input type="date" />
 			</div>
 			<div class="row">
 				<div class="fc fc-ltr col-lg-8">
@@ -701,10 +693,14 @@
 						<div eventid="1" class="external-event event draggable"
 							v-for="e in events">{{e.content}}</div>
 					</div>
-					<span class="ninth-button"> <span class="btn blue"><span
+					<span class="ninth-button col-lg-4"> <span class="btn blue"><span
 							class="btn-lg auto">自动排课</span></span>
-					</span> <span class="existAuto" style="position: absolute;">已有自动生成的课表，请先推送或取消</span>
-					<span class="eigth-button"> <a class="btn btn-21 cancelAuto">取消</a>
+					</span> 
+					<span class="ninth-button col-lg-4" v-if="exist"> <span class="btn blue"><span
+							class="btn-lg">推送</span></span>
+					</span>
+					<span class="ninth-button col-lg-4" v-if="exist"> <span class="btn blue"><span
+							class="btn-lg cancelAuto">取消</span></span>
 					</span>
 				</div>
 			</div>
@@ -715,8 +711,7 @@
 					<div class="check_event">
 						<div>
 							<div class="check-grade col-lg-2">
-								年级: <input type="checkbox" class="allCheckbox" value="0" /> <span
-									class="selector">全部</span>
+								年级:<span class="selector">全部</span>
 								<div v-for="item in grade">
 									<span class="hold"></span> <input class="grade" type="checkbox" />
 									<span class="selector">{{item.name}}</span>
@@ -753,6 +748,7 @@
 			</div>
 		</div>
 	</div>
+	<div id="hint" class="hide-it"></div>
 </body>
 <script src="assets/plugins/core/pace/pace.min.js"></script>
 <!-- Important javascript libs(put in all pages) -->

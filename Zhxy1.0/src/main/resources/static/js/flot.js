@@ -54,7 +54,7 @@ $("body").on("mouseup", ".draggable", function() {
 	if(eventStr>vue.calendar.max){
 		$(".hidediv").show();
 		$.ajax({
-			url: url + "grade",
+			url: URL + "grade",
 			data:{
 				date:eventStr
 			},

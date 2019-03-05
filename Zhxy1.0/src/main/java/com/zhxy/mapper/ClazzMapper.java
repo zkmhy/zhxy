@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.zhxy.domain.Clazz;
+import com.zhxy.domain.ClazzInfo;
+import com.zhxy.domain.MyNotice;
 import com.zhxy.domain.People;
 
 /**
@@ -19,7 +21,11 @@ public interface ClazzMapper {
 
 	Clazz queryById(int id);
 	
+	Clazz queryInfoById(int id);
+	
 	List<Clazz> allClazz();
+	
+	List<Clazz> queryAll();
 
 	List<Clazz> teacherClazz(List<Integer> ids);
 	
@@ -41,4 +47,12 @@ public interface ClazzMapper {
 	int nextNum(@Param("gid")int gid,@Param("mid")Integer mid);
 	
 	boolean existClazz();
+	
+	List<MyNotice> queryNotices(int id);
+
+	void appendClazz(ClazzInfo clazzInfo);
+	
+	void clazzStu(ClazzInfo clazzInfo);
+	
+	void clazzCurr(ClazzInfo clazzInfo);
 }

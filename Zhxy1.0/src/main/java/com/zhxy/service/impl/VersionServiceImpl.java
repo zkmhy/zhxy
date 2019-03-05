@@ -123,4 +123,10 @@ public class VersionServiceImpl implements VersionService {
 		return versionMapper.existVer();
 	}
 
+	@Override
+	public int nowId() {
+		// TODO Auto-generated method stub
+		return versionMapper.nowId();
+	}
+
 }

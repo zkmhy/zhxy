@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxy.mapper.PositionMapper">
+	<resultMap type="com.zhxy.domain.Position" id="position">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Position" extends="position" id="stu"></resultMap>
+	<select id="stuposition" resultMap="stu">
+		select *
+		from clazz_position
+		where id=#{id}
+	</select>
+</mapper>

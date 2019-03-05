@@ -341,4 +341,17 @@ public class PlanServiceImpl implements PlanService {
 		return maps;
 	}
 
+	@Override
+	public List<Clazz> weekPlan(int id) {
+		// TODO Auto-generated method stub
+		List<Clazz> list=new ArrayList<>();
+		List<Date> dates=MyUtils.week(new Date());
+		for (Date date : dates) {
+			Clazz clazz=new Clazz();
+			clazz.setPlans(planMapper.clazzdatePlan(id, date));
+			list.add(clazz);
+		}
+		return list;
+	}
+
 }

@@ -46,7 +46,13 @@
 		select *
 		from version
 		where `out`=false
-		order by id desc
+		order by date desc
+	</select>
+	<select id="nowId" resultType="int">
+		select id
+		from version
+		order by date desc
+		limit 1
 	</select>
 	<select id="restCurr" resultType="int">
 		select cid

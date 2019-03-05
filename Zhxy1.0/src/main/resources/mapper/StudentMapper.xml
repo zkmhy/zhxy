@@ -8,30 +8,51 @@
 		<result property="name" column="studentname" />
 		<association property="edu" column="eduid" javaType="com.zhxy.domain.Education" select="com.zhxy.mapper.EducationMapper.queryById"></association>
 	</resultMap>
+	<resultMap type="com.zhxy.domain.Student" extends="stu" id="clazzstu">
+		<result property="join" column="join"/>
+		<association property="position" column="positionid" javaType="com.zhxy.domain.Position" select="com.zhxy.mapper.PositionMapper.stuposition"></association>
+	</resultMap>
 	<select id="existStudent" resultType="boolean">
 		select case 
 			  when (
-			  		select count(0) 
+			  		select count(0)
 			  		from cp_student
-			  		where (studentid not in (select sid from stu_clazz where inside=true) or free=true) <if test="mid">and major=#{mid}</if> )>=25 then true
+			  		where (studentid not in (select sid from stu_clazz where inside=true) or free=true) <if test="mid!=null">and major=#{mid}</if> )>=25 then true
 			  else false
 			  end
 	</select>
 	<select id="students" resultMap="stu">
 		select *
 		from cp_student
-		where studentid not in (select sid from stu_clazz where inside=true) and free=false <if test="mid">and major=#{mid}</if>
+		where studentid not in (select sid from stu_clazz where inside=true) and free=false <if test="mid!=null">and major=#{mid}</if>
 		limit 30
 	</select>
 	<select id="frees" resultMap="stu">
 		select *
 		from cp_student
-		where free=true and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>)
+		where free=true <if test="lists.size>0"> and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>) </if>
+		<if test="mid!=null">and major=#{mid}</if>
 	</select>
 	<select id="querys" resultMap="stu">
 		select *
 		from cp_student
-		where free=false and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>)
+		where free=false <if test="lists.size>0"> and studentid not in (<foreach collection="lists" item="item" separator=",">#{item.id}</foreach>) </if>
 		and studentid not in (select sid from stu_clazz where inside=true)
+		<if test="mid!=null">and major=#{mid}</if>
+	</select>
+	<select id="queryAll" resultMap="stu">
+		select *
+		from cp_student
+	</select>
+	<select id="monitor" resultMap="stu">
+		select *
+		from cp_student
+		where studentid = (select sid from positioninfo where cid=#{id} and pid=0 and end is null)
+	</select>
+	<select id="clazzStu" resultMap="clazzstu">
+		select c.*,s.join
+		from cp_student as c,stu_clazz as s
+		where c.studentid=s.sid and s.cid=#{id} and inside=true
+		order by `join`
 	</select>
 </mapper>

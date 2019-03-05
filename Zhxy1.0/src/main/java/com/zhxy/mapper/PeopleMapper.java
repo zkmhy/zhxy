@@ -32,7 +32,13 @@ public interface PeopleMapper {
 	
 	boolean existBan();
 	
-	boolean existTeacher();
+	boolean existTeacher(@Param("vid")int vid,@Param("gid")int gid,@Param("mid")Integer mid);
 	
 	List<People> bans();
+	
+	List<People> teacher(int cid);
+	
+	List<People> queryTeacher(int cid);
+	
+	void updateCurr(@Param("cid")int cid,@Param("list")Integer[] lists);
 }

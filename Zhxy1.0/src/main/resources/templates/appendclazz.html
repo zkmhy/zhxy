@@ -278,7 +278,7 @@
 				<!--班级管理-->
 				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
 					<ul class="nav sub">
-						<li><a href="tables.html"><i class="im-newspaper"></i>
+						<li><a href="clazz.to"><i class="im-newspaper"></i>
 								查看班级</a></li>
 						<li><a href="addclazz.to"><i class="im-calculate"></i>
 								新增班级</a></li>
@@ -384,7 +384,7 @@
 					</div>
 					<div>
 						<span class="append-span">开班时间:</span> <input
-							type="datetime-local" id="time" />
+							type="datetime-local" disabled="disabled" style="border: none" id="time" />
 					</div>
 					<div>
 						<button class="btn btn-success btn-block">开班详细信息</button>
@@ -392,20 +392,20 @@
 				</div>
 			</div>
 			<div id="info" class="hide-it">
-				<span class="icons"> <i class="im-plus"></i> <i
+				<span class="icons"> <i class="im-plus"></i> <i class="im-quill"></i> <i
 					class="im-remove2"></i> <i class="im-close"></i>
 				</span>
 				<div id="clazz-div" class="col-lg-8">
 					<div class="header">
 						<button class="btn btn-danger hide-it">移除学员</button>
-						<span> 班主任 ：<select id="ban">
+						<span> 班主任 ：<select id="ban" class="select sel" disabled="disabled">
 								<option v-for="item,index in bans" v-if="index==0"
 									:value="item.id">{{item.name}}(推荐)</option>
 								<option v-for="item,index in bans" v-if="index>0"
 									:value="item.id">{{item.name}}</option>
 						</select>
 						</span> <span v-if="bans[0]"> 当前带班数 : <span id="bNum">{{bans[0].bNum}}</span>
-						</span> <span> 版本 ：<select id="ver">
+						</span> <span> 版本 ：<select id="ver" class="select sel" disabled="disabled">
 								<option v-for="item,index in vers" v-if="index==0"
 									:value="item.id">{{item.name}}(推荐)</option>
 								<option v-for="item,index in vers" v-if="index>0"
@@ -419,29 +419,29 @@
 						</span>
 					</div>
 					<div class="col-lg-6">
-						<table id="stus">
+						<table id="stus" v-if="stus">
 							<tr>
-								<td class="hide-it"><input type="checkbox" /></td>
+								<td class="hide-it"><input class="all" type="checkbox" /></td>
 								<td>姓名</td>
 								<td>性别</td>
 								<td>年龄</td>
 								<td>学历</td>
 							</tr>
-							<tr v-for="item in stus">
-								<td class="hide-it"><input type="checkbox" /></td>
+							<tr v-for="item,index in stus">
+								<td :style="remove?'display:table-cell':'display:none'"><input class="stu" type="checkbox" :value="index" /></td>
 								<td>{{item.name}}</td>
 								<td>{{item.sexInfo}}</td>
 								<td>{{item.age}}</td>
 								<td>{{item.edu.name}}</td>
 							</tr>
 						</table>
-						<div class="buttons" v-if="clazz.pagenum">
+						<div class="buttons" v-if="clazz.pagenum>1">
 							<button class="btn btn-default" v-for="i in clazz.pagenum"
 								:value="i">{{i}}</button>
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<div class="col-lg-6 sex">
+						<div class="col-lg-6 sex" v-if="clazz.sexs &&clazz.sexs.length>0">
 							<h4>性别组成</h4>
 							<i v-for="sex in clazz.sexs">
 								<p v-if="sex.num>0">
@@ -455,7 +455,7 @@
 								</p>
 							</i>
 						</div>
-						<div class="col-lg-6 age">
+						<div class="col-lg-6 age" v-if="clazz.ages && clazz.ages.length>0">
 							<h4>年龄组成</h4>
 							<i v-for="age in clazz.ages" class="age">
 								<p v-if="age.num>0">
@@ -469,7 +469,7 @@
 								</p>
 							</i>
 						</div>
-						<div class="col-lg-6 edu">
+						<div class="col-lg-6 edu" v-if="clazz.edus && clazz.edus.length>0">
 							<h4>学历情况</h4>
 							<i v-for="edu in clazz.edus">
 								<p>
@@ -486,20 +486,26 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
+					开课时间 : <input class="select sel" readonly="readonly" style="line-height: 20px" type="date" :value="clazz.start" :min="clazz.start" id="start"/>
 					<table>
 						<tr>
 							<td>教员</td>
 							<td>课程</td>
+							<td>平均分</td>
 						</tr>
-						<tr>
-							<td><select><option>余文乐</option></select></td>
-							<td>使用JAVA实现面向对象编程</td>
+						<tr v-for="curr,index in currs" class="curr">
+							<td><select class="teacher select sel" disabled="disabled">
+									<option v-for="item,index in curr.teacher" :value="item.id" v-if="index==0">{{item.allname}}(推荐)</option>
+									<option v-for="item,index in curr.teacher" :value="item.id" v-if="index>0">{{item.allname}}</option>
+								</select></td>
+							<td>{{curr.name}}</td>
+							<td class="curr-info" :cid="curr.id" :index="index">{{curr.teacher[0].avg}}</td>
 						</tr>
 					</table>
 				</div>
 				<div id="pond" class="col-lg-12">
 					<span class="col-lg-12 hide-it">
-						<button class="btn btn-success">添加至</button> AT701
+						<button class="btn btn-success">添加至</button> {{clazz.name}}
 					</span>
 					<div class="col-lg-6" v-if="stuInfo.list.length>0">
 						<h4>学生池</h4>
@@ -511,8 +517,8 @@
 								<td>年龄</td>
 								<td>学历</td>
 							</tr>
-							<tr v-for="stu in stuInfo.list">
-								<td class="hide-it"><input type="checkbox" :value="stu.id" /></td>
+							<tr v-for="stu,index in stuInfo.list">
+								<td :style="plus?'display:table-cell':'display:none'"><input class="stu" :value="index" type="checkbox" /></td>
 								<td>{{stu.name}}</td>
 								<td>{{stu.sexInfo}}</td>
 								<td>{{stu.age}}</td>
@@ -535,8 +541,8 @@
 								<td>年龄</td>
 								<td>学历</td>
 							</tr>
-							<tr v-for="stu in freeInfo.list">
-								<td class="hide-it"><input type="checkbox" :value="stu.id" /></td>
+							<tr v-for="stu,index in freeInfo.list">
+								<td :style="plus?'display:table-cell':'display:none'"><input class="stu" type="checkbox" :value="index" /></td>
 								<td>{{stu.name}}</td>
 								<td>{{stu.sexInfo}}</td>
 								<td>{{stu.age}}</td>
@@ -544,7 +550,7 @@
 							</tr>
 						</table>
 						<div class="page">
-							<p> {{freeInfo.pageNum}}/{{freeInfo.pages}} </p>
+							<p> {{freeInfo.pageNum}}/{{freeInfo.pages}}</p>
 							<span v-if="!freeInfo.isFirstPage" class="fc-button fc-state-default fc-corner-left fc-corner-right" @click="freepage(freeInfo.prePage)">上一页</span>
 							<span v-if="freeInfo.hasNextPage" class="fc-button fc-state-default fc-corner-left fc-corner-right" @click="freepage(freeInfo.nextPage)">下一页</span>
 						</div>						

@@ -278,7 +278,7 @@
 				<!--班级管理-->
 				<li><a href="#"> 班级管理 <i class="im-table2"></i></a>
 					<ul class="nav sub">
-						<li><a href="tables.html"><i class="im-newspaper"></i>
+						<li><a href="clazz.to"><i class="im-newspaper"></i>
 								查看班级</a></li>
 						<li><a href="addclazz.to"><i class="im-calculate"></i>
 								新增班级</a></li>
@@ -342,7 +342,6 @@
 		<iframe src="" frameborder="0" align="left" width="100%" height=""
 			scrolling="no" name="iFrame1"></iframe>
 	</div>
-
 	<div id="content">
 		<div class="content-wrapper">
 			<div class="row">
@@ -409,53 +408,62 @@
 					<i id="remove" class="im-remove2"></i> <i id="close"
 						class="im-close"></i>
 				</div>
-				<div id="info-header" v-if="curr">
-					<p>
-						<input id="infoname" class="spe" size="23" readonly="readonly"
-							:value="curr.name" /> 简称(英):<input id="infoename" class="spe"
-							size="4" readonly="readonly" :value="curr.ename" /> <span
-							class="span"> 章节数:<span class="snum">{{curr.num}}</span>
-							总课时:<span class="hnum">{{curr.hour}}</span>
-						</span>
-					</p>
-					<p>
-						年级: <span class="an"> <select id="infograde"
-							class="select sel" :value="curr.grade.id" disabled="false">
-								<option v-for="item in grades" :value="item.id">{{item.name}}</option>
-						</select>
-						</span>
-					</p>
-					<p>
-						所属专业: <span class="an"> <select id="infomajor"
-							class="select sel" :value="curr.major.id" disabled="false">
-								<option v-for="item in majors" :value="item.id">{{item.name}}</option>
-						</select>
-						</span>
-					</p>
+				<div class="col-lg-5">
+					<div id="info-header" v-if="curr">
+						<p>
+							<input id="infoname" class="spe" size="23" readonly="readonly"
+								:value="curr.name" /> 简称(英):<input id="infoename" class="spe"
+								size="4" readonly="readonly" :value="curr.ename" /> <span
+								class="span"> 章节数:<span class="snum">{{curr.num}}</span>
+								总课时:<span class="hnum">{{curr.hour}}</span>
+							</span>
+						</p>
+						<p>
+							年级: <span class="an"> <select id="infograde"
+								class="select sel" :value="curr.grade.id" disabled="false">
+									<option v-for="item in grades" :value="item.id">{{item.name}}</option>
+							</select>
+							</span>
+						</p>
+						<p>
+							所属专业: <span class="an"> <select id="infomajor"
+								class="select sel" :value="curr.major.id" disabled="false">
+									<option v-for="item in majors" :value="item.id">{{item.name}}</option>
+							</select>
+							</span>
+						</p>
+					</div>
+					<div class="curr-lists" v-if="curr">
+						章节:
+						<div style="height: 20px;">
+							<input class="hide-it" id="removeAll" type="checkbox" />
+						</div>
+						<div class="sec save" v-for="section in curr.lists"
+							:sid="section.id">
+							<input type="checkbox" class="hide-it" :value="section.id" /> <input
+								:value="section.name" class="spe" style="margin-right: 100px;"
+								readonly="readonly" /> 课时: <input type="number" class="spe"
+								style="width: 35px;" min="1" max="4" readonly="readonly"
+								:value="section.hour" />
+						</div>
+						<div id="new"></div>
+						<div id="new-btn" class="hide-it">
+							<button class="btn btn-success"
+								style="margin-right: 140px; margin-left: 60px;">确认</button>
+							<button class="btn cancel">取消</button>
+						</div>
+						<div id="edit-btn" class="hide-it">
+							<button class="btn btn-success"
+								style="margin-right: 140px; margin-left: 60px;">确认</button>
+							<button class="btn cancel">取消</button>
+						</div>
+					</div>
 				</div>
-				<div class="curr-lists" v-if="curr">
-					章节:
-					<div style="height: 20px;">
-						<input class="hide-it" id="removeAll" type="checkbox" />
-					</div>
-					<div class="sec save" v-for="section in curr.lists"
-						:sid="section.id">
-						<input type="checkbox" class="hide-it" :value="section.id" /> <input
-							:value="section.name" class="spe" style="margin-right: 100px;"
-							readonly="readonly" /> 课时: <input type="number" class="spe"
-							style="width: 35px;" min="1" max="4" readonly="readonly"
-							:value="section.hour" />
-					</div>
-					<div id="new"></div>
-					<div id="new-btn" class="hide-it">
-						<button class="btn btn-success"
-							style="margin-right: 140px; margin-left: 60px;">确认</button>
-						<button class="btn cancel">取消</button>
-					</div>
-					<div id="edit-btn" class="hide-it">
-						<button class="btn btn-success"
-							style="margin-right: 140px; margin-left: 60px;">确认</button>
-						<button class="btn cancel">取消</button>
+				<div class="col-lg-7 teacher">
+					<h5 id="allTeacher">上课老师</h5>
+					<div v-for="teacher in teachers">
+						<input disabled="disabled" :checked="teacher.check"
+							type="checkbox" :value="teacher.id"> {{teacher.name}}
 					</div>
 				</div>
 			</div>
@@ -468,38 +476,46 @@
 				<div class="curr-icons">
 					<i id="add-plus" class="im-plus"></i> <i class="im-close add-close"></i>
 				</div>
-				<div class="info-header">
-					<p>
-						课程名: <input id="currname" /> 简称(英):<input id="currename" />
-					</p>
-					<p>
-						年级 : <select id="currgrade">
-							<option v-for="grade in grades" :value="grade.id">{{grade.name}}</option>
-						</select>
-					</p>
-					<p>
-						所属专业 : <select id="currmajor">
-							<option v-for="major in majors" :value="major.id">{{major.name}}</option>
-						</select>
-					</p>
-					<p>
-						章节数: <span class="snum">0</span> 总课时: <span class="hnum">0</span>
-					</p>
-				</div>
-				<div class="curr-lists" id="curr-lists">
-					<div class="sec">
-						章节 : <input
-							style="margin-right: 60px; border-bottom: 1px solid black;" /> <span
-							class="sec-hour"> 课时: <input type="number" value="1"
-							min="1" max="4" />
-						</span>
-						<button class="btn hide-it remove">移除</button>
+				<div class="col-lg-5">
+					<div class="info-header">
+						<p>
+							课程名: <input id="currname" /> 简称(英):<input id="currename" />
+						</p>
+						<p>
+							年级 : <select id="currgrade">
+								<option v-for="grade in grades" :value="grade.id">{{grade.name}}</option>
+							</select>
+						</p>
+						<p>
+							所属专业 : <select id="currmajor">
+								<option v-for="major in majors" :value="major.id">{{major.name}}</option>
+							</select>
+						</p>
+						<p>
+							章节数: <span class="snum">0</span> 总课时: <span class="hnum">0</span>
+						</p>
+					</div>
+					<div class="curr-lists" id="curr-lists">
+						<div class="sec">
+							章节 : <input
+								style="margin-right: 60px; border-bottom: 1px solid black;" />
+							<span class="sec-hour"> 课时: <input type="number" value="1"
+								min="1" max="4" />
+							</span>
+							<button class="btn hide-it remove">移除</button>
+						</div>
+					</div>
+					<div style="margin-top: 20px;">
+						<button class="btn btn-success"
+							style="margin-right: 140px; margin-left: 60px;">确认</button>
+						<button class="btn add-close">取消</button>
 					</div>
 				</div>
-				<div style="margin-top: 20px;">
-					<button class="btn btn-success"
-						style="margin-right: 140px; margin-left: 60px;">确认</button>
-					<button class="btn add-close">取消</button>
+				<div class="col-lg-7 teacher">
+					<h5 id="allTeacher">上课老师</h5>
+					<div v-for="teacher in teachers">
+						<input type="checkbox" :value="teacher.id"> {{teacher.name}}
+					</div>
 				</div>
 			</div>
 		</div>

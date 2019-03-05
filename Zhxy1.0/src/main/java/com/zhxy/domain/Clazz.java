@@ -1,7 +1,12 @@
 package com.zhxy.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Clazz implements Serializable {
 
@@ -14,6 +19,11 @@ public class Clazz implements Serializable {
 	private Grade grade;
 	private People teacher;
 	private People ban;
+	@DateTimeFormat(pattern="yyyy-MM-dd hh:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8") 
+	private Date begin;
+	private Version version;
+	private Student monitor;
 	private Curriculum curr;
 	private int planNum;
 	private int weekNum;
@@ -22,6 +32,7 @@ public class Clazz implements Serializable {
 	private Plan am;
 	private Plan pm;
 	private Major major;
+	private List<Student> students;
 	private List<Plan> plans;
 	private Event event;
 	
@@ -136,5 +147,29 @@ public class Clazz implements Serializable {
 	}
 	public void setBan(People ban) {
 		this.ban = ban;
+	}
+	public Date getBegin() {
+		return begin;
+	}
+	public void setBegin(Date begin) {
+		this.begin = begin;
+	}
+	public Version getVersion() {
+		return version;
+	}
+	public void setVersion(Version version) {
+		this.version = version;
+	}
+	public Student getMonitor() {
+		return monitor;
+	}
+	public void setMonitor(Student monitor) {
+		this.monitor = monitor;
+	}
+	public List<Student> getStudents() {
+		return students;
+	}
+	public void setStudents(List<Student> students) {
+		this.students = students;
 	}
 }

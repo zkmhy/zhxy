@@ -2,8 +2,10 @@ package com.zhxy.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.zhxy.domain.Clazz;
 import com.zhxy.domain.ClazzInfo;
+import com.zhxy.domain.MyNotice;
 
 public interface ClazzService {
 
@@ -17,11 +19,17 @@ public interface ClazzService {
 	
 	List<Clazz> clazz(List<Integer> id,int gradeid,String str);
 	
-	List<Clazz> queryAll();
+	PageInfo<Clazz> queryAll(int page,int size);
 	
 	ClazzInfo auto(int gid,Integer mid,String date);
 	
 	String clazzName(int gid,Integer mid);
 	
 	boolean existClazz();
+	
+	Clazz queryById(int id);
+	
+	PageInfo<MyNotice> queryNotices(int id,int page);
+	
+	void appendClazz(ClazzInfo clazzInfo);
 }

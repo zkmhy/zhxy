@@ -30,11 +30,16 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public List<Student> students(int page, List<Student> list) {
 		// TODO Auto-generated method stub
+		if(list.size()==0) {
+			return null;
+		}
 		List<Student> temps=new ArrayList<Student>();
 		int start=(page-1)*10;
 		int end=start+10;
 		for(;start<end;start++) {
-			temps.add(list.get(start));
+			if(start<list.size()) {
+				temps.add(list.get(start));
+			}
 		}
 		return temps;
 	}
@@ -65,6 +70,20 @@ public class StudentServiceImpl implements StudentService{
 		Page<Student> pageInfo=PageHelper.startPage(num, 10,true);
 		studentMapper.frees(list,mid);
 		return pageInfo.toPageInfo();
+	}
+
+	@Override
+	public PageInfo<Student> query(int page, int size) {
+		// TODO Auto-generated method stub
+		Page<Student> pageInfo=PageHelper.startPage(page, size, true);
+		studentMapper.queryAll();
+		return pageInfo.toPageInfo();
+	}
+
+	@Override
+	public void stuNo(List<Student> students) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

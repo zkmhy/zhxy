@@ -29,3 +29,22 @@ function query(i){
 		}
 	});
 }
+
+$(window).scroll(function(){
+	var h=$(this).scrollTop();
+	console.log($(".to").offset().top);
+	var height=$("#crumb").offset().top;
+	if(height<h){
+		$(".info").slideUp(500);
+		$(".to").slideDown(500);
+	}else{
+		$(".info").slideDown(500);
+		$(".to").slideUp(500);
+	}
+});
+
+$("#content").on("click",".to",function(){
+	var id=$(this).attr("value");
+	var height=$("[mid="+id+"]").offset().top;
+	$("html,body").animate({scrollTop:(height-120)},800);
+});

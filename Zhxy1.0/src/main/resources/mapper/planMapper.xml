@@ -111,4 +111,9 @@
 		from plan
 		where advance=true
 	</select>
+	<select id="clazzdatePlan" resultMap="clazzplan">
+		select *
+		from plan
+		where `date`=date(#{date}) and cid=#{id}
+	</select>
 </mapper>

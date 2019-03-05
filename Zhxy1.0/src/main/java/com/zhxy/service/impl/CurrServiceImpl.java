@@ -10,7 +10,9 @@ import com.zhxy.domain.Curriculum;
 import com.zhxy.domain.Section;
 import com.zhxy.mapper.CurriculumMapper;
 import com.zhxy.service.CurrService;
+import com.zhxy.service.PeopleService;
 import com.zhxy.service.SectionService;
+import com.zhxy.service.VersionService;
 
 @Service
 @Transactional
@@ -20,6 +22,10 @@ public class CurrServiceImpl implements CurrService{
 	CurriculumMapper curriculumMapper;
 	@Autowired
 	SectionService sectionService;
+	@Autowired
+	VersionService versionService;
+	@Autowired
+	PeopleService peopleService;
 	
 	@Override
 	public List<Curriculum> queryCurriculums(int mid, int gid) {
@@ -78,6 +84,9 @@ public class CurrServiceImpl implements CurrService{
 		if(curriculum.getLists()!=null && curriculum.getLists().size()>0) {
 			addSection(curriculum.getLists());
 		}
+		if(curriculum.getTid()!=null && curriculum.getTid().length>0) {
+			peopleService.teachers(curriculum.getId(), curriculum.getTid());
+		}
 	}
 
 	@Override
@@ -99,6 +108,25 @@ public class CurrServiceImpl implements CurrService{
 	public List<Curriculum> curriculums(Integer vid) {
 		// TODO Auto-generated method stub
 		return curriculumMapper.allCurr(vid);
+	}
+
+	@Override
+	public List<Curriculum> versionCurr(int vid, int gid,Integer mid) {
+		// TODO Auto-generated method stub		
+		return curriculumMapper.versionCurriculums(vid, gid,mid);
+	}
+
+	@Override
+	public boolean existCurr(int gid,Integer mid) {
+		// TODO Auto-generated method stub
+		int vid=versionService.nowId();
+		return curriculumMapper.existCurr(vid,gid,mid);
+	}
+
+	@Override
+	public void delCurr(int cid) {
+		// TODO Auto-generated method stub
+		curriculumMapper.delCurr(cid);
 	}
 	
 }

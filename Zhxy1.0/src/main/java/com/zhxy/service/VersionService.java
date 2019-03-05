@@ -32,4 +32,6 @@ public interface VersionService {
 	void insertVer(Version version);
 	
 	boolean existVer();
+	
+	int nowId();
 }

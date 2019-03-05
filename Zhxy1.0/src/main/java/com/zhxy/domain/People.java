@@ -3,6 +3,8 @@ package com.zhxy.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import com.zhxy.utils.MyUtils;
+
 public class People implements Serializable{
 
 	/**
@@ -15,7 +17,9 @@ public class People implements Serializable{
 	private int rid;
 	private String role;
 	private int position;
+	private double avg;
 	private int bNum;
+	private boolean check;
 	private List<People> peoples;
 	
 	public int getId() {
@@ -71,5 +75,17 @@ public class People implements Serializable{
 	}
 	public void setbNum(int bNum) {
 		this.bNum = bNum;
+	}
+	public double getAvg() {
+		return avg;
+	}
+	public void setAvg(double avg) {
+		this.avg = MyUtils.floatNum(avg, 1);
+	}
+	public boolean isCheck() {
+		return check;
+	}
+	public void setCheck(boolean check) {
+		this.check = check;
 	}
 }

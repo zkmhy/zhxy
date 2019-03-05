@@ -23,7 +23,7 @@ public interface PlanMapper {
 	 * @return
 	 */
 	DatePlan datePlan(Date date);
-	
+
 	/**
 	 * 添加课表安排
 	 * @param plan
@@ -74,4 +74,6 @@ public interface PlanMapper {
 	Date maxdate();
 	
 	List<Plan> classadvPlan(@Param("id")int id,@Param("date")Date date);
+	
+	List<Plan> clazzdatePlan(@Param("id")int id,@Param("date")Date date);
 }

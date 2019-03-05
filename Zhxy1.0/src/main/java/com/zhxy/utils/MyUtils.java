@@ -413,12 +413,16 @@ public class MyUtils {
 				man++;
 			}else {
 				woman++;
-			}			
+			}
 		}
-		Data manData=new Data("男",man,man/students.size());
-		Data womanData=new Data("女",woman,woman/students.size());
-		lists.add(manData);
-		lists.add(womanData);
+		if(man>0) {
+			Data manData=new Data("男",man,man/students.size());			
+			lists.add(manData);
+		}
+		if(woman>0) {
+			Data womanData=new Data("女",woman,woman/students.size());
+			lists.add(womanData);			
+		}
 		return lists;
 	}
 
@@ -433,10 +437,14 @@ public class MyUtils {
 				nonage++;
 			}			
 		}
-		Data aduitData=new Data("未成年",nonage,nonage/students.size());
-		Data nonageData=new Data("成年",aduit,aduit/students.size());
-		lists.add(aduitData);
-		lists.add(nonageData);
+		if(nonage>0) {
+			Data aduitData=new Data("未成年",nonage,nonage/students.size());
+			lists.add(aduitData);
+		}
+		if(aduit>0) {
+			Data nonageData=new Data("成年",aduit,aduit/students.size());
+			lists.add(nonageData);			
+		}
 		return lists;		
 	}
 	
@@ -464,4 +472,31 @@ public class MyUtils {
 		}
 		return lists;
 	}
+	
+	public static double floatNum(double num) {
+		return (double)Math.round(num*100)/100;
+	}
+	
+	public static double floatNum(double num,int i) {
+		int y=1;
+		for (int x=0;x<i;x++) {
+			y*=10;
+		}
+		return (double)Math.round(num*y)/y;
+	}
+	
+	public static String dayAfter(String time,int day) {
+		try {
+			Date date=sdf.parse(time);
+			Calendar calendar=Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(Calendar.DATE, day);
+			return sdf.format(calendar.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }

@@ -16,5 +16,9 @@ public interface PeopleService {
 	
 	boolean existBan();
 	
-	boolean existTeacher();
+	boolean existTeacher(int gid,Integer mid);
+	
+	List<People> teachers(int cid);
+	
+	List<People> teachers(int cid,Integer[] lists);
 }

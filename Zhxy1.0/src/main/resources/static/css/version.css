@@ -104,3 +104,10 @@
 .deletediv,.adddiv{
 	padding-top: 20px;
 }
+
+.to-header{
+	position:fixed;
+	z-index:99;
+	top:50px;
+	right:20px
+}

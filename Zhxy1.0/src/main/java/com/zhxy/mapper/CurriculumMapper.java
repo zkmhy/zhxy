@@ -37,4 +37,9 @@ public interface CurriculumMapper {
 	
 	List<Curriculum> restCurr(@Param("vid")Integer vid,@Param("mid")Integer mid,@Param("gid")Integer gid);
 
+	List<Curriculum> versionCurriculums(@Param("vid")Integer vid,@Param("gid")Integer gid,@Param("mid")Integer mid);
+	
+	boolean existCurr(@Param("vid")Integer vid,@Param("gid")Integer gid,@Param("mid")Integer mid);
+
+	void delCurr(int cid);
 }

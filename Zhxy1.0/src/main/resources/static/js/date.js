@@ -5,7 +5,8 @@ var vue = new Vue({
 	data: {
 		calendar: {},
 		grade: [],
-		events: []
+		events: [],
+		exist:false
 	},
 	methods: {
 		go: function(date, type) {
@@ -41,7 +42,17 @@ function cal(str, type) {
 cal(null, 1);
 
 $(".auto").click(function() {
-	auto();
+	$.ajax({
+		url:URL+"exist/auto",
+		success:function(e){
+			vue.exist=e;
+			if(!e){
+				auto();
+			}else{
+				hint("课表已生成，请推送或者取消");
+			}
+		}
+	});
 });
 
 function auto() {
@@ -51,6 +62,7 @@ function auto() {
 			type: vue.calendar.type
 		},
 		success: function(data) {
+			vue.exist=true;
 			vue.calendar = data;
 			calendar = $("#calendar");
 		},
@@ -60,7 +72,7 @@ function auto() {
 	});
 }
 
-$(".cancelAuto").click(function() {
+$("#content").on("click",".cancelAuto",function(){
 	$.ajax({
 		url: URL + "cancelAdv",
 		data: {
@@ -69,11 +81,24 @@ $(".cancelAuto").click(function() {
 		},
 		success: function(data) {
 			vue.calendar = data;
+			vue.exist=false;
 			calendar = $("#calendar");
-			$(".existAuto").hide();
 		},
 		error: function() {
 			alert("连接超时");
 		}
-	});
+	});	
+});
+
+function hint(txt) {
+	$("#hint").text(txt);
+	$("#hint").show();
+	$("#hint").fadeOut(1200);
+}
+
+$.ajax({
+	url:URL+"exist/auto",
+	success:function(e){
+		vue.exist=e;
+	}
 });

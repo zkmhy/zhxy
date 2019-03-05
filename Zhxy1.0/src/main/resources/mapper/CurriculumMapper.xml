@@ -38,6 +38,9 @@
 		<association property="lists" column="vid=vid,cid=id"
 			javaType="list" select="com.zhxy.mapper.SectionMapper.restSection"></association>
 	</resultMap>
+	<resultMap type="com.zhxy.domain.Curriculum" extends="curr2" id="version">
+		<association property="teacher" column="id" javaType="list" select="com.zhxy.mapper.PeopleMapper.teacher"></association>
+	</resultMap>
 	<select id="queryById" resultMap="curriculum">
 		select *,null vid
 		from
@@ -190,4 +193,18 @@
 							end `check`
 		from curriculum
 	</select>
+	<select id="versionCurriculums" resultMap="version">
+		select *
+		from curriculum
+		where id in (select cid from version_curr where vid=#{vid}) and gradeId=#{gid} <if test="mid"> and mid=#{mid}</if>
+	</select>
+	<select id="existCurr" resultType="boolean">
+		select case 
+			   when (select count(0) from version_curr where cid in (select id from curriculum where gradeId=#{gid} <if test="mid!=null">and mid=#{mid}</if> ) and vid=#{vid})>0 then true
+			   else false
+			   end
+	</select>
+	<delete id="delCurr">
+		delete from teacher_curr where cid=#{cid}
+	</delete>
 </mapper>

@@ -6,10 +6,12 @@
 		<result property="id" column="id" />
 		<result property="name" column="name" />
 		<result property="num" column="num" />
+		<result property="begin" column="begin" />
 		<result property="people" column="people" />
 		<association property="grade" column="gradeId"
 			select="com.zhxy.mapper.GradeMapper.queryById"
 			javaType="com.zhxy.domain.Grade"></association>
+		<association property="ban" column="bid" select="com.zhxy.mapper.PeopleMapper.queryById" javaType="com.zhxy.domain.People"></association>
 		<association property="teacher"
 			javaType="com.zhxy.domain.People" column="teacherId"
 			select="com.zhxy.mapper.PeopleMapper.queryById"></association>
@@ -17,6 +19,11 @@
 			javaType="com.zhxy.domain.Curriculum" column="currId"
 			select="com.zhxy.mapper.CurriculumMapper.queryById"></association>
 		<association property="major" column="way" select="com.zhxy.mapper.MajorMapper.queryById"></association>
+	</resultMap>
+	<resultMap type="com.zhxy.domain.Clazz" extends="clazz" id="clazzinfo">
+		<association property="students" column="id" javaType="list" select="com.zhxy.mapper.StudentMapper.clazzStu"></association>
+		<association property="version" column="vid" javaType="com.zhxy.domain.Version" select="com.zhxy.mapper.VersionMapper.queryById"></association>
+		<association property="monitor" column="id" javaType="com.zhxy.domain.Student" select="com.zhxy.mapper.StudentMapper.monitor"></association>
 	</resultMap>
 	<resultMap type="com.zhxy.domain.Clazz" id="clazzNum"
 		extends="clazz">
@@ -31,6 +38,11 @@
 		<association property="event" column="{date=date,id=id}" javaType="com.zhxy.domain.Event" select="com.zhxy.mapper.EventMapper.dateEvent"></association>
 		<association property="plans" column="{date=date,id=id}" javaType="list" select="com.zhxy.mapper.PlanMapper.classadvPlan"></association>
 	</resultMap>
+	<resultMap type="com.zhxy.domain.MyNotice" id="notice">
+		<result property="id" column="Id" />
+		<result property="headline" column="headline" />
+		<result property="time" column="Ntime" />
+	</resultMap>
 	<select id="queryById" resultMap="clazz">
 		select *
 		from clazz
@@ -41,6 +53,10 @@
 		select *
 		from clazz
 	</select>
+	<select id="queryAll" resultMap="clazzinfo">
+		select *
+		from clazz
+	</select>
 	<select id="findClazz" resultMap="clazzNum">
 		select *,(select count(0) from plan where cid=clazz.id and `date`
 		between date(#{begin}) and date(#{end}) and active=false and
@@ -48,7 +64,7 @@
 		<![CDATA[<=]]> date(#{before}) and active=false and
 		study=true) planNum
 		from clazz
-		where teacherId=#{teacher.id} and `start` <![CDATA[<]]>
+		where teacherId=#{teacher.id} and `start` <![CDATA[<=]]>
 		date(#{end})
 		order by planNum,`start`
 	</select>
@@ -57,6 +73,11 @@
 		from clazz
 		where dissolve=false
 		order by `begin`
+	</select>
+	<select id="plan" resultMap="planClazz">
+		select *,#{date} `date`
+		from clazz
+		where id=#{id}
 	</select>
 	<select id="advplan" resultMap="advclazz">
 		select *,#{date} `date`
@@ -122,4 +143,29 @@
 	<select id="existClazz" resultType="boolean">
 		select case when (select count(0) from clazz where dissolve=false)>0 then true else false end
 	</select>
+	<select id="queryInfoById" resultMap="clazzinfo">
+		select *
+		from clazz
+		where id=#{id}
+	</select>
+	<select id="queryNotices" resultMap="notice">
+		select *
+		from notice
+		where Notice_Id in (select Notice_Id from notice_relation where cid=#{id})
+	</select>
+	<insert id="appendClazz" useGeneratedKeys="true" keyProperty="id">
+		insert into clazz(name,gradeId,teacherId,bid,start,begin,vid,currId,way,num,people)
+		value (#{name},#{grade.id},#{tid},#{bid},#{start},#{date},#{vid},#{cid},#{mid},#{num},#{num})
+	</insert>
+	<insert id="clazzStu">
+		insert into stu_clazz(cid,sid,`join`)
+		values <foreach collection="allStudents" item="stu" separator=",">(#{id},#{stu.id},now())</foreach>
+	</insert>
+	<insert id="clazzCurr">
+		insert into teacher_history(pid,cid,cuid)
+		values 
+		<foreach collection="curriculums" item="curr" separator	=",">
+			(#{curr.tid},#{id},#{curr.id})
+		</foreach>
+	</insert>
 </mapper>

@@ -6,7 +6,8 @@ var vue = new Vue({
 		lists: [],
 		curr: null,
 		majors: [],
-		grades: []
+		grades: [],
+		teachers:[]
 	}
 });
 
@@ -25,6 +26,14 @@ function currinfo(id){
 		},
 		success: function(e) {
 			vue.curr = e;
+		}
+	});
+	$.ajax({
+		url:URL+"teachers",
+		data:{
+			cid:id
+		},success:function(e){
+			vue.teachers=e;
 		}
 	});
 }
@@ -118,7 +127,7 @@ $("#remove-section").click(function() {
 		};
 		lists.push(obj);
 	});
-	$("#curr-info .sec :checkbox").attr("checked",false);
+	$(".curr-lists :checkbox").attr("checked",false);
 	var curr = {
 		id: cid,
 		lists: lists
@@ -292,6 +301,14 @@ $("#plus-curr").click(function(){
 			vue.grades=e;
 		}
 	});
+	$.ajax({
+		url:URL+"teachers",
+		data:{
+			cid:0
+		},success:function(e){
+			vue.teachers=e;
+		}
+	});
 });
 
 $(".add-close").click(function(){
@@ -343,6 +360,10 @@ $("#content").on("click","#new .btn",function(){
 $("#curr-add .btn-success").click(function(){
 	var trim = false;
 	var list=[];
+	var tid=[];
+	$("#curr-add .teacher :checked").each(function(){
+		tid.push(this.value);
+	});
 	$("#curr-add .info-header input").each(function() {
 		if (this.value.trim() == "") {
 			trim = true;
@@ -371,7 +392,8 @@ $("#curr-add .btn-success").click(function(){
 			id:$("#currmajor").val()
 		},grade:{
 			id:$("#currgrade").val()
-		},lists:list
+		},lists:list,
+		tid:tid
 	};
  	$.ajax({
 		url:URL+"addCurr",
@@ -451,16 +473,27 @@ $("#edit").click(function(){
 		editHide();
 		var val=vue.curr;
 		vue.curr=null;
-		vue.curr=val;		
+		vue.curr=val;
+		var list="id="+cid+"&";
+		$("#curr-info .teacher :checked").each(function(){
+			list+="list="+this.value+"&";
+		});
+		$.ajax({
+			url:URL+"teacherCurr",
+			data:list,
+			success:function(e){
+				vue.teachers=e;
+			}
+		});
 	}else{
-		editShow();		
+		editShow();
 	}
 	delHide();
 	plusHide();
 });
 
 $("#remove").click(function() {
-	$("#curr-info :checkbox").toggle();
+	$(".curr-lists :checkbox").toggle();
 	$("#section-remove").toggle();
 	var visible = $("#section-remove").is(":visible");
 	var i=$("#curr-info .save").length;
@@ -489,44 +522,68 @@ $("#plus").click(function() {
 			$(el).find("input").val(1);
 			$(el).find(":text").val("");
 			$(el).addClass("new");
-			$("#new").append(el);			
+			$("#new").append(el);
 		}
 	}
 	delHide();
 	editHide();
 	plusShow();
+	var height=$("#new-btn").offset().top;
+	$("html,body").animate({scrollTop:height},800);
 });
 
 $("#content").on("click","#edit-btn .btn-success",function(){
-	var list=[];
-	$(".save").each(function(){
-		var sec={
-			id:$(this).attr("sid"),
-			name:$(this).find(":text").val(),
-			hour:$(this).find("[type=number]").val()
-		}
-		list.push(sec);
-	});
-	var curr={
-		id:cid,
-		name:$("#infoname").val(),
-		ename:$("#infoename").val(),
-		grade:{
-			id:$("#infograde").val()
-		},major:{
-			id:$("#infomajor").val()
-		},lists:list
-	};
 	$.ajax({
-		url:URL+"updateCurr",
-		type:"post",
-		contentType:"application/json;charset=utf-8",
-		data:JSON.stringify(curr),
-		success:function(){
-			editHide();
-			currinfo(cid);
+		url:URL+"hasCurr",
+		data:{
+			list:cid
+		},success:function(e){
+			if(e){
+				hint("gray","先取消版本中的关联，才能修改");
+			}else{
+				var list=[];
+				$(".save").each(function(){
+					var sec={
+						id:$(this).attr("sid"),
+						name:$(this).find(":text").val(),
+						hour:$(this).find("[type=number]").val()
+					}
+					list.push(sec);
+				});
+				var curr={
+					id:cid,
+					name:$("#infoname").val(),
+					ename:$("#infoename").val(),
+					grade:{
+						id:$("#infograde").val()
+					},major:{
+						id:$("#infomajor").val()
+					},lists:list
+				};
+				$.ajax({
+					url:URL+"updateCurr",
+					type:"post",
+					contentType:"application/json;charset=utf-8",
+					data:JSON.stringify(curr),
+					success:function(){
+						editHide();
+						currinfo(cid);
+					}
+				});				
+			}
 		}
 	});
+});
+
+$(window).scroll(function(){
+	var height=$("#curr-info").offset().top;
+	var h=$(this).scrollTop();
+	if(h>height){
+		$("#goup img").show();
+		$(".curr-icons").css({"position":"fixed","z-index":"99","right":"15px","top":"20px"});
+	}else{
+		$(".curr-icons").css("position",'');
+	}
 });
 
 
@@ -537,8 +594,8 @@ $("#section-remove .cancel").click(function(){
 queryCurrs();
 
 function delHide(){
-	$("#curr-info :checkbox").attr("checked", false);
-	$("#curr-info :checkbox").hide();
+	$(".curr-lists :checkbox").attr("checked", false);
+	$(".curr-lists :checkbox").hide();
 	$("#section-remove").hide();
 }
 
@@ -562,6 +619,7 @@ function editShow(){
 	$(".spe").removeAttr("readonly");
 	$(".select").removeClass("sel");
 	$(".select").removeAttr("disabled");
+	$(".teacher input").removeAttr("disabled");
 	$("#edit-btn").show();
 	$("#infoname").select();
 }
@@ -571,6 +629,7 @@ function editHide(){
 	$(".spe").attr("readonly","true");
 	$(".select").addClass("sel");
 	$(".select").attr("disabled","true");
+	$(".teacher input").attr("disabled","true");
 	$("#edit-btn").hide();
 	$("#infoname").blur();
 }

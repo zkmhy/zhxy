@@ -1,5 +1,7 @@
 package com.zhxy.domain;
 
+import com.zhxy.utils.MyUtils;
+
 public class Data {
 
 	private String name;
@@ -21,7 +23,10 @@ public class Data {
 	}
 
 	public void setWidth(double width) {
-		this.width=(double)Math.round(width*10000)/10000;
+		this.width=MyUtils.floatNum(width, 2);
+		if(this.width<0.1) {
+			this.width=0.1;
+		}
 	}
 	
 	public double getNum() {
@@ -39,7 +44,7 @@ public class Data {
 	public Data(String name,double num,double width) {
 		this.name=name;
 		this.num=num;
-		this.width=(double)Math.round(width*10000)/10000;
+		this.width=(double)Math.round(width*100)/100;
 	}
 
 }

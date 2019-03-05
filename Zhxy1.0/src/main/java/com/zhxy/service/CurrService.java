@@ -26,4 +26,10 @@ public interface CurrService {
 	List<Curriculum> restCurr(Integer vid,Integer mid,Integer gid);
 	
 	List<Curriculum> curriculums(Integer vid);
+	
+	List<Curriculum> versionCurr(int vid,int gid,Integer mid);
+	
+	boolean existCurr(int gid,Integer mid);
+	
+	void delCurr(int cid);
 }

@@ -29,9 +29,7 @@ i{
 	padding-left: 40%;
 	margin-top: 20px;
 }
-#curr-info,#curr-add{
-	position: absolute;
-	width: 50%;
+#curr-add{
 	margin-left: 20%;
 }
 .curr-icons{
@@ -42,7 +40,7 @@ i{
 	margin-right: 10px;
 	font-size: 19px;
 }
-.sec{
+.sec,.col-lg-7 div{
 	margin: 7px 30px;
 }
 .sec .btn{
@@ -72,7 +70,7 @@ input{
 input[type=checkbox]{
 	position: absolute;
 }
-.sec input[type=checkbox]{
+.sec input[type=checkbox],.teacher input[type=checkbox]{
 	margin-left: -15px;
 }
 .section{

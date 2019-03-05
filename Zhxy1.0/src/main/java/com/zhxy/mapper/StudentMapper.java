@@ -10,11 +10,13 @@ import com.zhxy.domain.Student;
 @Mapper
 public interface StudentMapper {
 
-	boolean existStudent(Integer mid);
+	boolean existStudent(@Param("mid")Integer mid);
 	
-	List<Student> students(Integer mid);
+	List<Student> students(@Param("mid")Integer mid);
 	
 	List<Student> frees(@Param("lists")List<Student> lists,@Param("mid")Integer mid);
 
 	List<Student> querys(@Param("lists")List<Student> lists,@Param("mid")Integer mid);
+
+	List<Student> queryAll();
 }

@@ -42,4 +42,5 @@ public interface VersionMapper {
 	
 	boolean existVer();
 	
+	int nowId();
 }

@@ -6,9 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhxy.domain.Clazz;
 import com.zhxy.domain.ClazzInfo;
 import com.zhxy.domain.Major;
+import com.zhxy.domain.MyNotice;
 import com.zhxy.domain.Student;
 import com.zhxy.mapper.ClazzMapper;
 import com.zhxy.service.ClazzService;
@@ -46,12 +50,6 @@ public class ClazzServiceImpl implements ClazzService{
 	}
 
 	@Override
-	public List<Clazz> queryAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public ClazzInfo auto(int gid,Integer mid,String date) {
 		// TODO Auto-generated method stub		
 		ClazzInfo clazz=new ClazzInfo();
@@ -63,6 +61,7 @@ public class ClazzServiceImpl implements ClazzService{
 		clazz.setGrade(gradeService.queryById(gid));
 		List<Student> list=studentService.students(mid);
 		clazz.setAllStudents(list);
+		clazz.setDate(date);
 		return clazz;
 	}
 
@@ -84,6 +83,37 @@ public class ClazzServiceImpl implements ClazzService{
 	public boolean existClazz() {
 		// TODO Auto-generated method stub
 		return clazzMapper.existClazz();
+	}
+
+	@Override
+	public Clazz queryById(int id) {
+		// TODO Auto-generated method stub
+		return clazzMapper.queryInfoById(id);
+	}
+
+	@Override
+	public PageInfo<MyNotice> queryNotices(int id, int page) {
+		// TODO Auto-generated method stub
+		Page<MyNotice> pageinfo=PageHelper.startPage(page, 3);
+		clazzMapper.queryNotices(id);
+		return pageinfo.toPageInfo();
+	}
+
+	@Override
+	public void appendClazz(ClazzInfo clazzInfo) {
+		// TODO Auto-generated method stub
+		clazzMapper.appendClazz(clazzInfo);
+		clazzMapper.clazzStu(clazzInfo);
+		clazzMapper.clazzCurr(clazzInfo);
+		studentService.stuNo(clazzInfo.getAllStudents());
+	}
+
+	@Override
+	public PageInfo<Clazz> queryAll(int page, int size) {
+		// TODO Auto-generated method stub
+		Page<Clazz> pageInfo=PageHelper.startPage(page,size);
+		clazzMapper.queryAll();
+		return pageInfo.toPageInfo();
 	}
 
 }

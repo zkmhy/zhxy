@@ -9,6 +9,12 @@
 		<result property="role" column="role" />
 		<result property="position" column="positionid" />
 	</resultMap>
+	<resultMap type="com.zhxy.domain.People" extends="staff" id="teacher">
+		<result property="check" column="check" />		
+	</resultMap>
+	<resultMap type="com.zhxy.domain.People" extends="staff" id="butter">
+		<result property="avg" column="score"/>
+	</resultMap>
 	<resultMap type="com.zhxy.domain.People" extends="staff" id="position">
 		<association property="peoples" column="positionid" select="position"></association>
 	</resultMap>
@@ -89,7 +95,13 @@
 						)>0 then true else false end
 	</select>
 	<select id="existTeacher" resultType="boolean">
-		select case when (select count(0) from cp_staff where rid in (select roleid from cp_role where canTeacher=true) )>0 then true else false end
+		select case 
+			   when (
+			   		select count(0)
+			   		from cp_staff 
+			   		where rid in (select roleid from cp_role where canTeacher=true) and staffid in (select pid from teacher_curr where cid in (select cid from version_curr where vid=#{vid} and cid in (select id from curriculum where gradeId=#{gid} <if test="mid!=null"> and mid=#{mid}</if> ) )) )>0 then true 
+			   	else false 
+			   	end
 	</select>
 	<select id="bans" resultMap="ban">
 		select *,(select count(0) from clazz where dissolve=false and bid=staffid) num
@@ -97,4 +109,19 @@
 		where rid in (select roleid from cp_role where canClazz=true) and (select count(0) from clazz where dissolve=false and bid=staffid) &lt; 4
 		order by num
 	</select>
+	<select id="teacher" resultMap="butter">
+		select *,(select score from teacher_core where pid=staffid and cid=#{id}) score
+		from cp_staff
+		where staffid in (select pid from teacher_curr where cid=#{id})
+		order by (select score from teacher_core where pid=staffid and cid=#{id}) desc
+	</select>
+	<select id="queryTeacher" resultMap="teacher">
+		select *,case when (select count(0) from teacher_curr where pid=staffid and cid=#{cid} )>0 then true else false end `check`
+		from cp_staff
+		where rid in (select roleid from cp_role where canTeacher=true)
+	</select>
+	<insert id="updateCurr">
+		insert into teacher_curr(pid,cid)
+		values <foreach collection="list" item="item" separator=",">(#{item},#{cid})</foreach>
+	</insert>
 </mapper>

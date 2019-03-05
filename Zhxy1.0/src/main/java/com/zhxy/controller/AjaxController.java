@@ -53,7 +53,7 @@ public class AjaxController {
 	@Autowired
 	PlanService planService;
 	@Autowired
-	PeopleService peopleSerivce;
+	PeopleService peopleService;
 	@Autowired
 	GradeService gradeService;
 	@Autowired
@@ -85,11 +85,6 @@ public class AjaxController {
 		return planService.calendar(type, planService.maxDate());
 	}
 
-	@RequestMapping("existAuto")
-	public String existAuto() {
-		return planService.existAuto() + "";
-	}
-
 	@RequestMapping("cancelAdv")
 	public Calendar calcelAdv(int type, String str) {
 		planService.deleteAdv();
@@ -99,7 +94,7 @@ public class AjaxController {
 
 	@RequestMapping("grade")
 	public List<Grade> grade(String date) {
-		People people = peopleSerivce.queryById(2);
+		People people = peopleService.queryById(2);
 		return gradeService.grade(people, date);
 	}
 
@@ -115,7 +110,7 @@ public class AjaxController {
 
 	@RequestMapping("switching")
 	public Map<String, List<DatePlan>> switching() {
-		People people = peopleSerivce.queryById(3);
+		People people = peopleService.queryById(3);
 		return planService.switching(people);
 	}
 
@@ -188,6 +183,11 @@ public class AjaxController {
 		return majorService.majors(false);
 	}
 
+	@RequestMapping("allgrade")
+	public List<Grade> allGrade(){
+		return gradeService.allGrade();
+	}
+	
 	@RequestMapping("queryGrade")
 	public List<Grade> queryGrades(int mid) {
 		return gradeService.queryGrades(mid);
@@ -282,16 +282,14 @@ public class AjaxController {
 	@RequestMapping("autoClazz")
 	public ClazzInfo autoClazz(Integer gid, Integer mid, String date) {
 		ClazzInfo clazz=(ClazzInfo) session.getAttribute("autoClazz");
-		if(clazz==null) {
-			clazz=clazzService.auto(gid, mid, date);
-			session.setAttribute("autoClazz", clazz);
-			return clazz;
-		}
-		if(mid!=null&&(clazz.getMajor()==null || clazz.getMajor().getId()!=mid)) {
-			clazz=clazzService.auto(gid, mid, date);
-			session.setAttribute("autoClazz", clazz);
-			return clazz;			
-		}
+		clazz=clazzService.auto(gid, mid, date);
+		session.setAttribute("autoClazz", clazz);
+		return clazz;
+	}
+	
+	@RequestMapping("queryAuto")
+	public ClazzInfo queryAuto() {
+		ClazzInfo clazz=(ClazzInfo) session.getAttribute("autoClazz");
 		return clazz;
 	}
 	
@@ -311,17 +309,37 @@ public class AjaxController {
 
 	@RequestMapping("ban")
 	public List<People> queryBan() {
-		return peopleSerivce.bans();
+		return peopleService.bans();
 	}
 	
-	@RequestMapping("stulistAdd")
-	public void stulistAdd() {
-		
+	@RequestMapping(value="stulistadd",produces="application/json;charset=utf-8")
+	public void stulistadd(@RequestBody List<Student> lists) {
+		ClazzInfo clazzInfo=(ClazzInfo)session.getAttribute("autoClazz");
+		if(clazzInfo==null) {
+			return;
+		}
+		List<Student> list=clazzInfo.getAllStudents();
+		list.addAll(lists);
+		clazzInfo.setAllStudents(list);
+		session.setAttribute("autoClazz", clazzInfo);
 	}
-	
-	@RequestMapping("stulistdel")
-	public void stulistdel() {
-		
+
+	@RequestMapping(value="stulistdel",produces="application/json;charset=utf-8")
+	public void stulistdel(@RequestBody List<Student> lists) {
+		ClazzInfo clazzInfo=(ClazzInfo)session.getAttribute("autoClazz");
+		if(clazzInfo==null) {
+			return;
+		}
+		for (Student student : lists) {
+			for (int i = 0; i < clazzInfo.getAllStudents().size(); i++) {
+				if(clazzInfo.getAllStudents().get(i).getId()==student.getId()) {
+					clazzInfo.getAllStudents().remove(i);
+					i=clazzInfo.getAllStudents().size();
+				}
+			}
+		}
+		clazzInfo.setAllStudents(clazzInfo.getAllStudents());
+		session.setAttribute("autoClazz", clazzInfo);
 	}
 
 	@RequestMapping("freeStu")
@@ -341,4 +359,35 @@ public class AjaxController {
 		}
 		return studentService.querys(page,mid, clazz.getAllStudents());
 	}
+	
+	@RequestMapping("versionCurriculum")
+	public List<Curriculum> versionCurriculum(int vid,int gid,Integer mid){
+		return currService.versionCurr(vid, gid,mid);
+	}
+	
+	@RequestMapping("teachers")
+	public List<People> teachers(int cid){
+		return peopleService.teachers(cid);
+	}
+	
+	@RequestMapping("teacherCurr")
+	public List<People> teacher(int id,Integer[] list){		
+		return peopleService.teachers(id,list);
+	}
+
+	@RequestMapping("clazzInfo")
+	public Clazz queryClazz(int id) {
+		return clazzService.queryById(id);
+	}
+	
+	@RequestMapping("clazzPlan")
+	public List<Clazz> clazzPlan(int id){
+		return planService.weekPlan(id);
+	}
+	
+	@RequestMapping(value="appendClazz",produces="application/json;charset=utf-8")
+	public void appendClazz(@RequestBody ClazzInfo clazzInfo) {
+		clazzService.appendClazz(clazzInfo);	
+	}
 }
+

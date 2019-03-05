@@ -50,5 +50,7 @@ public interface PlanService {
 	boolean existAuto();
 	
 	void pushAuto();
+	
+	List<Clazz> weekPlan(int id);
 }
 
